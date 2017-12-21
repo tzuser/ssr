@@ -1,0 +1,14 @@
+{
+    "name": "青风藤", 
+    "icons": [
+        {
+            "src": "/static/logo.png", 
+            "sizes": "180x180", 
+            "type": "image/png"
+        }
+    ], 
+    "theme_color": "#181743", 
+    "background_color": "#181743", 
+    "start_url": "/", 
+    "display": "standalone"
+}
