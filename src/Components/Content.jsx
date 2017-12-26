@@ -12,7 +12,7 @@ const styles=theme=>({
 	}
 })
 const Content=({classes,className,children,style,top=true,bottom=true,...oth})=>{
-	let height=top?56:0 + bottom?56:0
+	let height=(top?56:0) + (bottom?56:0)
 	return (
 		<div {...oth} 
 		className={classNames(classes.content,className)} 

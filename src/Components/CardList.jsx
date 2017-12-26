@@ -1,43 +1,65 @@
 import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import PhotoCard from './PhotoCard';
-import {connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {push} from 'react-router-redux'
-const styles = {
-  root: {
-    width: '100%',
-  },
+import CardItem from './CardItem';
 
+import ReactList from 'react-list';
+import { LinearProgress } from 'material-ui/Progress';
+import Full from './Full';
+const styles = {
+  scroll:{
+    height: '100%',
+    overflowY: 'auto',
+    position:'relative',
+  },
+  listLoad:{
+    position:'absolute',
+    bottom:0,
+    left:0,
+    right:0,
+  }
 };
 class CardList extends Component{
+  renderItem(index, key) {
+    let {onUserClick}=this.props;
+      let item=this.props.data[index];
+      return <CardItem
+            key={item.id}
+            data={item} 
+            onUserClick={onUserClick} />;
+    }
+  itemSizeGetter(index){
+    let item=this.props.data[index];
+    let height=565+15;
+    if(item.type=='article')height=300+15;
+    return height
+  }
+  onScroll(e){
+    let obj=e.target;
+    let bottom=obj.scrollHeight-obj.scrollTop-obj.clientHeight;
+    let {isLoad,onNext,currPage}=this.props;
+    if(bottom<30 && !isLoad){
+      onNext(currPage+1)
+    }
+  }
   render(){
-    let {pushAct}=this.props;
-    let list =[
-    {user:{name:'tzuser'},date:'4月1日',image:"http://img.jj20.com/up/allimg/1011/11221G31547/1G122131547-1-lp.jpg"},
-    {user:{name:'a'},image:"http://img.jj20.com/up/allimg/1011/11211G55G8/1G121155G8-1-lp.jpg"},
-    {user:{name:'b'},image:"http://img.jj20.com/up/allimg/1011/11201G44555/1G120144555-1-lp.jpg"},
-    {user:{name:'c'},image:"http://img.jj20.com/up/allimg/1011/11261G03133/1G126103133-1-lp.jpg"},]
+    let {pushAct,data,classes,isLoad}=this.props;
     return (
-      <div>
-        {list.map((item,key)=><PhotoCard 
-          key={key} 
-          image={item.image} 
-          user={item.user} 
-          date={item.date} 
-          onUserClick={()=>{
-            pushAct(`/user/${key}`)
-          }} />)}
-
-      </div>
+      <Full>
+        <div className={classes.scroll} onScroll={::this.onScroll}>
+        {data.length>0 &&  <ReactList
+            threshold={100}
+            itemRenderer={::this.renderItem}
+            itemSizeGetter={::this.itemSizeGetter}
+            length={data.length}
+            type='variable'
+          />
+        }
+        </div>
+        {isLoad && <LinearProgress color="accent" className={classes.listLoad} /> }
+      </Full>
       )
   }
 }
-const mapStateToProps=(state)=>({
 
-})
-const mapDispatchToProps=(dispatch)=>bindActionCreators({
-  pushAct:push
-},dispatch)
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(CardList));
+export default withStyles(styles)(CardList);

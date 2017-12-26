@@ -21,6 +21,7 @@ import { MuiThemeProvider} from 'material-ui/styles';
 import createGenerateClassName from 'material-ui/styles/createGenerateClassName';
 
 import theme from '../src/public/Theme';
+import 'isomorphic-fetch'
 
 const prepHTML=(data,{html,head,style,body,script,css})=>{
 	data=data.replace('<html',`<html ${html}`);
@@ -82,7 +83,8 @@ const render=async (ctx,next)=>{
 					script:scriptStr,
 					css:css
 				})
-				resolve(html)
+				setTimeout(()=>resolve(html),1000)
+				
 			})
 		})
 		ctx.body=html

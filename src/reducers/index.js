@@ -2,16 +2,23 @@ import {combineReducers} from 'redux';
 import {routerReducer} from 'react-router-redux';
 import loads from './loads';
 import config from './config';
-
-const app=(state={app:'adda'},action)=>{
-	switch(action.type){
-		default:
-			return state
+import {list} from './list';
+import {keys} from './keys';
+import {dialog} from './dialog';
+//逻辑复用
+const createFilteredReducer=(reducerFunction,reducerPredicate)=>{
+	return (state,action)=>{
+		const isInitializationCall=state==undefined;
+		const shouldRunWrappedReducer=reducerPredicate(action) || isInitializationCall;
+		return shouldRunWrappedReducer ? reducerFunction(state,action):state;
 	}
 }
 export default combineReducers({
 	loads,
-	app,
 	config,
+	dialog,
 	router:routerReducer,
+	postList:createFilteredReducer(list,action=>action.name=='postList'),
+	userList:createFilteredReducer(list,action=>action.name=='userList'),
+	homePostKeys:createFilteredReducer(keys,action=>action.name=='homePostKeys'),
 })
