@@ -11,7 +11,7 @@ const styles=theme=>({
 	userCard:{
 		display:'flex',
 		flexDirection:'row',
-		margin:16,
+		padding:16,
 	},
 	cardRight:{
 		marginLeft:28,

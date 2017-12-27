@@ -5,6 +5,7 @@ import config from './config';
 import {list} from './list';
 import {keys} from './keys';
 import {dialog} from './dialog';
+import { reducer as formReducer } from 'redux-form';
 //逻辑复用
 const createFilteredReducer=(reducerFunction,reducerPredicate)=>{
 	return (state,action)=>{
@@ -15,6 +16,7 @@ const createFilteredReducer=(reducerFunction,reducerPredicate)=>{
 }
 export default combineReducers({
 	loads,
+	form:formReducer,
 	config,
 	dialog,
 	router:routerReducer,

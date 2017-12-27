@@ -3,7 +3,7 @@ import {blue,grey} from 'material-ui/colors';
 const theme = createMuiTheme({
   palette: {
 	type: 'light',
-    primary: {...blue,"500":grey[900]},
+    primary: {...grey,"500":grey[900]},
   },
 
   typography: {

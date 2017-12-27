@@ -109,7 +109,7 @@ const PhotoCard=({classes,data})=>(
 )
 class CardItem extends React.Component {
   render() {
-    const {classes,onUserClick,data}= this.props;
+    const {classes,onUserClick,data,style}= this.props;
     let height=565;
     switch(data.type){
       case "article":
@@ -117,7 +117,7 @@ class CardItem extends React.Component {
       break
     }
     return (
-        <Card className={classes.card} elevation={0} style={{height:height}} >
+        <Card className={classes.card} elevation={0} style={{height:height,...style}} >
           <CardHeader
             avatar={
               <Avatar aria-label="Recipe" className={classes.avatar} onClick={(e)=>onUserClick(e,data)} >

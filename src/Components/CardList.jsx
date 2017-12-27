@@ -1,65 +1,40 @@
 import React,{Component} from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
 import CardItem from './CardItem';
-
 import ReactList from 'react-list';
-import { LinearProgress } from 'material-ui/Progress';
-import Full from './Full';
-const styles = {
-  scroll:{
-    height: '100%',
-    overflowY: 'auto',
-    position:'relative',
-  },
-  listLoad:{
-    position:'absolute',
-    bottom:0,
-    left:0,
-    right:0,
-  }
-};
-class CardList extends Component{
+
+class List extends Component{
   renderItem(index, key) {
-    let {onUserClick}=this.props;
+    let {onUserClick,listTop}=this.props;
       let item=this.props.data[index];
-      return <CardItem
-            key={item.id}
-            data={item} 
-            onUserClick={onUserClick} />;
+      return <div key={item.id} style={{marginTop:index==0?listTop:0}}>
+                <CardItem
+                  data={item}
+                  onUserClick={onUserClick} />
+              </div>;
     }
   itemSizeGetter(index){
-    let item=this.props.data[index];
-    let height=565+15;
-    if(item.type=='article')height=300+15;
-    return height
-  }
-  onScroll(e){
-    let obj=e.target;
-    let bottom=obj.scrollHeight-obj.scrollTop-obj.clientHeight;
-    let {isLoad,onNext,currPage}=this.props;
-    if(bottom<30 && !isLoad){
-      onNext(currPage+1)
+    let bottom=15;
+    let top=0;
+    if(index==0){
+      top=this.props.listTop;//头部距离
     }
+    let height=565;
+    let item=this.props.data[index];
+    if(item.type=='article')height=300;
+    return height+bottom+top
   }
   render(){
-    let {pushAct,data,classes,isLoad}=this.props;
-    return (
-      <Full>
-        <div className={classes.scroll} onScroll={::this.onScroll}>
-        {data.length>0 &&  <ReactList
+    let {data}=this.props;
+    if(data.length<=0)return false;
+    return <ReactList
             threshold={100}
             itemRenderer={::this.renderItem}
             itemSizeGetter={::this.itemSizeGetter}
             length={data.length}
+            initialIndex={3}
             type='variable'
           />
-        }
-        </div>
-        {isLoad && <LinearProgress color="accent" className={classes.listLoad} /> }
-      </Full>
-      )
   }
 }
 
-export default withStyles(styles)(CardList);
+export default List;
