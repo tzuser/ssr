@@ -17,7 +17,7 @@ class PostList extends Component{
 	  }
 	}
 	render(){
-		let {postList,pushAct,getListAct,postPage,postLoad,postIsEnd,listTop}=this.props;
+		let {postList,pushAct,getListAct,postPage,postLoad,postIsEnd,listTop,onScroll}=this.props;
 		return <DropDown 
           currPage={postPage}
           onNext={(page)=>{
@@ -25,6 +25,7 @@ class PostList extends Component{
            }}
            isLoad={postLoad}
            isEnd={postIsEnd}
+           onScroll={onScroll}
           >
            <CardList 
            listTop={listTop||0}

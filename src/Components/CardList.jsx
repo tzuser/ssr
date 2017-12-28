@@ -6,7 +6,7 @@ class List extends Component{
   renderItem(index, key) {
     let {onUserClick,listTop}=this.props;
       let item=this.props.data[index];
-      return <div key={item.id} style={{marginTop:index==0?listTop:0}}>
+      return <div key={item.id} style={{paddingTop:index==0?listTop:0}}>
                 <CardItem
                   data={item}
                   onUserClick={onUserClick} />

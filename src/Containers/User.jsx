@@ -17,15 +17,16 @@ import UserCard from '../Components/UserCard';
 import IconButton from 'material-ui/IconButton';
 import BackIcon from 'material-ui-icons/ArrowBack';
 
-import PostList from './PostList'
+import PostList from './PostList';
+import {Motion, spring} from 'react-motion';
 
-const styles = {
+const styles =theme=>( {
 	top:{
 		position:'absolute',
 		left:0,
 		right:0,
 		top:0,
-		zIndex:99	
+		zIndex:99
 	},
   tabPaper:{
 
@@ -33,12 +34,13 @@ const styles = {
   tabCon:{
   	height:"100%",
   	width:'100%',
-  	overflow: 'hidden'
+  	overflow: 'hidden',
+  	backgroundColor: theme.palette.background.contentFrame,
   },
   tab:{
   	flexShrink:0,
   },
-};
+});
 
 function TabContainer({ children, dir ,className}) {
   return (
@@ -51,16 +53,29 @@ function TabContainer({ children, dir ,className}) {
 class User extends Component{
 	state={
 		active:0,
+		headTop:0,
+	}
+	hiddenTop(){
+
+	}
+	onScroll(e,value){
+		let {headTop}=this.state;
+		let top=value;
+		if(top>300 && headTop==0){
+			this.setState({headTop:-109})
+		}else if(top<=300 && headTop!=0){
+			this.setState({headTop:0})
+		}
 	}
 	render(){
-		console.log(this.props)
 		let {classes,theme,match:{params:{uid}},history:{goBack,push}}=this.props;
 		
-		let {deviation}=this.state;
+		let {deviation,headTop}=this.state;
 		let isOwn=!!!uid;
+		console.log('aa')
 		return (
 			<Full>
-				{!isOwn && <AppBar position="absolute" color="default" elevation={0} >
+				{!isOwn && <AppBar position="absolute" color="default" style={{backgroundColor:'#fff'}} elevation={0} >
 			      <Toolbar>
 			      	<IconButton color="default" onClick={() => goBack()} >
 			            <BackIcon />
@@ -71,25 +86,31 @@ class User extends Component{
 			      </Toolbar>
 				</AppBar>}
 			    <Content top={!isOwn} bottom={isOwn}  >
-			    		<Paper className={classes.top} elevation={1} >
-					    	<UserCard isOwn={isOwn} />
-					    	<Paper className={classNames(classes.tabPaper,classes.tab)} elevation={0}>
-						    	<Tabs
-						          value={this.state.active}
-						          onChange={(e,value) => {this.setState({active:value})}}
-						          indicatorColor="primary"
-						          textColor="primary"
-						          centered
-						          fullWidth >
-						          <Tab label="帖子" />
-						          <Tab label="关注者" />
-						          <Tab label="正在关注" />
-						        </Tabs>
+			    <Motion defaultStyle={{top: 0}} style={{top:spring(headTop,{stiffness: 170, damping: 26})}}>
+			    		{value=><div className={classes.top} style={value} >
+			    			<Paper elevation={1} >
+						    	<UserCard isOwn={isOwn} />
+						    	<Paper className={classNames(classes.tabPaper,classes.tab)} elevation={0}>
+							    	<Tabs
+							          value={this.state.active}
+							          onChange={(e,value) => {this.setState({active:value})}}
+							          indicatorColor="primary"
+							          textColor="primary"
+							          centered
+							          fullWidth >
+							          <Tab label="帖子" />
+							          <Tab label="关注者" />
+							          <Tab label="正在关注" />
+							        </Tabs>
+						        </Paper>
 					        </Paper>
-				        </Paper >
+				        </div >}
+				</Motion>
 
 				        <div className={classes.tabCon}>
-				        	{this.state.active === 0 && <PostList listTop={157} />}
+				        	{this.state.active === 0 && 
+				        		<PostList listTop={172} 
+				        		onScroll={this.onScroll.bind(this)} />}
 				        	{this.state.active === 1 && 
 				        		<TabContainer dir={theme.direction}> 
 				        			<UserList isOwn={isOwn} onUserClick={(item)=>{push(`/user/${item}`)}} />

@@ -23,10 +23,16 @@ const styles =theme=>({
   }
 });
 class List extends Component{
+  componentDidMount(){
+    let {onScroll}=this.props;
+    if(onScroll){onScroll(null,0)};
+  }
   onScroll(e){
     let obj=e.target;
     let bottom=obj.scrollHeight-obj.scrollTop-obj.clientHeight;
-    let {isLoad,onNext,currPage,isEnd}=this.props;
+    let {isLoad,onNext,currPage,isEnd,onScroll}=this.props;
+    if(onScroll){onScroll(e,obj.scrollTop)};
+
     if(bottom<30 && !isLoad && !isEnd){
       onNext(currPage+1)
     }
