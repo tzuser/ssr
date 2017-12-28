@@ -89,7 +89,7 @@ class User extends Component{
 				        </Paper >
 
 				        <div className={classes.tabCon}>
-				        	{this.state.active === 0 && <PostList />}
+				        	{this.state.active === 0 && <PostList listTop={157} />}
 				        	{this.state.active === 1 && 
 				        		<TabContainer dir={theme.direction}> 
 				        			<UserList isOwn={isOwn} onUserClick={(item)=>{push(`/user/${item}`)}} />

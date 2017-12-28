@@ -31,7 +31,6 @@ class List extends Component{
             itemRenderer={::this.renderItem}
             itemSizeGetter={::this.itemSizeGetter}
             length={data.length}
-            initialIndex={3}
             type='variable'
           />
   }

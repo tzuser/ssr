@@ -17,16 +17,17 @@ class PostList extends Component{
 	  }
 	}
 	render(){
-		let {postList,pushAct,getListAct,postPage,postLoad}=this.props;
+		let {postList,pushAct,getListAct,postPage,postLoad,postIsEnd,listTop}=this.props;
 		return <DropDown 
           currPage={postPage}
           onNext={(page)=>{
             getListAct(page)
            }}
            isLoad={postLoad}
+           isEnd={postIsEnd}
           >
            <CardList 
-           listTop={157}
+           listTop={listTop||0}
            data={postList} 
            onUserClick={(e,item)=>pushAct(`/user/${item.user.id}`)}
            />
@@ -50,6 +51,7 @@ const getList=createSelector([
 const mapStateToProps=(state)=>({
   postList:getList(state),
   postPage:state.homePostKeys.page,
+  postIsEnd:state.homePostKeys.isEnd,
   postLoad:state.loads.home_list,
 
 })

@@ -1,5 +1,5 @@
 import {fetchGet,URL} from './public';
-import {SET_LIST,ADD_KEYS} from '../constants';
+import {SET_LIST,ADD_KEYS,SET_KEYS_ISEND} from '../constants';
 import {open} from './alertDialog'
 export const GET_LIST='GET_LIST';
 
@@ -13,8 +13,13 @@ export const getList=(page)=>async (dispatch,getState)=>{
 		}))
 		return;
 	}
+	if(!json.length){
+		dispatch({type:SET_KEYS_ISEND,name:'homePostKeys'})
+		return ;
+	}
 	let users=[];
 	let keys=[];
+
 	json.map((item,key)=>{
 		users.push(item.user);
 		keys.push(item.id);

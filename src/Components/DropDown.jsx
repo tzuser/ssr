@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { LinearProgress } from 'material-ui/Progress';
 import Full from './Full';
-const styles = {
+const styles =theme=>({
   scroll:{
     height: '100%',
     overflowY: 'auto',
@@ -14,25 +14,33 @@ const styles = {
     bottom:0,
     left:0,
     right:0,
+  },
+  foot:{
+    textAlign:'center',
+    marginBottom:20,
+    color:theme.palette.text.disabled,
+    fontSize:12,
   }
-};
+});
 class List extends Component{
   onScroll(e){
     let obj=e.target;
     let bottom=obj.scrollHeight-obj.scrollTop-obj.clientHeight;
-    let {isLoad,onNext,currPage}=this.props;
-    if(bottom<30 && !isLoad){
+    let {isLoad,onNext,currPage,isEnd}=this.props;
+    if(bottom<30 && !isLoad && !isEnd){
       onNext(currPage+1)
     }
   }
   render(){
-    let {classes,isLoad}=this.props;
+    let {classes,isLoad,isEnd}=this.props;
     return (
       <Full>
         <div className={classes.scroll} onScroll={::this.onScroll}>
           {this.props.children}
+          {isEnd && <div className={classes.foot}>没有更多了~</div>}
         </div>
         {isLoad && <LinearProgress  className={classes.listLoad} /> }
+        
       </Full>
       )
   }
