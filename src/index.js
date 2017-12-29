@@ -11,6 +11,7 @@ import {getCreateStore} from './store'
 import './Module/PWS';//离线缓存
 import Loadable from 'react-loadable';
 import theme from './public/Theme';
+import App from './Containers/App';
 let {store,history}=getCreateStore();//获取store
 //热加载配置
 if(module.hot) {
@@ -20,24 +21,20 @@ if(module.hot) {
 		});
 	});
 	module.hot.accept('./Containers/App.jsx', () => {
-		render()
+		let AppCom = require("./Containers/App.jsx").default;
+		render(AppCom)
 	});
 }
 
 //是否是服务器渲染
 const renderDOM=process.env.NODE_ENV=='production'?ReactDOM.hydrate:ReactDOM.render;
-const render=()=>{
-	//const App = require("./Containers/App.jsx").default;
-	const LoadableApp=Loadable({
-	  loader: () => import( /*webpackChunkName: 'App'*/  './Containers/App'),
-	  loading:()=>false
-	});
+const render=(AppCom=App)=>{
 	renderDOM(
 		<Provider store={store}>
 			<ConnectedRouter history={history}>
 				<MuiThemeProvider theme={theme}>
 					<RemoveServerSideCss>
-						<LoadableApp />
+						<AppCom />
 					</RemoveServerSideCss>
 				</MuiThemeProvider>
 			</ConnectedRouter>
