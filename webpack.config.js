@@ -4,7 +4,14 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');//html生成
 module.exports={
 	entry: {
 		main:path.join(__dirname,'./src/index.js'),
-		vendors:['react','react-redux']
+		vendors:['react',
+		'react-redux',
+		'react-router-redux',
+		'react-router-dom',
+		'babel-polyfill',
+		'react-loadable',
+		'redux-form',
+		]
 	},
 	output:{
 		path: path.resolve(__dirname,'build'),
