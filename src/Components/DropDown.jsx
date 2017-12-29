@@ -17,6 +17,7 @@ const styles =theme=>({
   },
   foot:{
     textAlign:'center',
+    marginTop:10,
     marginBottom:20,
     color:theme.palette.text.disabled,
     fontSize:12,

@@ -1,7 +1,7 @@
 export const WILL_FETCH="WILL_FETCH";
 export const DID_FETCH='DID_FETCH';
-export const IMG_URL="http://blog.tangzuo.cc";
-export const URL="http://blog.tangzuo.cc/api/";
+export const IMG_URL="http://blog.tangzuo.cc:5000";
+export const URL="http://blog.tangzuo.cc:5000/api/";
 
 export const LOAD='LOAD';//页面加载效果
 export const load=(name,isLoad)=>({

@@ -12,7 +12,7 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
 import GridList from '../Components/GridList';
 import Typography from 'material-ui/Typography';
-import UserList from '../Components/UserList';
+import UserList from './UserList';
 import UserCard from '../Components/UserCard';
 import IconButton from 'material-ui/IconButton';
 import BackIcon from 'material-ui-icons/ArrowBack';
@@ -109,16 +109,24 @@ class User extends Component{
 
 				        <div className={classes.tabCon}>
 				        	{this.state.active === 0 && 
-				        		<PostList listTop={172} 
+				        		<PostList 
+				        		listTop={172} 
 				        		onScroll={this.onScroll.bind(this)} />}
 				        	{this.state.active === 1 && 
-				        		<TabContainer dir={theme.direction}> 
-				        			<UserList isOwn={isOwn} onUserClick={(item)=>{push(`/user/${item}`)}} />
-				        		</TabContainer>}
+				        		<UserList 
+				        		isOwn={isOwn} 
+				        		listTop={157} 
+				        		onScroll={this.onScroll.bind(this)}
+				        		/>}
+				        		
 				        	{this.state.active === 2 && 
-				        		<TabContainer dir={theme.direction}> 
-				        			<UserList isOwn={isOwn} />
-				        		</TabContainer>}
+				        		<UserList 
+				        		isOwn={isOwn} 
+				        		listTop={157} 
+				        		onUserClick={(item)=>{push(`/user/${item}`)}} 
+				        		onScroll={this.onScroll.bind(this)}
+				        		/>
+				        	}
 				        </div>
 			    </Content>
 			</Full>

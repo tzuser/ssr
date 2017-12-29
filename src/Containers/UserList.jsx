@@ -5,7 +5,7 @@ import * as ListActs from '../actions/postList';
 import {toList} from '../public/tool';
 import { createSelector } from 'reselect';
 import {push} from 'react-router-redux';
-import CardList from '../Components/CardList';
+import UserList from '../Components/UserList';
 import DropDown from '../Components/DropDown';
 
 
@@ -27,10 +27,10 @@ class PostList extends Component{
            isEnd={postIsEnd}
            onScroll={onScroll}
           >
-           <CardList 
+           <UserList 
            listTop={listTop||0}
            data={postList} 
-           onUserClick={(e,item)=>pushAct(`/user/${item.user.id}`)}
+           onUserClick={(e,item)=>pushAct(`/user/${item.id}`)}
            />
           </DropDown>
 	}

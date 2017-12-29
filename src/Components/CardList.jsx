@@ -27,7 +27,7 @@ class List extends Component{
     let {data}=this.props;
     if(data.length<=0)return false;
     return <ReactList
-            threshold={100}
+            threshold={500}
             itemRenderer={::this.renderItem}
             itemSizeGetter={::this.itemSizeGetter}
             length={data.length}
