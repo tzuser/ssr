@@ -2,6 +2,8 @@ const path=require('path');
 const webpack=require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');//html生成
 const autoprefixer = require('autoprefixer');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');//css文件分离
+const extractCSS = new ExtractTextPlugin('stylesheets/[name]-one.css');
 module.exports={
 	entry: {
 		main:path.join(__dirname,'./src/index.js'),
@@ -43,7 +45,8 @@ module.exports={
 			},
 			{
 	            test: /\.css$/,
-	            use: [
+	            use: extractCSS.extract([ 'css-loader', 'postcss-loader' ])
+	            /*use: extractCSS.extract([
 	              require.resolve('style-loader'),
 	              {
 	                loader: require.resolve('css-loader'),
@@ -71,13 +74,14 @@ module.exports={
 	                  ],
 	                },
 	              },
-	            ],
+	            ]),*/
           }
 
 		]
 	},
 	resolve:{extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx']},
 	plugins:[
+		extractCSS,
 		new webpack.DefinePlugin({
 		    'process.env.NODE_ENV':JSON.stringify(process.env.NODE_ENV || 'development'),
 		    'process.env.RUN_ENV':JSON.stringify(process.env.RUN_ENV || 'dev')
@@ -91,12 +95,6 @@ module.exports={
 		new webpack.optimize.CommonsChunkPlugin({//公共组件分离
 			  names: ['vendors', 'manifest']
 		}),
-		/*new webpack.optimize.CommonsChunkPlugin({//公共组件分离
-			name:'commons',
-			filename:'commons.js',
-			minChunks:function(module){
-				return module.context && module.context.indexOf('node_modules') !==-1;
-			}
-		}),*/
+
 	],
 }
