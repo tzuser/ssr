@@ -1,6 +1,7 @@
 const path=require('path');
 const webpack=require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');//html生成
+const autoprefixer = require('autoprefixer');
 module.exports={
 	entry: {
 		main:path.join(__dirname,'./src/index.js'),
@@ -23,8 +24,7 @@ module.exports={
 	module:{
 		rules:[
 			{
-				test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-				exclude: /node_modules/,
+				test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/,/\.svg$/],
 				loader: require.resolve('url-loader'),
 				options: {
 				limit: 10000,
@@ -33,7 +33,7 @@ module.exports={
 			},
 			{
 				test:/\.(js|jsx)$/,
-				exclude: /node_modules/,
+	            include: path.resolve(__dirname, 'src'),
 				use:[{
 					loader:require.resolve('babel-loader'),
 					options:{
@@ -43,7 +43,6 @@ module.exports={
 			},
 			{
 	            test: /\.css$/,
-	            exclude: /node_modules/,
 	            use: [
 	              require.resolve('style-loader'),
 	              {

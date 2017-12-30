@@ -92,7 +92,7 @@ const VideoCard=({classes,data})=>(
   </div>
 )
 
-const PhotoCard=({classes,data})=>(
+const PhotoCard=({classes,data,onPhotoClick})=>(
   <div>
     <div className={classes.photo}>
       {data.photos.length > 1 && <Badge value={data.photos.length}/>}
@@ -100,6 +100,7 @@ const PhotoCard=({classes,data})=>(
         className={classes.media}
         image={`${IMG_URL}${data.cover}`}
         title={data.title}
+        onClick={(e)=>onPhotoClick(e,data)}
       />
     </div>
     <CardContent>
@@ -109,7 +110,7 @@ const PhotoCard=({classes,data})=>(
 )
 class CardItem extends React.Component {
   render() {
-    const {classes,onUserClick,data,style}= this.props;
+    const {classes,onUserClick,data,style,onPhotoClick}= this.props;
     let height=565;
     switch(data.type){
       case "article":
@@ -128,7 +129,7 @@ class CardItem extends React.Component {
             subheader={data.publish_date}
           />
           {data.type=="article" && <ArticleCard classes={classes} data={data} />}
-          {data.type=="photo" && <PhotoCard classes={classes} data={data} />}
+          {data.type=="photo" && <PhotoCard classes={classes} data={data} onPhotoClick={onPhotoClick} />}
           {data.type=="video" && <VideoCard classes={classes} data={data} />}
 
           <CardActions disableActionSpacing>

@@ -4,12 +4,14 @@ import ReactList from 'react-list';
 
 class List extends Component{
   renderItem(index, key) {
-    let {onUserClick,listTop}=this.props;
+    let {onUserClick,listTop,onPhotoClick}=this.props;
       let item=this.props.data[index];
       return <div key={item.id} style={{paddingTop:index==0?listTop:0}}>
                 <CardItem
                   data={item}
-                  onUserClick={onUserClick} />
+                  onUserClick={onUserClick}
+                  onPhotoClick={onPhotoClick} />
+                  
               </div>;
     }
   itemSizeGetter(index){

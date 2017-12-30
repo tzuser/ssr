@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as ListActs from '../actions/postList';
+import * as photoActs from '../actions/photo';
 import {toList} from '../public/tool';
 import { createSelector } from 'reselect';
 import {push} from 'react-router-redux';
@@ -17,7 +18,8 @@ class PostList extends Component{
 	  }
 	}
 	render(){
-		let {postList,pushAct,getListAct,postPage,postLoad,postIsEnd,listTop,onScroll}=this.props;
+		let {postList,pushAct,getListAct,postPage,postLoad,postIsEnd,listTop,onScroll,
+    openPhotoAct}=this.props;
 		return <DropDown 
           currPage={postPage}
           onNext={(page)=>{
@@ -31,6 +33,7 @@ class PostList extends Component{
            listTop={listTop||0}
            data={postList} 
            onUserClick={(e,item)=>pushAct(`/user/${item.user.id}`)}
+           onPhotoClick={(e,item)=>openPhotoAct(item.photos)}
            />
           </DropDown>
 	}
@@ -59,6 +62,7 @@ const mapStateToProps=(state)=>({
 })
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
   getListAct:ListActs.getList,
-  pushAct:push
+  pushAct:push,
+  openPhotoAct:photoActs.openPhoto,
 },dispatch)
 export default connect(mapStateToProps,mapDispatchToProps)(PostList);

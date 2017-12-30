@@ -6,7 +6,8 @@ import Full from '../Components/Full';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import AlertDialog from '../Components/AlertDialog';
-import {PropTypes} from 'prop-types'
+import {PropTypes} from 'prop-types';
+import PhotoSwipe from './PhotoSwipe';
 const LoadableTab=Loadable({
   loader: () => import(/* webpackChunkName: 'Tab' */ './Tab'),
   loading:PageLoading
@@ -35,6 +36,7 @@ class App extends React.Component{
 				<Route exact path="/"  component={LoadableTab}/>
 				<Route path="/tab"  component={LoadableTab}/>
 				<Route exact path="/user/:uid" component={LoadableUser}/>
+				<PhotoSwipe />
 			</Full>
 			)
 	}
