@@ -8,6 +8,7 @@ const styles =theme=>({
     height: '100%',
     overflowY: 'auto',
     position:'relative',
+    overflowScrolling:'touch',
   },
   listLoad:{
     position:'absolute',

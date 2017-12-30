@@ -61,8 +61,9 @@ const render=async (ctx,next)=>{
 					)
 
 				const css = sheetsRegistry.toString()
-
 				let bundles = getBundles(stats, modules);
+				console.log(bundles)
+
 				let styles = bundles.filter(bundle => bundle.file.endsWith('.css'));
 				let scripts = bundles.filter(bundle => bundle.file.endsWith('.js'));
 
