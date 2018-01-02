@@ -2,6 +2,9 @@
 # 基于最近感悟，正在写的一个练习作品
 react16+router5+koa2+marerial-ui服务端渲染,按需加载,热更新
 
+## 演示地址
+[http://blog.tangzuo.cc/](http://blog.tangzuo.cc/)
+
 ## 运行
 ``` 
 //安装依赖
@@ -15,3 +18,6 @@ npm run server
 npm run start
 
 ```
+
+## 参考
+[https://juejin.im/post/5a4733b76fb9a04525787472](https://juejin.im/post/5a4733b76fb9a04525787472)
