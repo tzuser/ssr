@@ -35,15 +35,15 @@ class Nav extends PureComponent{
 	}
 	render(){
 		let {classes,router:{location:{pathname}}}=this.props;
-		let mat=pathname.match(/\/tab\/\w+/);
+		let mat=pathname.match(/\/\w+/);
 		let value=mat?mat[0]:'/';
-		if(pathname=='/')value='/tab/home';//如果是更目录
+		if(pathname=='/')value='/home';//如果是更目录
 		return (
 			<BottomNavigation value={value} onChange={this.onChange.bind(this)} className={classes.nav} >
-				<BottomNavigationButton label="首页" value="/tab/home" icon={<HomeIcon />} classes={{selected:classes.selected}} />
-				<BottomNavigationButton label="搜索" value="/tab/search" icon={<SearchIcon />} classes={{selected:classes.selected}} />
-				<BottomNavigationButton label="关注" value="/tab/like" icon={<FavoriteIcon />} classes={{selected:classes.selected}} />
-				<BottomNavigationButton label="用户" value="/tab/user" icon={<PersonIcon />} classes={{selected:classes.selected}} />
+				<BottomNavigationButton label="首页" value="/home" icon={<HomeIcon />} classes={{selected:classes.selected}} />
+				<BottomNavigationButton label="搜索" value="/search" icon={<SearchIcon />} classes={{selected:classes.selected}} />
+				<BottomNavigationButton label="关注" value="/like" icon={<FavoriteIcon />} classes={{selected:classes.selected}} />
+				<BottomNavigationButton label="用户" value="/user" icon={<PersonIcon />} classes={{selected:classes.selected}} />
 			</BottomNavigation>
 		)
 	}

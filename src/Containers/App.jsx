@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route,Redirect,withRouter} from 'react-router-dom';
+import {Route,Redirect,withRouter,Switch} from 'react-router-dom';
 import Loadable from 'react-loadable';
 import PageLoading from '../Components/PageLoading';
 import Full from '../Components/Full';
@@ -33,9 +33,11 @@ class App extends React.Component{
 					this.props.dispatch(item.act)
 				}} />
 				{/*<Route exact path='/' render={()=><Redirect to="/tab/home"/> } />*/}
-				<Route exact path="/"  component={LoadableTab}/>
-				<Route path="/tab"  component={LoadableTab}/>
+				<Switch>
 				<Route exact path="/user/:uid" component={LoadableUser}/>
+				<Route path="/"  component={LoadableTab}/>
+				</Switch>
+				{/*<Route path="/tab"  component={LoadableTab}/>*/}
 				<PhotoSwipe />
 			</Full>
 			)

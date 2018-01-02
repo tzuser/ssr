@@ -33,10 +33,10 @@ class Tab extends Component{
 		return (
 			<Full>
 				<Route exact path="/" component={LoadableHome}/>
-				<Route path="/tab/home" component={LoadableHome}/>
-				<Route exact path="/tab/user" component={LoadableUser}/>
-				<Route path="/tab/search" component={LoadableSearch}/>
-				<Route path="/tab/like" component={LoadableLike}/>
+				<Route path="/home" component={LoadableHome}/>
+				<Route exact path="/user" component={LoadableUser}/>
+				<Route path="/search" component={LoadableSearch}/>
+				<Route path="/like" component={LoadableLike}/>
 				<Nav />
 			</Full>
 			)
