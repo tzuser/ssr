@@ -31,6 +31,15 @@ const prepHTML=(data,{html,head,style,body,script,css})=>{
 	return data;
 }
 
+class Tz extends React.Component{
+	componentWillMount(){
+
+	}
+	render(){
+		return React.cloneElement(this.props.children, {initPost:this.props.report});
+	}
+}
+
 const render=async (ctx,next)=>{
 		const filePath=path.resolve(__dirname,'../build/index.html')
 		let html=await new Promise((resolve,reject)=>{
@@ -47,6 +56,7 @@ const render=async (ctx,next)=>{
 				const { store, history } = getCreateStore(ctx.req.url);
 				let modules=[];
 				let routeMarkup =renderToString(
+
 					<Loadable.Capture report={moduleName => modules.push(moduleName)}>
 						<Provider store={store}>
 							<ConnectedRouter history={history}>
@@ -59,7 +69,6 @@ const render=async (ctx,next)=>{
 						</Provider>
 					</Loadable.Capture>
 					)
-
 				const css = sheetsRegistry.toString()
 				let bundles = getBundles(stats, modules);
 				console.log(bundles)

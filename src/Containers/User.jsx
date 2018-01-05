@@ -5,16 +5,13 @@ import Content from '../Components/Content';
 import classNames from 'classnames';
 
 import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
+import {AppBar,Toolbar,Paper,Typography,IconButton} from 'material-ui';
 
 import Tabs, { Tab } from 'material-ui/Tabs';
-import Paper from 'material-ui/Paper';
+
 import GridList from '../Components/GridList';
-import Typography from 'material-ui/Typography';
 import UserList from './UserList';
 import UserCard from '../Components/UserCard';
-import IconButton from 'material-ui/IconButton';
 import BackIcon from 'material-ui-icons/ArrowBack';
 
 import PostList from './PostList';

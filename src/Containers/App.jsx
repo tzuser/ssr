@@ -17,6 +17,9 @@ const LoadableUser = Loadable({
   loading:PageLoading
 });
 class App extends React.Component{
+	componentWillMount(){
+	
+	}
 	render(){
 		let {alertDialog}=this.props;
 		return(

@@ -21,8 +21,9 @@ if(module.hot) {
 		});
 	});
 	module.hot.accept('./Containers/App.jsx', () => {
-		let AppCom = require("./Containers/App.jsx").default;
-		render(AppCom)
+		import("./Containers/App.jsx").then(({default:AppCom})=>{
+			render(AppCom)
+		});
 	});
 }
 

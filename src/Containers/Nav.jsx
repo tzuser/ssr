@@ -1,10 +1,12 @@
 import React,{PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import BottomNavigation, { BottomNavigationButton } from 'material-ui/BottomNavigation';
-import HomeIcon from 'material-ui-icons/Home';
-import FavoriteIcon from 'material-ui-icons/Favorite';
-import SearchIcon from 'material-ui-icons/Search';
-import PersonIcon from 'material-ui-icons/Person';
+import {
+	Home as HomeIcon,
+	Favorite as FavoriteIcon,
+	Search as SearchIcon,
+	Person as PersonIcon,
+} from 'material-ui-icons';
 import {withStyles} from 'material-ui/styles';
 import {grey} from 'material-ui/colors';
 

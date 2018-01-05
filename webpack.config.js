@@ -40,12 +40,16 @@ module.exports={
 					loader:require.resolve('babel-loader'),
 					options:{
 						presets:['env','react','stage-0'],
+						plugins:[
+							//解决 import {} 文件变大的问题
+							["direct-import",["material-ui","material-ui-icons","react-router-dom","react-router-redux"]]
+						]
 					},
 				}]
 			},
 			{
 	            test: /\.css$/,
-	            use: extractCSS.extract([ 'css-loader', 'postcss-loader' ])
+	            use: extractCSS.extract([ 'css-loader', 'postcss-loader'])
 	            /*use: extractCSS.extract([
 	              require.resolve('style-loader'),
 	              {

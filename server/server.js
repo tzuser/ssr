@@ -9,7 +9,6 @@ const app = new Koa()
 const render = require('./render.js')
 
 router.get('/', render);
-
 app.use(router.routes())
 .use(router.allowedMethods())
 .use(staticServer(path.resolve(__dirname, '../build')));

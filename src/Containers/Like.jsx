@@ -1,9 +1,7 @@
 import React,{Component} from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
+import {AppBar,Toolbar,Typography} from 'material-ui';
+import {withStyles} from 'material-ui/styles';
 import Full from '../Components/Full';
 import Content from '../Components/Content';
 import {connect} from 'react-redux';

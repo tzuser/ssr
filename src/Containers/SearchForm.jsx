@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 import SearchIcon from 'material-ui-icons/Search';
-import TextField from 'material-ui/TextField';
+import {TextField} from 'material-ui';
 import classNames from 'classnames'
 import {withStyles} from 'material-ui/styles';
 
