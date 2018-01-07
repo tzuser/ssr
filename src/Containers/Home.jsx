@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+ import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import {AppBar,Toolbar,Typography} from 'material-ui';
 import {withStyles} from 'material-ui/styles';
@@ -7,6 +7,7 @@ import Content from '../Components/Content';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PostList from './PostList';
+import initialRequest from './initialRequest';
 const styles =theme=> ({
   root: {
     width: '100%',
@@ -38,10 +39,16 @@ class Home extends Component{
   }
 }
 
-
 const mapStateToProps=(state)=>({
 
 })
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
 },dispatch)
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Home));
+
+const initialDispatchs=(dispatch,getState)=>{
+
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(
+  withStyles(styles)(Home)
+  );

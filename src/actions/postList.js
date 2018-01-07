@@ -1,16 +1,12 @@
 import {fetchGet,URL} from './public';
 import {SET_LIST,ADD_KEYS,SET_KEYS_ISEND} from '../constants';
-import {open} from './alertDialog'
 export const GET_LIST='GET_LIST';
 
-export const getList=(page)=>async (dispatch,getState)=>{
+export const getList=(page=1)=>async (dispatch,getState)=>{
+	console.log("开始请求数据")
 	let json=await dispatch(fetchGet({url:`${URL}post?page=${page}`,name:'home_list'}));
 	if(json.status==404){
-		console.log(json)
-		dispatch(open({
-			title:"网络连接错误",
-			content:`请检查你的网络连接！错误代码${json.status}`,
-		}))
+		console.log("网络连接错误")
 		return;
 	}
 	if(!json.length){
@@ -44,5 +40,6 @@ export const getList=(page)=>async (dispatch,getState)=>{
 		page,
 		keys
 	})
+	console.log("数据请求完成")
 	return true
-}
+};

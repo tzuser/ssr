@@ -23,79 +23,94 @@ import createGenerateClassName from 'material-ui/styles/createGenerateClassName'
 import theme from '../src/public/Theme';
 import 'isomorphic-fetch'
 
-const prepHTML=(data,{html,head,style,body,script,css})=>{
+const prepHTML=(data,{html,head,style,body,script,css,state})=>{
 	data=data.replace('<html',`<html ${html}`);
 	data=data.replace('</head>',`${head}${style}</head>`);
+	data=data.replace('<body>',`<body><script>window._INIT_STATE_ = ${JSON.stringify(state)}</script>`);
 	data=data.replace('<div id="root"></div>',`<div id="root">${body}</div><style id="jss-server-side">${css}</style>`);
 	data=data.replace('</body>',`${script}</body>`);
 	return data;
 }
 
-class Tz extends React.Component{
-	componentWillMount(){
-
+let actConfig={
+'/user':[
+	{
+		path:'/src/actions/postList.js',
+		funs:['getList']
 	}
-	render(){
-		return React.cloneElement(this.props.children, {initPost:this.props.report});
+],
+'/':[
+	{
+		path:'/src/actions/postList.js',
+		funs:['getList']
 	}
+],
 }
 
 const render=async (ctx,next)=>{
 		const filePath=path.resolve(__dirname,'../build/index.html')
-		let html=await new Promise((resolve,reject)=>{
-			//material处理
-			const sheetsRegistry = new SheetsRegistry();
-			const jss = create(preset());
-			jss.options.createGenerateClassName = createGenerateClassName;
+		//material处理
+		const sheetsRegistry = new SheetsRegistry();
+		const jss = create(preset());
+		jss.options.createGenerateClassName = createGenerateClassName;
 
-			fs.readFile(filePath,'utf8',(err,htmlData)=>{//读取index.html文件
-				if(err){
-					console.error('读取文件错误!',err);
-					return res.status(404).end()
+		let htmlData=fs.readFileSync(filePath,'utf8');
+
+		const { store, history } = getCreateStore(ctx.req.url);
+
+		//初始请求数据
+		let url=ctx.req.url;
+		let actList=actConfig[url];
+		if(actList){
+			for(let actKey in actList){
+				let data=actList[actKey];
+				let Acts=await import(path.join('../',data.path))
+				for(let funKey in data.funs){
+					let funName=data.funs[funKey];
+					await store.dispatch(Acts[funName]())
 				}
-				const { store, history } = getCreateStore(ctx.req.url);
-				let modules=[];
-				let routeMarkup =renderToString(
+			}
+		}
 
-					<Loadable.Capture report={moduleName => modules.push(moduleName)}>
-						<Provider store={store}>
-							<ConnectedRouter history={history}>
-								<JssProvider registry={sheetsRegistry} jss={jss}>
-									<MuiThemeProvider theme={theme} sheetsManager={new Map()}>
-										<App/>
-									</MuiThemeProvider>
-								</JssProvider>
-							</ConnectedRouter>
-						</Provider>
-					</Loadable.Capture>
-					)
-				const css = sheetsRegistry.toString()
-				let bundles = getBundles(stats, modules);
-				console.log(bundles)
+		let state=store.getState();
 
-				let styles = bundles.filter(bundle => bundle.file.endsWith('.css'));
-				let scripts = bundles.filter(bundle => bundle.file.endsWith('.js'));
+		let modules=[];
+		let routeMarkup =renderToString(
+			<Loadable.Capture report={moduleName => modules.push(moduleName)}>
+				<Provider store={store}>
+					<ConnectedRouter history={history}>
+						<JssProvider registry={sheetsRegistry} jss={jss}>
+							<MuiThemeProvider theme={theme} sheetsManager={new Map()}>
+								<App/>
+							</MuiThemeProvider>
+						</JssProvider>
+					</ConnectedRouter>
+				</Provider>
+			</Loadable.Capture>
+			)
+		const css = sheetsRegistry.toString()
+		let bundles = getBundles(stats, modules);
 
-				let styleStr=styles.map(style => {
-					        	return `<link href="/dist/${style.file}" rel="stylesheet"/>`
-					      	}).join('\n')
+		let styles = bundles.filter(bundle => bundle.file.endsWith('.css'));
+		let scripts = bundles.filter(bundle => bundle.file.endsWith('.js'));
 
-				let scriptStr=scripts.map(bundle => {
-					        	return `<script src="/${bundle.file}"></script>`
-					      	}).join('\n')
+		let styleStr=styles.map(style => {
+			        	return `<link href="/dist/${style.file}" rel="stylesheet"/>`
+			      	}).join('\n')
 
-				const helmet=Helmet.renderStatic();
-				const html=prepHTML(htmlData,{
-					html:helmet.htmlAttributes.toString(),
-					head:helmet.title.toString()+helmet.meta.toString()+helmet.link.toString(),
-					style:styleStr,
-					body:routeMarkup,
-					script:scriptStr,
-					css:css
-				})
-				setTimeout(()=>resolve(html),1000)
-				
-			})
+		let scriptStr=scripts.map(bundle => {
+			        	return `<script src="/${bundle.file}"></script>`
+			      	}).join('\n')
+
+		const helmet=Helmet.renderStatic();
+		const html=prepHTML(htmlData,{
+			html:helmet.htmlAttributes.toString(),
+			head:helmet.title.toString()+helmet.meta.toString()+helmet.link.toString(),
+			style:styleStr,
+			body:routeMarkup,
+			script:scriptStr,
+			css:css,
+			state,
 		})
 		ctx.body=html
 }

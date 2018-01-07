@@ -6,16 +6,15 @@ import * as photoActs from '../actions/photo';
 import {toList} from '../public/tool';
 import { createSelector } from 'reselect';
 import {push} from 'react-router-redux';
-import CardList from '../Components/CardList';
+import CardItem from '../Components/CardItem';
 import DropDown from '../Components/DropDown';
-
 
 class PostList extends Component{
 	componentWillMount(){//默认加载第一页
 	  let {getListAct,postList}=this.props;
-	  if(postList.length==0){
+	  /*if(postList.length==0){
 	    let getlist=getListAct(1);
-	  }
+	  }*/
 	}
 	render(){
 		let {postList,pushAct,getListAct,postPage,postLoad,postIsEnd,listTop,onScroll,
@@ -29,12 +28,14 @@ class PostList extends Component{
            isEnd={postIsEnd}
            onScroll={onScroll}
           >
-           <CardList 
-           listTop={listTop||0}
-           data={postList} 
-           onUserClick={(e,item)=>pushAct(`/user/${item.user.id}`)}
-           onPhotoClick={(e,item)=>openPhotoAct(item.photos)}
-           />
+          {postList.map((item,key)=>(
+          <div key={item.id}>
+            <CardItem
+            data={item}
+            onUserClick={(e,data)=>pushAct(`/user/${data.user.id}`)}
+            onPhotoClick={(e,data)=>openPhotoAct(data.photos)} />
+          </div>
+          ))}
           </DropDown>
 	}
 }
@@ -65,4 +66,6 @@ const mapDispatchToProps=(dispatch)=>bindActionCreators({
   pushAct:push,
   openPhotoAct:photoActs.openPhoto,
 },dispatch)
+
+
 export default connect(mapStateToProps,mapDispatchToProps)(PostList);

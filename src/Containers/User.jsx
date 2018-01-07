@@ -69,7 +69,6 @@ class User extends Component{
 		
 		let {deviation,headTop}=this.state;
 		let isOwn=!!!uid;
-		console.log('aa')
 		return (
 			<Full>
 				{!isOwn && <AppBar position="absolute" color="default" style={{backgroundColor:'#fff'}} elevation={0} >

@@ -10,15 +10,16 @@ import reducers from './reducers/index';
 import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly';
 
 export const getCreateStore=(path = '/')=>{
+	var initialState = {};
 	switch(process.env.RUN_ENV){
 		case 'dev':
 		case 'build':
+			initialState=window._INIT_STATE_;
 			var history = createBrowserHistory()
 			var middleware=[thunk,routerMiddleware(history)];
-			var store=createStore(reducers,composeWithDevTools(applyMiddleware(...middleware)))
+			var store=createStore(reducers,initialState,composeWithDevTools(applyMiddleware(...middleware)))
 			return {history,store}
 		case 'server':
-			var initialState = {};
 			var history = createMemoryHistory({ initialEntries: [path] });
 			var middleware = [thunk, routerMiddleware(history)];
 			var composedEnhancers = compose(applyMiddleware(...middleware));

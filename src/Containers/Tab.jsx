@@ -8,6 +8,7 @@ import Loadable from 'react-loadable';
 import {Route,Redirect,withRouter} from 'react-router-dom';
 import Nav from './Nav';
 import Full from '../Components/Full';
+
 const LoadableHome=Loadable({
   loader: () => import(/* webpackChunkName: 'Home' */ './Home'),
   loading:PageLoading
@@ -42,7 +43,6 @@ class Tab extends Component{
 			)
 		}
 }
-
 export default Tab
 
 
