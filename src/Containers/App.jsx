@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {PropTypes} from 'prop-types';
 import PhotoSwipe from './PhotoSwipe';
+
 const LoadableTab=Loadable({
   loader: () => import(/* webpackChunkName: 'Tab' */ './Tab'),
   loading:PageLoading

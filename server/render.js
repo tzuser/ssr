@@ -23,6 +23,9 @@ import createGenerateClassName from 'material-ui/styles/createGenerateClassName'
 import theme from '../src/public/Theme';
 import 'isomorphic-fetch'
 
+import initialRequestConfig from '../build/router-config.json';
+import initalActions from 'react-ssr-request/server';
+
 const prepHTML=(data,{html,head,style,body,script,css,state})=>{
 	data=data.replace('<html',`<html ${html}`);
 	data=data.replace('</head>',`${head}${style}</head>`);
@@ -32,20 +35,6 @@ const prepHTML=(data,{html,head,style,body,script,css,state})=>{
 	return data;
 }
 
-let actConfig={
-'/user':[
-	{
-		path:'/src/actions/postList.js',
-		funs:['getList']
-	}
-],
-'/':[
-	{
-		path:'/src/actions/postList.js',
-		funs:['getList']
-	}
-],
-}
 
 const render=async (ctx,next)=>{
 		const filePath=path.resolve(__dirname,'../build/index.html')
@@ -59,19 +48,7 @@ const render=async (ctx,next)=>{
 		const { store, history } = getCreateStore(ctx.req.url);
 
 		//初始请求数据
-		let url=ctx.req.url;
-		let actList=actConfig[url];
-		if(actList){
-			for(let actKey in actList){
-				let data=actList[actKey];
-				let Acts=await import(path.join('../',data.path))
-				for(let funKey in data.funs){
-					let funName=data.funs[funKey];
-					await store.dispatch(Acts[funName]())
-				}
-			}
-		}
-
+		await initalActions(store,ctx.req.url,initialRequestConfig)
 		let state=store.getState();
 
 		let modules=[];
