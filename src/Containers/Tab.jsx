@@ -10,7 +10,6 @@ import Nav from './Nav';
 import Full from '../Components/Full';
 import Home from './Home';
 
-
 const LoadableUser = Loadable({
   loader: () => import(/* webpackChunkName: 'User' */ './User'),
   loading:PageLoading

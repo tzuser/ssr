@@ -5,7 +5,7 @@ import config from './config';
 import {list} from './list';
 import {keys} from './keys';
 import {photo} from './photo';
-import { reducer as formReducer } from 'redux-form';
+//import { reducer as formReducer } from 'redux-form';
 //逻辑复用
 const createFilteredReducer=(reducerFunction,reducerPredicate)=>{
 	return (state,action)=>{
@@ -16,7 +16,7 @@ const createFilteredReducer=(reducerFunction,reducerPredicate)=>{
 }
 export default combineReducers({
 	loads,//所有加载
-	form:formReducer,
+	//form:formReducer,
 	config,
 	photo,//照片详情展示
 	router:routerReducer,

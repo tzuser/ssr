@@ -5,6 +5,7 @@ const OfflinePlugin = require('offline-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const ReactSSRRequest =require('react-ssr-request/webpack');
+//require('./webpackplugin.js');
 let buildConfig={
 
 }

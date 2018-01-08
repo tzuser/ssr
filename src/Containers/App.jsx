@@ -8,6 +8,9 @@ import {bindActionCreators} from 'redux';
 import {PropTypes} from 'prop-types';
 import PhotoSwipe from './PhotoSwipe';
 
+import {initialRequest} from 'react-ssr-request';
+import * as ListActs from '../actions/postList';
+
 const LoadableTab=Loadable({
   loader: () => import(/* webpackChunkName: 'Tab' */ './Tab'),
   loading:PageLoading
@@ -40,4 +43,12 @@ const mapStateToProps=(state)=>({
 	
 })
 
-export default withRouter(connect(mapStateToProps)(App));
+const test=()=>{
+  console.log('aaaaaa')
+  return {type:"TEST"}
+}
+
+const initialDispatchs=(state)=>[
+  test()
+]
+export default initialRequest(initialDispatchs)(withRouter(connect(mapStateToProps)(App)));

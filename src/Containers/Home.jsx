@@ -7,9 +7,7 @@ import Content from '../Components/Content';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PostList from './PostList';
-import {initialRequest} from 'react-ssr-request';
 
-import * as ListActs from '../actions/postList';
 const styles =theme=> ({
   root: {
     width: '100%',
@@ -20,10 +18,7 @@ const styles =theme=> ({
   appbar:{}
 });
 
-const test=()=>{
-  console.log('aaaaaa')
-  return {type:"TEST"}
-}
+
 class Home extends Component{
   
   render(){
@@ -51,12 +46,5 @@ const mapStateToProps=(state)=>({
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
 },dispatch)
 
-const initialDispatchs=(state)=>[
-  ListActs.getList(1),
-  ListActs.getList(2),
-  test()
-]
 
-export default initialRequest(initialDispatchs)(
-  connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Home))
-  );
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Home))  ;

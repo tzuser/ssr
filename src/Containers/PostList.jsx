@@ -8,13 +8,15 @@ import { createSelector } from 'reselect';
 import {push} from 'react-router-redux';
 import CardItem from '../Components/CardItem';
 import DropDown from '../Components/DropDown';
+import {initialRequest} from 'react-ssr-request';
+import {withStyles} from 'material-ui/styles';
 
 class PostList extends Component{
 	componentWillMount(){//默认加载第一页
-	  let {getListAct,postList}=this.props;
-	  /*if(postList.length==0){
-	    let getlist=getListAct(1);
-	  }*/
+	  let {getListAct,postList,sendRequest}=this.props;
+	  if(postList.length==0){
+      sendRequest();
+	  }
 	}
 	render(){
 		let {postList,pushAct,getListAct,postPage,postLoad,postIsEnd,listTop,onScroll,
@@ -67,5 +69,8 @@ const mapDispatchToProps=(dispatch)=>bindActionCreators({
   openPhotoAct:photoActs.openPhoto,
 },dispatch)
 
-
-export default connect(mapStateToProps,mapDispatchToProps)(PostList);
+const initialDispatchs=(state)=>[
+  ListActs.getList(1),
+  ListActs.getList(2),
+]
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(()=>{})(initialRequest(initialDispatchs)(PostList)));
