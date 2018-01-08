@@ -19,6 +19,11 @@ const styles =theme=> ({
   },
   appbar:{}
 });
+
+const test=()=>{
+  console.log('aaaaaa')
+  return {type:"TEST"}
+}
 class Home extends Component{
   
   render(){
@@ -49,6 +54,7 @@ const mapDispatchToProps=(dispatch)=>bindActionCreators({
 const initialDispatchs=(state)=>[
   ListActs.getList(1),
   ListActs.getList(2),
+  test()
 ]
 
 export default initialRequest(initialDispatchs)(

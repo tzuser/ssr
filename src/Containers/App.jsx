@@ -16,6 +16,7 @@ const LoadableUser = Loadable({
   loader: () => import(/* webpackChunkName: 'User' */ './User'),
   loading:PageLoading
 });
+
 class App extends React.Component{
 	componentWillMount(){
 	
@@ -32,6 +33,7 @@ class App extends React.Component{
 			)
 	}
 };
+
 
 
 const mapStateToProps=(state)=>({
