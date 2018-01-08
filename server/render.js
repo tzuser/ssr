@@ -15,7 +15,7 @@ import stats from '../build/react-loadable.json';
 import { SheetsRegistry } from 'react-jss/lib/jss';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { create } from 'jss';
-import preset from 'jss-preset-default';
+import { jssPreset } from 'material-ui/styles';
 
 import { MuiThemeProvider} from 'material-ui/styles';
 import createGenerateClassName from 'material-ui/styles/createGenerateClassName';
@@ -40,7 +40,7 @@ const render=async (ctx,next)=>{
 		const filePath=path.resolve(__dirname,'../build/index.html')
 		//material处理
 		const sheetsRegistry = new SheetsRegistry();
-		const jss = create(preset());
+		const jss = create(jssPreset());
 		jss.options.createGenerateClassName = createGenerateClassName;
 
 		let htmlData=fs.readFileSync(filePath,'utf8');
