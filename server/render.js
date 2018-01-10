@@ -23,8 +23,8 @@ import createGenerateClassName from 'material-ui/styles/createGenerateClassName'
 import theme from '../src/public/Theme';
 import 'isomorphic-fetch'
 
-import initialRequestConfig from '../build/router-config.json';
-import initalActions from 'react-ssr-request/server';
+//import initialRequestConfig from '../build/router-config.json';
+//import initalActions from 'react-ssr-request/server';
 
 const prepHTML=(data,{html,head,style,body,script,css,state})=>{
 	data=data.replace('<html',`<html ${html}`);
@@ -48,7 +48,7 @@ const render=async (ctx,next)=>{
 		const { store, history } = getCreateStore(ctx.req.url);
 
 		//初始请求数据
-		await initalActions(store,ctx.req.url,initialRequestConfig)
+		//await initalActions(store,ctx.req.url,initialRequestConfig)
 		let state=store.getState();
 
 		let modules=[];

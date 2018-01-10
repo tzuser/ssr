@@ -19,17 +19,15 @@ import {Motion, spring} from 'react-motion';
 
 const styles =theme=>( {
 	top:{
-		position:'absolute',
-		left:0,
-		right:0,
-		top:0,
-		zIndex:99
+
+
 	},
   tabPaper:{
-
+  	position:'sticky',
+  	top:'0'
   },
   tabCon:{
-  	height:"100%",
+  	height:"calc(100% - 157px)",
   	width:'100%',
   	overflow: 'hidden',
   	backgroundColor: theme.palette.background.contentFrame,
@@ -52,18 +50,6 @@ class User extends Component{
 		active:0,
 		headTop:0,
 	}
-	hiddenTop(){
-
-	}
-	onScroll(e,value){
-		let {headTop}=this.state;
-		let top=value;
-		if(top>300 && headTop==0){
-			this.setState({headTop:-109})
-		}else if(top<=300 && headTop!=0){
-			this.setState({headTop:0})
-		}
-	}
 	render(){
 		let {classes,theme,match:{params:{uid}},history:{goBack,push}}=this.props;
 		
@@ -82,8 +68,7 @@ class User extends Component{
 			      </Toolbar>
 				</AppBar>}
 			    <Content top={!isOwn} bottom={isOwn}  >
-			    <Motion defaultStyle={{top: 0}} style={{top:spring(headTop,{stiffness: 170, damping: 26})}}>
-			    		{value=><div className={classes.top} style={value} >
+						<div className={classes.top} >
 			    			<Paper elevation={1} >
 						    	<UserCard isOwn={isOwn} />
 						    	<Paper className={classNames(classes.tabPaper,classes.tab)} elevation={0}>
@@ -100,27 +85,17 @@ class User extends Component{
 							        </Tabs>
 						        </Paper>
 					        </Paper>
-				        </div >}
-				</Motion>
+				        </div >
 
 				        <div className={classes.tabCon}>
 				        	{this.state.active === 0 && 
-				        		<PostList 
-				        		listTop={172} 
-				        		onScroll={this.onScroll.bind(this)} />}
+				        		<PostList />}
 				        	{this.state.active === 1 && 
-				        		<UserList 
-				        		isOwn={isOwn} 
-				        		listTop={157} 
-				        		onScroll={this.onScroll.bind(this)}
-				        		/>}
-				        		
+				        		<UserList isOwn={isOwn} />}
 				        	{this.state.active === 2 && 
 				        		<UserList 
 				        		isOwn={isOwn} 
-				        		listTop={157} 
 				        		onUserClick={(item)=>{push(`/user/${item}`)}} 
-				        		onScroll={this.onScroll.bind(this)}
 				        		/>
 				        	}
 				        </div>

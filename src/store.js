@@ -22,8 +22,7 @@ export const getCreateStore=(path = '/')=>{
 		case 'server':
 			var history = createMemoryHistory({ initialEntries: [path] });
 			var middleware = [thunk, routerMiddleware(history)];
-			var composedEnhancers = compose(applyMiddleware(...middleware));
-			var store = createStore(reducers, initialState, composedEnhancers);
+			var store = createStore(reducers, initialState, compose(applyMiddleware(...middleware)));
 			return {history,store};
 	}
 	

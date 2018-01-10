@@ -43,12 +43,4 @@ const mapStateToProps=(state)=>({
 	
 })
 
-const test=()=>{
-  console.log('aaaaaa')
-  return {type:"TEST"}
-}
-
-const initialDispatchs=(state)=>[
-  test()
-]
-export default initialRequest(initialDispatchs)(withRouter(connect(mapStateToProps)(App)));
+export default withRouter(connect(mapStateToProps)(App));

@@ -8,7 +8,7 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import {RemoveServerSideCss} from './Module/MaterialUIServiceRendering';
 
 import {getCreateStore} from './store'
-import './Module/PWS';//离线缓存
+//import './Module/PWS';//离线缓存
 import Loadable from 'react-loadable';
 import theme from './public/Theme';
 import App from './Containers/App';

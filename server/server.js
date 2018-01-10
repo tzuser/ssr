@@ -3,7 +3,8 @@ const Router = require('koa-router');
 const router = new Router();
 
 const path= require('path')
-const staticServer =require('koa-static')
+//const staticServer =require('koa-static')
+const staticCache = require('koa-static-cache')
 const Koa = require('koa')
 const app = new Koa()
 const render = require('./render.js')
@@ -11,7 +12,7 @@ const render = require('./render.js')
 router.get('/', render);
 app.use(router.routes())
 .use(router.allowedMethods())
-.use(staticServer(path.resolve(__dirname, '../build')));
+.use(staticCache(path.resolve(__dirname, '../build'), {maxAge: 365 * 24 * 60 * 60}));
 app.use(render);
 
 

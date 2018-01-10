@@ -14,10 +14,11 @@ const styles=theme=>({
 	searchInput:{
 		width:'100%',
 		height:28,
-		lineHeight:28,
+		lineHeight:'28px',
 		borderRadius:3,
 		boxSizing:'border-box',
 		margin:0,
+		padding:0,
 	},
 	searchIcon:{
 	   fill:theme.palette.input.labelText,
