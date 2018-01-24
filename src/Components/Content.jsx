@@ -8,7 +8,6 @@ const styles=theme=>({
 	}
 })
 const Content=({className='',classes,children,...oth})=>{
-	console.log(className)
 	return (
 		<div {...oth} className={classNames(className,classes.root)}>
 			{children}

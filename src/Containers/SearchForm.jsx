@@ -21,7 +21,6 @@ const styles=theme=>({
 		padding:0,
 	},
 	searchIcon:{
-	   fill:theme.palette.input.labelText,
 	   position:'absolute',
 	   left:10,
 	   top:7,

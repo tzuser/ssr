@@ -30,7 +30,6 @@ class ShowSwitch extends Component{
 		let {height}=this.state;
 		let style=isSpace?{height:height,width:'100%'}:{};
 		let space=isHold?0:(show?0:-(height-retain));
-		console.log('djdj')
 		return <div ref="showSwitch" style={style}  >
 			{React.cloneElement(children,
 			{

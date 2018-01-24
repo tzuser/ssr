@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import BottomNavigation, { BottomNavigationAction } from 'material-ui/BottomNavigation';
 import {
 	Home as HomeIcon,
-	Favorite as FavoriteIcon,
-	Search as SearchIcon,
+	Notifications as NotificationsIcon,
+	Explore as ExploreIcon,
 	Person as PersonIcon,
 } from 'material-ui-icons';
+
+
+
 import {withStyles} from 'material-ui/styles';
 import {grey} from 'material-ui/colors';
 
@@ -15,6 +18,8 @@ import {bindActionCreators} from 'redux';
 
 import {push,replace} from 'react-router-redux';
 import ShowSwitch from '../Components/ShowSwitch';
+
+
 
 const styles=theme=>({
 	nav:{
@@ -41,8 +46,8 @@ class Nav extends PureComponent{
 			<ShowSwitch direction="bottom" >
 				<BottomNavigation value={value} onChange={this.onChange.bind(this)} className={classes.nav} >
 					<BottomNavigationAction label="首页" value="/home" icon={<HomeIcon />} classes={{selected:classes.selected}} />
-					<BottomNavigationAction label="搜索" value="/search" icon={<SearchIcon />} classes={{selected:classes.selected}} />
-					<BottomNavigationAction label="关注" value="/like" icon={<FavoriteIcon />} classes={{selected:classes.selected}} />
+					<BottomNavigationAction label="发现" value="/find" icon={<ExploreIcon />} classes={{selected:classes.selected}} />
+					<BottomNavigationAction label="消息" value="/notice" icon={<NotificationsIcon />} classes={{selected:classes.selected}} />
 					<BottomNavigationAction label="用户" value="/user" icon={<PersonIcon />} classes={{selected:classes.selected}} />
 				</BottomNavigation>
 			</ShowSwitch>

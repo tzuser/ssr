@@ -19,13 +19,13 @@ const LoadableHome = Loadable({
   loading:PageLoading
 });
 
-const LoadableSearch = Loadable({
-  loader: () => import(/* webpackChunkName: 'Search' */ './Search'),
+const LoadableFind = Loadable({
+  loader: () => import(/* webpackChunkName: 'Find' */ './Find'),
   loading:PageLoading
 });
 
-const LoadableLike = Loadable({
-  loader: () => import(/* webpackChunkName: 'Like' */ './Like'),
+const LoadableNotice = Loadable({
+  loader: () => import(/* webpackChunkName: 'Notice' */ './Notice'),
   loading:PageLoading
 });
 
@@ -36,8 +36,8 @@ class Tab extends Component{
 				<Route exact path="/" component={LoadableHome}/>
 				<Route path="/home" component={LoadableHome}/>
 				<Route exact path="/user" component={LoadableUser}/>
-				<Route path="/search" component={LoadableSearch}/>
-				<Route path="/like" component={LoadableLike}/>
+				<Route path="/find" component={LoadableFind}/>
+				<Route path="/notice" component={LoadableNotice}/>
 				<Nav />
 			</Page>
 			)

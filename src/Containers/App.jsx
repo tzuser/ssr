@@ -16,12 +16,22 @@ const LoadableUser = Loadable({
   loader: () => import(/* webpackChunkName: 'User' */ './User'),
   loading:PageLoading
 });
+const LoadableLogin = Loadable({
+  loader: () => import(/* webpackChunkName: 'Login' */ './Login'),
+  loading:PageLoading
+});
+const LoadableJoin = Loadable({
+  loader: () => import(/* webpackChunkName: 'Join' */ './Join'),
+  loading:PageLoading
+});
 
 class App extends React.Component{
 	render(){
 		return(
 			<Page>
 				<Switch>
+					<Route path="/login"  component={LoadableLogin}/>
+					<Route path="/join"  component={LoadableJoin}/>
 					<Route exact path="/user/:uid" component={LoadableUser}/>
 					<Route path="/"  component={LoadableTab}/>
 				</Switch>
