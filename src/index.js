@@ -12,7 +12,8 @@ import {getCreateStore} from './store'
 import Loadable from 'react-loadable';
 import theme from './public/Theme';
 import App from './Containers/App';
-let {store,history}=getCreateStore();//获取store
+import reducers from './reducers/index';
+let {store,history}=getCreateStore(reducers);//获取store
 //热加载配置
 if(module.hot) {
 	module.hot.accept('./reducers/index.js', () => {
@@ -20,6 +21,7 @@ if(module.hot) {
 			store.replaceReducer(nextRootReducer);
 		});
 	});
+	
 	module.hot.accept('./Containers/App.jsx', () => {
 		import("./Containers/App.jsx").then(({default:AppCom})=>{
 			render(AppCom)

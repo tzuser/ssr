@@ -4,6 +4,7 @@ import { renderToString } from 'react-dom/server';
 import App from '../src/Containers/App.jsx';
 import {ConnectedRouter,routerMiddleware} from 'react-router-redux';
 import { StaticRouter } from 'react-router-dom'
+import reducers from '../src/reducers/index';
 import {getCreateStore} from '../src/store'
 import {Provider} from 'react-redux';
 import path from 'path';
@@ -45,7 +46,7 @@ const render=async (ctx,next)=>{
 
 		let htmlData=fs.readFileSync(filePath,'utf8');
 
-		const { store, history } = getCreateStore(ctx.req.url);
+		const { store, history } = getCreateStore(reducers,ctx.req.url);
 
 		//初始请求数据
 		//await initalActions(store,ctx.req.url,initialRequestConfig)

@@ -14,17 +14,17 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {push,replace} from 'react-router-redux';
-
+import ShowSwitch from '../Components/ShowSwitch';
 
 const styles=theme=>({
 	nav:{
-		position:'absolute',
+		position:'fixed',
 		bottom:0,
 		left:0,
 		right:0,
 		order:6,
-		borderTop:'1px solid rgba(0,0,0,.0975)',
 		zIndex:101,
+		boxShadow: `0 0 8px rgba(0,0,0,.5)`,
 	}
 })
 
@@ -38,12 +38,14 @@ class Nav extends PureComponent{
 		let value=mat?mat[0]:'/';
 		if(pathname=='/')value='/home';//如果是更目录
 		return (
-			<BottomNavigation value={value} onChange={this.onChange.bind(this)} className={classes.nav} >
-				<BottomNavigationAction label="首页" value="/home" icon={<HomeIcon />} classes={{selected:classes.selected}} />
-				<BottomNavigationAction label="搜索" value="/search" icon={<SearchIcon />} classes={{selected:classes.selected}} />
-				<BottomNavigationAction label="关注" value="/like" icon={<FavoriteIcon />} classes={{selected:classes.selected}} />
-				<BottomNavigationAction label="用户" value="/user" icon={<PersonIcon />} classes={{selected:classes.selected}} />
-			</BottomNavigation>
+			<ShowSwitch direction="bottom" >
+				<BottomNavigation value={value} onChange={this.onChange.bind(this)} className={classes.nav} >
+					<BottomNavigationAction label="首页" value="/home" icon={<HomeIcon />} classes={{selected:classes.selected}} />
+					<BottomNavigationAction label="搜索" value="/search" icon={<SearchIcon />} classes={{selected:classes.selected}} />
+					<BottomNavigationAction label="关注" value="/like" icon={<FavoriteIcon />} classes={{selected:classes.selected}} />
+					<BottomNavigationAction label="用户" value="/user" icon={<PersonIcon />} classes={{selected:classes.selected}} />
+				</BottomNavigation>
+			</ShowSwitch>
 		)
 	}
 }

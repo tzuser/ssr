@@ -43,12 +43,9 @@ class List extends Component{
     let {classes,isLoad,isEnd}=this.props;
     return (
       <Full>
-        <div className={classes.scroll} onScroll={::this.onScroll}>
-          {this.props.children}
-          {isEnd && <div className={classes.foot}>没有更多了~</div>}
-        </div>
+        {this.props.children}
+        {isEnd && <div className={classes.foot}>没有更多了~</div>}
         {isLoad && <LinearProgress  className={classes.listLoad} /> }
-        
       </Full>
       )
   }

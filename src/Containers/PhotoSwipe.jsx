@@ -1,3 +1,4 @@
+//图片详情查看
 import React,{Component} from 'react';
 import 'react-photoswipe/lib/photoswipe.css';
 import {PhotoSwipe} from 'react-photoswipe';

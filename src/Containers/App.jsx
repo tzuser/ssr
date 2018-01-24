@@ -2,15 +2,12 @@ import React from 'react';
 import {Route,Redirect,withRouter,Switch} from 'react-router-dom';
 import Loadable from 'react-loadable';
 import PageLoading from '../Components/PageLoading';
-import Full from '../Components/Full';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {PropTypes} from 'prop-types';
 import PhotoSwipe from './PhotoSwipe';
-
-import {initialRequest} from 'react-ssr-request';
-import * as ListActs from '../actions/postList';
-
+import Page from '../Components/Page';
+import AutoHidden from '../Components/AutoHidden';
 const LoadableTab=Loadable({
   loader: () => import(/* webpackChunkName: 'Tab' */ './Tab'),
   loading:PageLoading
@@ -21,26 +18,20 @@ const LoadableUser = Loadable({
 });
 
 class App extends React.Component{
-	componentWillMount(){
-	
-	}
 	render(){
 		return(
-			<Full>
+			<Page>
 				<Switch>
-				<Route exact path="/user/:uid" component={LoadableUser}/>
-				<Route path="/"  component={LoadableTab}/>
+					<Route exact path="/user/:uid" component={LoadableUser}/>
+					<Route path="/"  component={LoadableTab}/>
 				</Switch>
+				<AutoHidden />
 				<PhotoSwipe />
-			</Full>
+			</Page>
 			)
 	}
 };
-
-
-
 const mapStateToProps=(state)=>({
 	
 })
-
 export default withRouter(connect(mapStateToProps)(App));

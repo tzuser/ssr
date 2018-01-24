@@ -4,12 +4,12 @@ import thunk from 'redux-thunk';
 
 import createMemoryHistory from 'history/createMemoryHistory';
 import createBrowserHistory from 'history/createBrowserHistory';
-import reducers from './reducers/index';
+
 
 //浏览器开发工具
 import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly';
 
-export const getCreateStore=(path = '/')=>{
+export const getCreateStore=(reducers,path = '/')=>{
 	var initialState = {};
 	switch(process.env.RUN_ENV){
 		case 'dev':

@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import PropTypes from 'prop-types';
-import {AppBar,Toolbar,Typography} from 'material-ui';
+import {AppBar,Toolbar,Typography,Button} from 'material-ui';
 import {withStyles} from 'material-ui/styles';
 import Full from '../Components/Full';
 import Content from '../Components/Content';
@@ -13,7 +13,7 @@ const styles =theme=> ({
   content:{
     background:theme.palette.background.contentFrame
   },
-  appbar:{}
+  appbar:{},
 });
 class Link extends Component{
   
@@ -21,15 +21,16 @@ class Link extends Component{
     let {classes}=this.props;
     return (
     <Full>
-         <AppBar position="absolute" color="default" elevation={1} >
+         <AppBar position="fixed" color="default" elevation={4} >
           <Toolbar>
             <Typography type="title" color="inherit">
               关注
             </Typography>
           </Toolbar>
         </AppBar>
-        <Content className={classes.content}>
+        <Content className={classes.content}>  
           正在开发中...
+          <Button raised color="primary">测试</Button>
         </Content>
     </Full>
     )

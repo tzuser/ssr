@@ -13,9 +13,9 @@ let devConfig={
 	devServer: {
 		contentBase: path.resolve(__dirname,'build/'),
 		inline:true,
-		hot:true,
+		hotOnly:true,
 		open : true,
-		host: 'localhost',
+		host: '172.30.10.55',
 		port: 8900,
 		historyApiFallback:true,
 		watchOptions: {//监听配置变化

@@ -1,20 +1,21 @@
 import { createMuiTheme } from 'material-ui/styles';
-import {blue,grey} from 'material-ui/colors';
+import shadows from 'material-ui/styles/shadows';
+import {blue,grey,pink} from 'material-ui/colors';
+
+//shadows[1]="0 2px 4px rgba(0,0,0,0.1)";
+
 const theme = createMuiTheme({
   palette: {
-	type: 'light',
-    primary: {...grey,"500":grey[900]},
+	  type: 'light',
   },
 
   typography: {
     htmlFontSize: 18,
   },
+  //shadows:shadows,
   overrides: {
-  	MuiPaper:{
-  		root:{
-  			
-  		}
-  	}
+
   },
+
 });
 export default theme
