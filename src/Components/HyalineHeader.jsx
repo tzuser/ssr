@@ -29,12 +29,19 @@ const styles =theme=> ({
 class HyalineHeader extends Component{
 	constructor(props){
 		super(props)
-
 		this.state={
-			hyaline:document.documentElement.scrollTop+document.body.scrollTop==0,
+			hyaline:this.getTop(),
 		}
 		this.scrollEventFun=this.scrollEvent.bind(this);
 	}
+	getTop(){
+		try{
+		 	return document.documentElement.scrollTop+document.body.scrollTop==0
+		}catch(err){
+			return true;
+		}
+	}
+
 	scrollEvent(e){
 		let {showSwitchCloseAct,showSwitchOpenAct,space}=this.props;
 		let cTop=document.documentElement.scrollTop+document.body.scrollTop;
@@ -46,6 +53,7 @@ class HyalineHeader extends Component{
 	}
 
 	componentDidMount(){
+		this.setState({hyaline:this.getTop()})
 		window.addEventListener('scroll',this.scrollEventFun)
 	}
 	componentWillUnmount(){

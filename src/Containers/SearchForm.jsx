@@ -34,8 +34,8 @@ const styles=theme=>({
 	 },
 	 textFieldInput: {
 	   borderRadius: 4,
-	   background: theme.palette.common.white,
-	   border: '1px solid #ced4da',
+	   background: theme.palette.background.default,
+	   border: `1px solid ${theme.palette.background.chip}`,
 	   fontSize: 16,
 	   padding: '5px 12px',
 	   paddingLeft:30,

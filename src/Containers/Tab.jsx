@@ -9,8 +9,8 @@ import Loadable from 'react-loadable';
 import {Route,Redirect,withRouter} from 'react-router-dom';
 import Nav from './Nav';
 
-const LoadableUser = Loadable({
-  loader: () => import(/* webpackChunkName: 'User' */ './User'),
+const LoadableSelfUser = Loadable({
+  loader: () => import(/* webpackChunkName: 'SelfUser' */ './SelfUser'),
   loading:PageLoading
 });
 
@@ -35,7 +35,7 @@ class Tab extends Component{
 			<Page>
 				<Route exact path="/" component={LoadableHome}/>
 				<Route path="/home" component={LoadableHome}/>
-				<Route exact path="/user" component={LoadableUser}/>
+				<Route exact path="/user" component={LoadableSelfUser}/>
 				<Route path="/find" component={LoadableFind}/>
 				<Route path="/notice" component={LoadableNotice}/>
 				<Nav />

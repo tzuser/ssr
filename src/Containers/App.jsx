@@ -8,6 +8,8 @@ import {PropTypes} from 'prop-types';
 import PhotoSwipe from './PhotoSwipe';
 import Page from '../Components/Page';
 import AutoHidden from '../Components/AutoHidden';
+import {push} from 'react-router-redux';
+
 const LoadableTab=Loadable({
   loader: () => import(/* webpackChunkName: 'Tab' */ './Tab'),
   loading:PageLoading
@@ -26,6 +28,12 @@ const LoadableJoin = Loadable({
 });
 
 class App extends React.Component{
+	componentWillMount(){
+		//未登录
+		if(!this.props.selfUser.name){
+			this.props.pushAct('/login')
+		}
+	}
 	render(){
 		return(
 			<Page>
@@ -42,6 +50,9 @@ class App extends React.Component{
 	}
 };
 const mapStateToProps=(state)=>({
-	
+	selfUser:state.selfUser
 })
-export default withRouter(connect(mapStateToProps)(App));
+const mapDispatchToProps=(dispatch)=>bindActionCreators({
+	pushAct:push
+},dispatch)
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(App));

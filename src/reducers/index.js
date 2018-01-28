@@ -2,8 +2,8 @@ import {combineReducers} from 'redux';
 import {routerReducer} from 'react-router-redux';
 import loads from './loads';
 import config from './config';
-import {list} from './list';
-import {keys} from './keys';
+import selfUser from './selfUser';
+import {post} from './post';
 import {photo} from './photo';
 import { reducer as formReducer } from 'redux-form';
 //逻辑复用
@@ -16,11 +16,10 @@ const createFilteredReducer=(reducerFunction,reducerPredicate)=>{
 }
 export default combineReducers({
 	loads,//所有加载
+	selfUser,//用户
 	form:formReducer,
 	config,
 	photo,//照片详情展示
 	router:routerReducer,
-	postList:createFilteredReducer(list,action=>action.name=='postList'),
-	userList:createFilteredReducer(list,action=>action.name=='userList'),
-	homePostKeys:createFilteredReducer(keys,action=>action.name=='homePostKeys'),
+	homePosts:createFilteredReducer(post,action=>action.name=='homePosts'),
 })

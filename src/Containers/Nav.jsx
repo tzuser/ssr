@@ -43,7 +43,7 @@ class Nav extends PureComponent{
 		let value=mat?mat[0]:'/';
 		if(pathname=='/')value='/home';//如果是更目录
 		return (
-			<ShowSwitch direction="bottom" >
+			<ShowSwitch direction="bottom" isSpace={false} >
 				<BottomNavigation value={value} onChange={this.onChange.bind(this)} className={classes.nav} >
 					<BottomNavigationAction label="首页" value="/home" icon={<HomeIcon />} classes={{selected:classes.selected}} />
 					<BottomNavigationAction label="发现" value="/find" icon={<ExploreIcon />} classes={{selected:classes.selected}} />

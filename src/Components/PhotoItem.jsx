@@ -12,6 +12,7 @@ import FavoriteIcon from 'material-ui-icons/Favorite';
 import ShareIcon from 'material-ui-icons/Share';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import MoreVertIcon from 'material-ui-icons/MoreVert';
+import {IMG_URL} from '../actions/public';
 
 const styles = theme => ({
   subsidiary:{
@@ -23,6 +24,7 @@ const styles = theme => ({
   },
   media: {
     height: 194,
+    width:"100%"
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -39,39 +41,65 @@ const styles = theme => ({
   flexGrow: {
     flex: '1 1 auto',
   },
+  title:{
+    height:25,
+    boxSizing:'border-box',
+    overflow: 'hidden'
+  },
+  caption:{
+    '& img':{
+      width:"100%"
+    },
+    '& blockquote':{
+      borderLeft: 'solid 2px #cccccc',
+      margin: '10px 0px 10px 10px',
+      paddingLeft: 5
+    },
+    '& figure':{
+      margin: '10px 0px 10px 10px',
+    }
+
+    
+  }
 });
 
-class RecipeReviewCard extends React.Component {
+class PhotoItem extends React.Component {
+  getHeight(doc){
+    return (doc.cover.height/doc.cover.width)*370
+  }
 
   render() {
-    const { classes } = this.props;
-
+    const { classes,data } = this.props;
     return (
       <div>
         <div className={classes.subsidiary}>
-          
         </div>
         <Card className={classes.card}>
           <CardHeader
             avatar={
-              <Avatar aria-label="Recipe" className={classes.avatar}>
-                R
-              </Avatar>
+              data.user_avatar?
+              <Avatar aria-label={data.user_name.substr(0,1)} src={`${IMG_URL}${data.user_avatar}`} className={classes.avatar} />:
+              <Avatar className={classes.avatar} >{data.user_name.substr(0,1)}</Avatar>
             }
-            
-            title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016"
+            title={data.user_name}
+            subheader={data.date}
           />
           <CardMedia
-            className={classes.media}
-            image="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3728613146,515973566&fm=27&gp=0.jpg"
-            title="Contemplative Reptile"
-          />
+             className={classes.media}
+             image={`${IMG_URL}${data.cover.url}`}
+             title={data.title} 
+             style={{height:this.getHeight(data)}}
+             onClick={(e)=>this.props.onCoverClick(e,data)}
+           />
           <CardContent>
-            <Typography component="p">
-              This impressive paella is a perfect party dish and a fun meal to cook together with
-              your guests. Add 1 cup of frozen peas along with the mussels, if you like.
-            </Typography>
+            <Typography type="headline" component="h2">{data.title}</Typography>
+            <Typography component="h3">{data.summary}</Typography>
+            {data.caption && <Typography component="p">
+              <div 
+              className={classes.caption} 
+              dangerouslySetInnerHTML={{__html:data.caption}}>
+              </div>
+            </Typography>}
           </CardContent>
           <CardActions disableActionSpacing>
             <IconButton aria-label="Add to favorites">
@@ -89,8 +117,9 @@ class RecipeReviewCard extends React.Component {
   }
 }
 
-RecipeReviewCard.propTypes = {
+PhotoItem.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(RecipeReviewCard);
+
+export default withStyles(styles)(PhotoItem);

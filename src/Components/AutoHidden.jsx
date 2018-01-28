@@ -7,12 +7,12 @@ class AutoHidden extends Component{
 	constructor(props){
 		super(props)
 		this.scrollEventFun=this.scrollEvent.bind(this);
-		this.times=null;
+		this.init();
+	}
+	init(){
 		this.pTop=null;
-		this.pPath=null;
 	}
 	scrollEvent(e){
-		console.log('bbbb',this.props.pathname)
 		let {showSwitchCloseAct,showSwitchOpenAct,show}=this.props;
 		let cTop=document.documentElement.scrollTop+document.body.scrollTop;
 		if(this.pTop){
@@ -25,8 +25,8 @@ class AutoHidden extends Component{
 		this.pTop=cTop;
 	}
 	componentWillReceiveProps(nextProps){
-		console.log('aaaa',this.props.pathname)
 		if(nextProps.pathname!=this.props.pathname){
+			this.init();
 			this.props.showSwitchOpenAct();
 		}
 	}

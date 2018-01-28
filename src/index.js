@@ -13,7 +13,13 @@ import Loadable from 'react-loadable';
 import theme from './public/Theme';
 import App from './Containers/App';
 import reducers from './reducers/index';
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/lib/integration/react'
+
 let {store,history}=getCreateStore(reducers);//获取store
+
+let persistor = persistStore(store)
+
 //热加载配置
 if(module.hot) {
 	module.hot.accept('./reducers/index.js', () => {
@@ -34,13 +40,15 @@ const renderDOM=process.env.NODE_ENV=='production'?ReactDOM.hydrate:ReactDOM.ren
 const render=(AppCom=App)=>{
 	renderDOM(
 		<Provider store={store}>
-			<ConnectedRouter history={history}>
-				<MuiThemeProvider theme={theme}>
-					<RemoveServerSideCss>
-						<AppCom />
-					</RemoveServerSideCss>
-				</MuiThemeProvider>
-			</ConnectedRouter>
+			<PersistGate loading={null} persistor={persistor}>
+				<ConnectedRouter history={history}>
+					<MuiThemeProvider theme={theme}>
+						<RemoveServerSideCss>
+							<AppCom />
+						</RemoveServerSideCss>
+					</MuiThemeProvider>
+				</ConnectedRouter>
+			</PersistGate>
 		</Provider>
 		,document.getElementById('root'))
 }

@@ -43,7 +43,7 @@ module.exports={
 						presets:['env','react','stage-0'],
 						plugins:[
 							//解决 import {} 文件变大的问题
-							["direct-import",["material-ui","material-ui-icons","react-router-dom","react-router-redux","redux-form","react-router"]]
+							["direct-import",["material-ui","material-ui-icons","react-router-dom","react-router-redux","react-router"]]
 						]
 					},
 				}]

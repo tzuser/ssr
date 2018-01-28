@@ -12,14 +12,18 @@ const styles=theme=>({
 	    left: 0,
 	    right: 0,
 	    top: 0,
-	    background:theme.palette.background.contentFrame,
+	    backgroundColor:theme.palette.background.default,
+	    color:theme.palette.text.secondary,
 	}
 })
 
 
 class Page extends PureComponent{
 	state={
-		minHeight:window.innerHeight,
+		minHeight:5000,
+	}
+	componentDidMount(){
+		this.setState({minHeight:window.innerHeight});
 	}
 
 	render(){

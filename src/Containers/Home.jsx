@@ -12,6 +12,11 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import HyalineHeader from '../Components/HyalineHeader';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
+import ReactList from 'react-list';
+
+import * as PostAct from '../actions/post';
+import * as PhotoAct from '../actions/photo';
+
 const styles =theme=> ({
   root: {
     width: '100%',
@@ -36,8 +41,33 @@ const styles =theme=> ({
 
 
 class Home extends Component{
+  componentDidMount(){
+    if(this.props.docs.length==0){
+      this.props.getHomePostsAct()
+    }
+  }
+  renderItem(index, key) {
+    let {docs,getHomePostsAct,postLoad}=this.props
+    let doc=docs[index]
+    if(index==docs.length-1 && !postLoad){
+      getHomePostsAct()
+    }
+    return (
+    <PhotoItem 
+    key={doc.id} 
+    data={doc} 
+    onCoverClick={(e,doc)=>{
+      this.props.openDocPhotoAct(doc);
+    }}
+    />
+    )
+  }
+
+  itemSizeEstimator(index, cache){
+    return cache[index] || 450
+  }
   render(){
-    let {classes}=this.props;
+    let {classes,docs}=this.props;
     return (
     <Page>
         <ShowSwitch direction="top">
@@ -50,7 +80,13 @@ class Home extends Component{
           </AppBar>
         </ShowSwitch>
         <Content>
-          {[1,2,3,4,5,6,7,8,9,10].map(item=><PhotoItem key={item} />)}
+        {docs.length>0 && <ReactList
+          itemRenderer={::this.renderItem}
+          length={docs.length}
+          type='variable'
+          threshold={500}
+          itemSizeEstimator={::this.itemSizeEstimator}
+        />}
         </Content>
     </Page>
     )
@@ -58,9 +94,12 @@ class Home extends Component{
 }
 
 const mapStateToProps=(state)=>({
-
+  docs:state.homePosts.docs,
+  postLoad:state.loads.homePosts
 })
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
+  getHomePostsAct:PostAct.getHomePosts,
+  openDocPhotoAct:PhotoAct.openDocPhoto,
 },dispatch)
 
 
