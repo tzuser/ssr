@@ -1,4 +1,4 @@
-import {fetchPost,fetchGet,API_URL,DB_URL,load} from './public';
+import {fetchPost,fetchGet,API_URL,DB_HOST,DB_URL,load} from './public';
 import {push,replace} from 'react-router-redux';
 import { SubmissionError } from 'redux-form';  // ES6
 
@@ -11,7 +11,7 @@ export const SET_SUBSCRIBE_UID="SET_SUBSCRIBE_UID";//设置关注uid
 export const login=({username,password})=>async (dispatch,getState)=>{
 	if(!username)throw new SubmissionError({username:'请输入用户名'});
 	if(!password)throw new SubmissionError({password:'请输入密码'});
-	let json=await dispatch(fetchPost({url:`${DB_URL}_session`,data:{name:username,password},name:'login'}));
+	let json=await dispatch(fetchPost({url:`${DB_HOST}_session`,data:{name:username,password},name:'login'}));
 	if(json.error || !json.ok){
 		let errMessage=json.reason
 		if(json.error=='unauthorized')errMessage='用户名或密码不正确'
@@ -40,7 +40,7 @@ export const join=({username,password,confirm})=>async (dispatch,getState)=>{
 
 //获取自己信息
 export const getSelfInfo=(username)=>async (dispatch,getState)=>{
-	let json=await dispatch(fetchGet({url:`${DB_URL}posts/user:${username}`,name:"getuser"}));
+	let json=await dispatch(fetchGet({url:`${DB_URL}user:${username}`,name:"getuser"}));
 	if(json.error){
 		console.log(json)
 	}else{
@@ -54,7 +54,7 @@ export const getSelfInfo=(username)=>async (dispatch,getState)=>{
 //获取关注的用户
 export const getSelfSubscribe=()=>async (dispatch,getState)=>{
 	let username=getState().selfUser.name;
-	let json=await dispatch(fetchGet({url:`${DB_URL}posts/_design/post/_view/subscribe?key="${username}"`,name:"getSubscribe"}));
+	let json=await dispatch(fetchGet({url:`${DB_URL}_design/post/_view/subscribe?key="${username}"`,name:"getSubscribe"}));
 	if(json.error){
 		console.log(json)
 	}else{

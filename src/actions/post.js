@@ -11,7 +11,7 @@ export const getHomePosts=()=>async (dispatch,getState)=>{
 	let {subscribe_uid_list}=getState().selfUser;
 	if(subscribe_uid_list.length>0){
 		let data=await dispatch(fetchPost({
-			url:`${DB_URL}posts/_find`,
+			url:`${DB_URL}_find`,
 			data:{
 			   "selector": {
 			      "uid": {

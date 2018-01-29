@@ -12,7 +12,7 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import HyalineHeader from '../Components/HyalineHeader';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
-import {IMG_URL} from '../actions/public';
+import {DB_URL} from '../actions/public';
 
 import Avatar from 'material-ui/Avatar';
 
@@ -23,7 +23,6 @@ const styles =theme=> ({
   root: {
     width: '100%',
   },
-
   appbar:{},
   tz:{
     height:'56px',
@@ -86,7 +85,6 @@ class SelfUser extends Component{
       <HyalineHeader space={350} render={({rootCSS,secondaryCSS,hyaline})=>(
         <ShowSwitch direction="top"  isSpace={false}   >
           <AppBar position="fixed"  elevation={hyaline?0:4} className={rootCSS} >
-
             {hyaline && <Toolbar>
                <IconButton color="inherit" aria-label="Menu" onClick={()=>{
                 this.props.history.push('/home')
@@ -104,9 +102,9 @@ class SelfUser extends Component{
         <Content>
           <Paper>
            <div className={classes.userCard}>
-            <img src={`${IMG_URL}${selfUser.header_image}`} width="100%"/>
+            <img src={`${DB_URL}${selfUser.header_image}`} width="100%"/>
             <div className={classes.userContent}>
-              <Avatar  className={classes.userAvatar} src={`${IMG_URL}${selfUser.avatar_url}`} />
+              <Avatar  className={classes.userAvatar} src={`${DB_URL}${selfUser.avatar_url}`} />
               <div className={classes.userInfo}>
                 <h2>{selfUser.name}</h2>
                 <div className={classes.description}>{selfUser.description}</div>

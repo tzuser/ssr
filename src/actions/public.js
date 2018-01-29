@@ -1,11 +1,12 @@
 export const WILL_FETCH="WILL_FETCH";
 export const DID_FETCH='DID_FETCH';
 //172.30.10.55
-const HOST='172.30.10.55';
-export const IMG_URL="http://172.30.10.55:3000";
-//export const URL="http://172.30.10.55:5000/api/";
-export const API_URL="http://172.30.10.55:3000/api/";
-export const DB_URL="http://172.30.10.55:5984/";
+const HOST='192.168.1.106';
+export const IMG_URL=`http://${HOST}:3000`;
+//export const URL=`http://${HOST}:5000/api/`;
+export const API_URL=`http://${HOST}:3000/api/`;
+export const DB_HOST=`http://${HOST}:5984/`;
+export const DB_URL=`http://${HOST}:5984/web/`;
 
 export const LOAD='LOAD';//页面加载效果
 export const load=(name,isLoad)=>({
@@ -56,13 +57,14 @@ export const fetchPost=({url,data,name=null})=>async (dispatch,getState)=>{
 	return json || conErr;
 }
 
-export const dbGet=({db})=>{
-	/*let db=new PouchDB(`${DB_URL}/posts`)
-	let data=await db.get(`user_${username}`).catch(err=>{
-			if(err.error=='unauthorized'){
-				throw new SubmissionError({password:'用户名或密码不正确'});
-			}else{
-				throw new SubmissionError({password:err});
-			}
-	});*/
+export const dbGet=({docID,name})=>async (dispatch,getState)=>{
+	let res,conErr;
+	if(name) dispatch(load(name,true));
+	let db=Global.getInstance().getDB();
+	let json=await db.get(docID).catch(err=>{
+		conErr={error:'error',reason:'网络连接错误'}
+	})
+
+	if(name) dispatch(load(name,false));
+	return json || conErr
 }
