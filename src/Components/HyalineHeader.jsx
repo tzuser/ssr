@@ -43,12 +43,14 @@ class HyalineHeader extends Component{
 	}
 
 	scrollEvent(e){
-		let {showSwitchCloseAct,showSwitchOpenAct,space}=this.props;
+		let {showSwitchCloseAct,showSwitchOpenAct,space,onHyaline}=this.props;
 		let cTop=document.documentElement.scrollTop+document.body.scrollTop;
 		if(cTop>space && this.state.hyaline){
 			this.setState({hyaline:false})
+			if(onHyaline)onHyaline(false);
 		}else if(cTop<space && !this.state.hyaline){
 			this.setState({hyaline:true})
+			if(onHyaline)onHyaline(true);
 		}
 	}
 

@@ -19,11 +19,11 @@ router.post('/api/join',async(ctx,next)=>{
 			password,roles:['default']
 		};
 		let user={
-			'_id':`user_${username}`,
+			'_id':`user:${username}`,
 			name:username,
 			type:"user",
-			header_image:'header_default.jpg',
-			avatar_url:'avater_default.jpg',
+			header_image:'/images/header_default.jpg',
+			avatar_url:'/images/avater_default.jpg',
 		}
 		try{
 			await rp.post('http://root:wysj3910@localhost:5984/_users',{

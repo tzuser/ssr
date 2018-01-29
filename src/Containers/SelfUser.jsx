@@ -15,6 +15,10 @@ import MenuIcon from 'material-ui-icons/Menu';
 import {IMG_URL} from '../actions/public';
 
 import Avatar from 'material-ui/Avatar';
+
+import Paper from 'material-ui/Paper';
+import * as selfAct from '../actions/selfUser';
+
 const styles =theme=> ({
   root: {
     width: '100%',
@@ -60,19 +64,30 @@ const styles =theme=> ({
    }
 });
 
-
+const TabCom=(porps)=>(
+  <Tabs
+    {...porps}
+    fullWidth
+  >
+    <Tab label="帖子" />
+    <Tab label="喜欢" />
+    <Tab label="关注" />
+  </Tabs>
+)
 class SelfUser extends Component{
+  
   componentWillMount(){
-
+    this.props.getSelfInfoAct(this.props.selfUser.name)
   }
   render(){
     let {classes,router,selfUser}=this.props;
     return (
     <Page>
       <HyalineHeader space={350} render={({rootCSS,secondaryCSS,hyaline})=>(
-        <ShowSwitch direction="top" isSpace={false} >
+        <ShowSwitch direction="top"  isSpace={false}   >
           <AppBar position="fixed"  elevation={hyaline?0:4} className={rootCSS} >
-            <Toolbar>
+
+            {hyaline && <Toolbar>
                <IconButton color="inherit" aria-label="Menu" onClick={()=>{
                 this.props.history.push('/home')
                }}>
@@ -81,23 +96,34 @@ class SelfUser extends Component{
               <Typography type="title" color="inherit" className={secondaryCSS}>
                 {selfUser.name}
               </Typography>
-            </Toolbar>
+            </Toolbar>}
+            {!hyaline && <TabCom value={1}/>}
           </AppBar>
         </ShowSwitch>
       )}/>
         <Content>
-         
-         <div className={classes.userCard}>
-          <img src={`${IMG_URL}${selfUser.header_image}`} width="100%"/>
-          <div className={classes.userContent}>
-            <Avatar  className={classes.userAvatar} src={`${IMG_URL}${selfUser.avatar_url}`} />
-            <div className={classes.userInfo}>
-              <h2>{selfUser.name}</h2>
-              <div className={classes.description}>{selfUser.description}</div>
-              <Button raised color="primary" >编辑个人资料</Button>
+          <Paper>
+           <div className={classes.userCard}>
+            <img src={`${IMG_URL}${selfUser.header_image}`} width="100%"/>
+            <div className={classes.userContent}>
+              <Avatar  className={classes.userAvatar} src={`${IMG_URL}${selfUser.avatar_url}`} />
+              <div className={classes.userInfo}>
+                <h2>{selfUser.name}</h2>
+                <div className={classes.description}>{selfUser.description}</div>
+                <Button raised color="primary" >编辑个人资料</Button>
+              </div>
             </div>
+           </div>
+            <div style={{height:48}}>
+            <TabCom 
+            value={0}
+            indicatorColor="primary"
+            textColor="primary"/>
+            </div>
+          </Paper>
+          <div style={{minHeight:1000}}>
+            
           </div>
-         </div>
         </Content>
     </Page>
     )
@@ -108,6 +134,7 @@ const mapStateToProps=(state)=>({
   selfUser:state.selfUser
 })
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
+  getSelfInfoAct:selfAct.getSelfInfo
 },dispatch)
 
 

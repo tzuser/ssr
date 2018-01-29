@@ -94,7 +94,7 @@ class PhotoItem extends React.Component {
           <CardContent>
             <Typography type="headline" component="h2">{data.title}</Typography>
             <Typography component="h3">{data.summary}</Typography>
-            {data.caption && <Typography component="p">
+            {data.caption && <Typography component="div">
               <div 
               className={classes.caption} 
               dangerouslySetInnerHTML={{__html:data.caption}}>

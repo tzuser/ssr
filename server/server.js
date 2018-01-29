@@ -18,14 +18,13 @@ const router = new Router();
 router.get('/', render);
 //接口
 app.use(api.routes()).use(api.allowedMethods());
-app.use(router.routes())
-.use(router.allowedMethods())
-.use(staticCache(path.resolve(__dirname, '../build'), {maxAge: 365 * 24 * 60 * 60}));
+app.use(router.routes()).use(router.allowedMethods());
+app.use(staticCache(path.resolve(__dirname, '../build'), {maxAge: 365 * 24 * 60 * 60}));
 app.use(render);
 
 
 Loadable.preloadAll().then(() => {
   app.listen(3000, () => {
-    console.log('Running on http://192.168.1.106:3000/');
+    console.log('Running on http://localhost:3000/');
   });
 });

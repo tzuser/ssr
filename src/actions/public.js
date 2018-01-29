@@ -1,9 +1,11 @@
 export const WILL_FETCH="WILL_FETCH";
 export const DID_FETCH='DID_FETCH';
-export const IMG_URL="http://192.168.1.103/";
-export const URL="http://blog.tangzuo.cc:5000/api/";
-export const API_URL="http://192.168.1.106:3000/api/";
-export const DB_URL="http://192.168.1.106:5984/";
+//172.30.10.55
+const HOST='172.30.10.55';
+export const IMG_URL="http://172.30.10.55:3000";
+//export const URL="http://172.30.10.55:5000/api/";
+export const API_URL="http://172.30.10.55:3000/api/";
+export const DB_URL="http://172.30.10.55:5984/";
 
 export const LOAD='LOAD';//页面加载效果
 export const load=(name,isLoad)=>({

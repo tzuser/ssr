@@ -18,7 +18,7 @@ export const login=({username,password})=>async (dispatch,getState)=>{
 		throw new SubmissionError({password:errMessage})
 	}else{
 		await dispatch(getSelfInfo(username))//获取用户信息
-		await dispatch(getSelfSubscribe())//获取用户
+		//await dispatch(getSelfSubscribe())//获取用户
 		await dispatch(replace('/'))	
 	}
 };
@@ -40,7 +40,7 @@ export const join=({username,password,confirm})=>async (dispatch,getState)=>{
 
 //获取自己信息
 export const getSelfInfo=(username)=>async (dispatch,getState)=>{
-	let json=await dispatch(fetchGet({url:`${DB_URL}posts/user_${username}`,name:"getuser"}));
+	let json=await dispatch(fetchGet({url:`${DB_URL}posts/user:${username}`,name:"getuser"}));
 	if(json.error){
 		console.log(json)
 	}else{

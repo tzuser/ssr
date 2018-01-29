@@ -49,7 +49,7 @@ class Home extends Component{
   renderItem(index, key) {
     let {docs,getHomePostsAct,postLoad}=this.props
     let doc=docs[index]
-    if(index==docs.length-1 && !postLoad){
+    if(index==docs.length-1 && docs.length>10 && !postLoad){
       getHomePostsAct()
     }
     return (

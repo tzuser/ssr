@@ -18,7 +18,7 @@ export const openPhoto=(items)=>(dispatch,getState)=>{
 		type:OPEN_PHOTO,
 		items:list
 	})
-}
+};
 export const openDocPhoto=(doc)=>(dispatch,getState)=>{
 	let list=[]
 	doc.list.map(item=>{

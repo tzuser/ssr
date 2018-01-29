@@ -19,6 +19,12 @@ class ShowSwitch extends Component{
 			this.setState({height})
 		}
 	}
+	componentDidUpdate(){
+		let height=this.refs.showSwitch.firstChild.clientHeight;
+		if(height!=this.state.height){
+			this.setState({height})
+		}
+	}
 	render(){
 		/*
 		direction left top right bottom,
@@ -36,7 +42,7 @@ class ShowSwitch extends Component{
 				...children.props, 
 				style:{
 					...children.props.style,
-					[direction]:space,
+					[direction]:space
 				} , 
 				className:classNames(children.props.className,classes.showSwitch)
 			}
