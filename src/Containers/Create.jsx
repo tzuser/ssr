@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
+import * as postAct from '../actions/post';
 
 import {
   IconButton,
@@ -22,6 +23,7 @@ import CloseButton from '../Components/CloseButton';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {DB_URL} from '../actions/public';
+import classNames from 'classnames';
 const styles = {
   appBar: {
     position: 'relative',
@@ -83,6 +85,8 @@ const styles = {
     display: 'inline-block',
     marginRight:8,
     minHeight:200,
+  },
+  load:{
     minWidth:120,
     backgroundColor:'#f5f5f5',
   },
@@ -107,7 +111,7 @@ const styles = {
   },
   userAvatar:{
     marginRight:8
-  }
+  },
 };
 
 function Transition(props) {
@@ -115,8 +119,13 @@ function Transition(props) {
 }
 
 class FullScreenDialog extends React.Component {
+  upImgs(e){
+    let files=e.target.files;
+    this.props.upFileAct(files);
+  }
+
   render() {
-    const { classes,open,onClose,selfUser} = this.props;
+    const { classes,open,onClose,selfUser,create,delImageAct} = this.props;
     return (
         <Dialog
           fullScreen
@@ -152,13 +161,22 @@ class FullScreenDialog extends React.Component {
                 className={classes.textarea}>
               </textarea>
               <div className={classes.other}>
-              <div className={classes.img}>
-                <CircularProgress className={classes.progress} />
-              </div>
-              <div className={classes.img}>
-                <CloseButton className={classes.closeButton} />
-                <img src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1517371186&di=dfe7f1c388772da51c7522acba122bf0&src=http://upload.3367.com/2016/0720/1468980000498.jpg" />
-              </div>
+                {create.images.map((item,key)=>{
+                  if(item.isLoad){
+                    return (
+                      <div key={key} className={classNames(classes.img,classes.load)}>
+                        <CircularProgress className={classes.progress} />
+                      </div>)
+                  }else{
+                    return (
+                      <div key={key} className={classes.img}>
+                        <CloseButton className={classes.closeButton} onClick={(e)=>{
+                          delImageAct(item.name);
+                        }} />
+                        <img src={item.src} />
+                      </div>)
+                  }
+                })}
                {/* <div className={classes.img}>
                   <CloseButton className={classes.closeButton} />
                   <img src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1517371186&di=dfe7f1c388772da51c7522acba122bf0&src=http://upload.3367.com/2016/0720/1468980000498.jpg" />
@@ -175,12 +193,19 @@ class FullScreenDialog extends React.Component {
                   <CloseButton className={classes.closeButton} />
                   <img src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1517371186&di=dfe7f1c388772da51c7522acba122bf0&src=http://upload.3367.com/2016/0720/1468980000498.jpg" />
                 </div>*/}
+                
               </div>
             </div>
 
             <div className={classes.foot}>
               <div className={classes.buttonGroup}>
-                    <input accept="image/*" className={classes.photoInput} id="icon-button-file" type="file" />
+                    <input
+                     accept="image/*"
+                     onChange={::this.upImgs}
+                     className={classes.photoInput} 
+                     id="icon-button-file" 
+                     type="file" 
+                     multiple />
                     <label htmlFor="icon-button-file">
                       <IconButton className={classes.button} component="span">
                         <PhotoCamera />
@@ -196,11 +221,14 @@ class FullScreenDialog extends React.Component {
 
 
 const mapStateToProps=(state)=>({
-  selfUser:state.selfUser
+  selfUser:state.selfUser,
+  create:state.create,
 })
 
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
   //getSelfInfoAct:selfAct.getSelfInfo
+  upFileAct:postAct.upFile,
+  delImageAct:postAct.delImage
 },dispatch)
 
 

@@ -5,6 +5,7 @@ import config from './config';
 import selfUser from './selfUser';
 import {post} from './post';
 import {photo} from './photo';
+import {create} from './create';
 import { reducer as formReducer } from 'redux-form';
 //逻辑复用
 const createFilteredReducer=(reducerFunction,reducerPredicate)=>{
@@ -17,6 +18,7 @@ const createFilteredReducer=(reducerFunction,reducerPredicate)=>{
 export default combineReducers({
 	loads,//所有加载
 	selfUser,//用户
+	create,//创造
 	form:formReducer,
 	config,
 	photo,//照片详情展示
