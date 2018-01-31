@@ -27,6 +27,16 @@ router.post('/api/join',async(ctx,next)=>{
 			header_image:'/files/default_header.jpg',
 			avatar_url:'/files/default_avatar.jpg',
 		}
+		
+		await rp.post(`${HOST}${DB_NAME}`,{
+			body:JSON.stringify(user),
+			headers: {
+			    'Content-Type': 'application/json'
+			},
+		})
+
+
+	
 		try{
 			await rp.post(`${HOST}_users`,{
 				body:JSON.stringify(data),
@@ -44,12 +54,7 @@ router.post('/api/join',async(ctx,next)=>{
 			return
 		}
 
-		await rp.post(`${HOST}${DB_NAME}`,{
-			body:JSON.stringify(user),
-			headers: {
-			    'Content-Type': 'application/json'
-			},
-		})
+		
 		
 		ctx.body={'ok':true};
 		return

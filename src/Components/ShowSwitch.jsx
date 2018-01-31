@@ -8,13 +8,14 @@ import {bindActionCreators} from 'redux';
 
 const styles=theme=>({
 	showSwitch:{
-		transition: 'top 0.4s ease 0.4s,bottom 0.4s ease 0.4s',
+		transition: 'top 0.4s ease 0.4s,bottom 0.4s ease 0.4s,visibility 0s ease 0.8s',
 	},
 })
 class ShowSwitch extends Component{
 	state={height:0}
 	componentDidMount(){
 		let height=this.refs.showSwitch.firstChild.clientHeight;
+	
 		if(height!=this.state.height){
 			this.setState({height})
 		}
@@ -26,6 +27,13 @@ class ShowSwitch extends Component{
 		}
 	}
 	render(){
+		let {classes}=this.props;
+		let {hyaline}=this.state;
+		let rootCSS=classNames(classes.root,hyaline?classes.hyalineRoot:'');
+		let secondaryCSS=classNames(classes.secondary,hyaline?classes.hyalineSecondary:'');
+		return 
+	}
+	render(){
 		/*
 		direction left top right bottom,
 		isSpace 保留位置,
@@ -34,19 +42,17 @@ class ShowSwitch extends Component{
 		*/
 		let {children,classes,show=true,direction,retain=-10,isHold=false,isSpace=true,isAnimation=true}=this.props;
 		let {height}=this.state;
+		let rootClass=classes.showSwitch;
 		let style=isSpace?{height:height,width:'100%'}:{};
-		let space=isHold?0:(show?0:-(height-retain));
+
+		let space;
+		if(direction=="visibility"){
+			space=show?'visible':'hidden';
+		}else{
+			space=isHold?0:(show?0:-(height-retain));
+		}
 		return <div ref="showSwitch" style={style}  >
-			{React.cloneElement(children,
-			{
-				...children.props, 
-				style:{
-					...children.props.style,
-					[direction]:space
-				} , 
-				className:classNames(children.props.className,classes.showSwitch)
-			}
-		)}
+			{this.props.render({rootClass,rootStyle:{[direction]:space,show}})}
 		</div>
 	}
 }

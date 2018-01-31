@@ -1,6 +1,6 @@
  import React,{Component} from 'react';
 import PropTypes from 'prop-types';
-import {AppBar,Toolbar,Typography} from 'material-ui';
+import {AppBar,Toolbar,Typography,Button,IconButton} from 'material-ui';
 import ShowSwitch from '../Components/ShowSwitch';
 import {withStyles} from 'material-ui/styles';
 import Page from '../Components/Page';
@@ -10,19 +10,20 @@ import {bindActionCreators} from 'redux';
 import PhotoItem from '../Components/PhotoItem';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import HyalineHeader from '../Components/HyalineHeader';
-import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
+import CreateIcon from 'material-ui-icons/Create';
 import ReactList from 'react-list';
 
 import * as PostAct from '../actions/post';
 import * as PhotoAct from '../actions/photo';
 
+import classNames from 'classnames';
+import Create from './Create';
+
 const styles =theme=> ({
   root: {
     width: '100%',
   },
-
-  appbar:{},
   tz:{
     height:'56px',
     backgroundColor:'#666',
@@ -36,11 +37,20 @@ const styles =theme=> ({
   },
   userCard:{
     height:400
+  },
+  editButton:{
+     position:'fixed',
+     bottom: 72,
+     right:16,
+     zIndex:100
   }
 });
 
 
 class Home extends Component{
+  state={
+    createOpen:false
+  }
   componentDidMount(){
     if(this.props.docs.length==0){
       this.props.getHomePostsAct()
@@ -67,19 +77,34 @@ class Home extends Component{
     return cache[index] || 450
   }
   render(){
-    let {classes,docs}=this.props;
-    return (
+    let {classes,docs,theme,show}=this.props;
+     return (
     <Page>
-        <ShowSwitch direction="top">
-          <AppBar position="fixed"  elevation={4}  >
+        <ShowSwitch direction="top" render={({rootClass,rootStyle})=>(
+          <AppBar position="fixed" className={rootClass} style={rootStyle} elevation={4}  >
             <Toolbar>
               <Typography type="title" color="inherit" >
                 首页
               </Typography>
             </Toolbar>
           </AppBar>
-        </ShowSwitch>
+        )} />
+
+
+         <ShowSwitch direction="visibility" isSpace={false} render={({rootClass,rootStyle})=>(
+          <div  className={classNames(classes.editButton,rootClass)} style={rootStyle}>
+            <Button fab color="secondary" aria-label="edit" onClick={()=>{
+              this.setState({createOpen:true})
+            }}>
+              <CreateIcon/>
+            </Button>
+          </div>
+          )} />
+
         <Content>
+        <Create open={this.state.createOpen} onClose={()=>{
+          this.setState({createOpen:false})
+        }}/>
         {docs.length>0 && <ReactList
           itemRenderer={::this.renderItem}
           length={docs.length}
@@ -87,7 +112,10 @@ class Home extends Component{
           threshold={500}
           itemSizeEstimator={::this.itemSizeEstimator}
         />}
+
+        <div style={{height:2200}}></div>
         </Content>
+
     </Page>
     )
   }
@@ -95,7 +123,8 @@ class Home extends Component{
 
 const mapStateToProps=(state)=>({
   docs:state.homePosts.docs,
-  postLoad:state.loads.homePosts
+  postLoad:state.loads.homePosts,
+  show:state.config.show,
 })
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
   getHomePostsAct:PostAct.getHomePosts,

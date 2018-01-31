@@ -17,8 +17,9 @@ export const login=({username,password})=>async (dispatch,getState)=>{
 		if(json.error=='unauthorized')errMessage='用户名或密码不正确'
 		throw new SubmissionError({password:errMessage})
 	}else{
-		await dispatch(getSelfInfo(username))//获取用户信息
+		let res=await dispatch(getSelfInfo(username))//获取用户信息
 		//await dispatch(getSelfSubscribe())//获取用户
+		if(!res){console.log('获取用户信息失败!请联系管理员!');return}
 		await dispatch(replace('/'))	
 	}
 };
@@ -43,12 +44,14 @@ export const getSelfInfo=(username)=>async (dispatch,getState)=>{
 	let json=await dispatch(fetchGet({url:`${DB_URL}user:${username}`,name:"getuser"}));
 	if(json.error){
 		console.log(json)
+		return false
 	}else{
 		dispatch({
 			type:GET_SELF_INFO,
 			data:json
 		})
 	}
+	return true
 };
 
 //获取关注的用户

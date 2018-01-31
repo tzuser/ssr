@@ -26,6 +26,10 @@ const LoadableJoin = Loadable({
   loader: () => import(/* webpackChunkName: 'Join' */ './Join'),
   loading:PageLoading
 });
+const LoadableSelfSite = Loadable({
+  loader: () => import(/* webpackChunkName: 'SelfSite' */ './SelfSite'),
+  loading:PageLoading
+});
 
 class App extends React.Component{
 	componentWillMount(){
@@ -40,6 +44,7 @@ class App extends React.Component{
 				<Switch>
 					<Route path="/login"  component={LoadableLogin}/>
 					<Route path="/join"  component={LoadableJoin}/>
+					<Route path="/self_site"  component={LoadableSelfSite}/>
 					<Route exact path="/user/:uid" component={LoadableUser}/>
 					<Route path="/"  component={LoadableTab}/>
 				</Switch>

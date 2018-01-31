@@ -1,7 +1,8 @@
+import {push} from 'react-router-redux'
 export const WILL_FETCH="WILL_FETCH";
 export const DID_FETCH='DID_FETCH';
 //172.30.10.55
-const HOST='192.168.1.106';
+const HOST='172.30.10.55';
 export const IMG_URL=`http://${HOST}:3000`;
 //export const URL=`http://${HOST}:5000/api/`;
 export const API_URL=`http://${HOST}:3000/api/`;
@@ -9,6 +10,8 @@ export const DB_HOST=`http://${HOST}:5984/`;
 export const DB_URL=`http://${HOST}:5984/web/`;
 
 export const LOAD='LOAD';//页面加载效果
+
+
 export const load=(name,isLoad)=>({
 	type:LOAD,
 	name,
@@ -31,6 +34,10 @@ export const fetchGet=({url,name=null})=>async (dispatch,getState)=>{
 		json=await res.json();
 	}catch(e){
 		conErr={error:'error',reason:'网络连接错误'}
+	}
+	//无权限
+	if(json.error && json.error=='unauthorized'){
+		dispatch(push('/login'))
 	}
 	if(name) dispatch(load(name,false));
 	return json || conErr;

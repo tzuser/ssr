@@ -19,6 +19,7 @@ import Avatar from 'material-ui/Avatar';
 import Paper from 'material-ui/Paper';
 import * as selfAct from '../actions/selfUser';
 
+import classNames from 'classnames';
 const styles =theme=> ({
   root: {
     width: '100%',
@@ -36,11 +37,15 @@ const styles =theme=> ({
     right:0,
   },
   userCard:{
-    height:400
+    
   },
   userContent:{
     position:'relative',
     textAlign:'center'
+  },
+  userHeader:{
+    maxHeight:230,
+    overflow:'hidden'
   },
   userAvatar: {
      width: 80,
@@ -53,15 +58,20 @@ const styles =theme=> ({
      boxSizing: 'border-box'
    },
    userInfo:{
-    paddingTop:10,
+   
     '& h2':{
-      margin: '40px 0 0px 0'
-    }
+      margin: '20px 0 0px 0'
+    },
+    padding:'20px 0'
    },
    description:{
-    marginBottom: '20px'
+    marginBottom: '10px'
    }
 });
+
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
 
 const TabCom=(porps)=>(
   <Tabs
@@ -74,7 +84,6 @@ const TabCom=(porps)=>(
   </Tabs>
 )
 class SelfUser extends Component{
-  
   componentWillMount(){
     this.props.getSelfInfoAct(this.props.selfUser.name)
   }
@@ -82,10 +91,10 @@ class SelfUser extends Component{
     let {classes,router,selfUser}=this.props;
     return (
     <Page>
-      <HyalineHeader space={350} render={({rootCSS,secondaryCSS,hyaline})=>(
-        <ShowSwitch direction="top"  isSpace={false}   >
-          <AppBar position="fixed"  elevation={hyaline?0:4} className={rootCSS} >
-            {hyaline && <Toolbar>
+      <HyalineHeader space={300} render={({rootCSS,secondaryCSS,hyaline})=>(
+        <ShowSwitch direction="top"  isSpace={false}   render={({rootClass,rootStyle})=>(
+          <AppBar position="fixed"  elevation={hyaline?0:4} style={rootStyle} className={classNames(rootCSS,rootClass)} >
+            <Toolbar>
                <IconButton color="inherit" aria-label="Menu" onClick={()=>{
                 this.props.history.push('/home')
                }}>
@@ -94,30 +103,28 @@ class SelfUser extends Component{
               <Typography type="title" color="inherit" className={secondaryCSS}>
                 {selfUser.name}
               </Typography>
-            </Toolbar>}
-            {!hyaline && <TabCom value={1}/>}
+            </Toolbar>
           </AppBar>
-        </ShowSwitch>
+          )}/>
+          
       )}/>
         <Content>
           <Paper>
            <div className={classes.userCard}>
+            <div className={classes.userHeader}>
             <img src={`${DB_URL}${selfUser.header_image}`} width="100%"/>
+            </div>
             <div className={classes.userContent}>
               <Avatar  className={classes.userAvatar} src={`${DB_URL}${selfUser.avatar_url}`} />
               <div className={classes.userInfo}>
                 <h2>{selfUser.name}</h2>
                 <div className={classes.description}>{selfUser.description}</div>
-                <Button raised color="primary" >编辑个人资料</Button>
+                <Button raised color="primary" onClick={()=>{
+                  this.props.history.push('/self_site');
+                }} >编辑个人资料</Button>
               </div>
             </div>
            </div>
-            <div style={{height:48}}>
-            <TabCom 
-            value={0}
-            indicatorColor="primary"
-            textColor="primary"/>
-            </div>
           </Paper>
           <div style={{minHeight:1000}}>
             
