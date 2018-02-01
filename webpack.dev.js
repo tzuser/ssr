@@ -15,7 +15,7 @@ let devConfig={
 		inline:true,
 		hotOnly:true,
 		open : true,
-		host: '192.168.1.106',
+		host: '172.30.10.55',
 		port: 8900,
 		historyApiFallback:true,
 		watchOptions: {//监听配置变化

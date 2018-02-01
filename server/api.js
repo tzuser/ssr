@@ -81,8 +81,12 @@ router.get('/api/install',async(ctx,next)=>{
 		    },
 		    "subscribe-me": {
 		      "map": "function (doc) {\n  if(doc.type==\"relation\",doc.subscribe){\n    emit(doc.other_uid,doc.uid);\n  }\n}"
+		    },
+		    "get-doc-rev": {
+		      "map": "function (doc) {\n  var types=[\"photo\"];\n  if(~types.indexOf(doc.type)){\n    emit(doc._id, doc._rev);\n  }\n}"
 		    }
 		  },
+		  "validate_doc_update": "function (newDoc,savedDoc,userCtx){if(savedDoc.type=='photo' && userCtx.name!=savedDoc.uid){ throw({unauthorized:'无权更改文档'}) } }",
 		  "language": "javascript"
 		}),
 		headers:{

@@ -16,9 +16,10 @@ import ReactList from 'react-list';
 
 import * as PostAct from '../actions/post';
 import * as PhotoAct from '../actions/photo';
+import * as CreationAct from '../actions/creation';
 
 import classNames from 'classnames';
-import Create from './Create';
+import Creation from './Creation';
 
 const styles =theme=> ({
   root: {
@@ -48,26 +49,31 @@ const styles =theme=> ({
 
 
 class Home extends Component{
-  state={
-    createOpen:false
-  }
+
   componentDidMount(){
     if(this.props.docs.length==0){
       this.props.getHomePostsAct()
     }
   }
   renderItem(index, key) {
-    let {docs,getHomePostsAct,postLoad}=this.props
+    let {docs,getHomePostsAct,postLoad,selfUser,openDocPhotoAct,delDocAct,openCreationAct}=this.props
     let doc=docs[index]
     if(index==docs.length-1 && docs.length>10 && !postLoad){
       getHomePostsAct()
     }
     return (
     <PhotoItem 
-    key={doc.id} 
-    data={doc} 
+    selfUser={selfUser}
+    key={doc._id} 
+    doc={doc} 
     onCoverClick={(e,doc)=>{
-      this.props.openDocPhotoAct(doc);
+      openDocPhotoAct(doc);
+    }}
+    onDel={(e,doc)=>{
+      delDocAct({id:doc._id,rev:doc._rev})
+    }}
+    onEdit={(e,doc)=>{
+      openCreationAct(doc)
     }}
     />
     )
@@ -77,7 +83,7 @@ class Home extends Component{
     return cache[index] || 450
   }
   render(){
-    let {classes,docs,theme,show}=this.props;
+    let {classes,docs,theme,openCreationAct}=this.props;
      return (
     <Page>
         <ShowSwitch direction="top" render={({rootClass,rootStyle})=>(
@@ -94,7 +100,7 @@ class Home extends Component{
          <ShowSwitch direction="visibility" isSpace={false} render={({rootClass,rootStyle})=>(
           <div  className={classNames(classes.editButton,rootClass)} style={rootStyle}>
             <Button fab color="secondary" aria-label="edit" onClick={()=>{
-              this.setState({createOpen:true})
+              openCreationAct()
             }}>
               <CreateIcon/>
             </Button>
@@ -102,9 +108,7 @@ class Home extends Component{
           )} />
 
         <Content>
-        <Create open={this.state.createOpen} onClose={()=>{
-          this.setState({createOpen:false})
-        }}/>
+        <Creation />
         {docs.length>0 && <ReactList
           itemRenderer={::this.renderItem}
           length={docs.length}
@@ -112,8 +116,6 @@ class Home extends Component{
           threshold={500}
           itemSizeEstimator={::this.itemSizeEstimator}
         />}
-
-        <div style={{height:2200}}></div>
         </Content>
 
     </Page>
@@ -125,10 +127,13 @@ const mapStateToProps=(state)=>({
   docs:state.homePosts.docs,
   postLoad:state.loads.homePosts,
   show:state.config.show,
+  selfUser:state.selfUser
 })
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
   getHomePostsAct:PostAct.getHomePosts,
+  delDocAct:PostAct.delDoc,
   openDocPhotoAct:PhotoAct.openDocPhoto,
+  openCreationAct:CreationAct.openCreation
 },dispatch)
 
 

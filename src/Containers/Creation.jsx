@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import * as postAct from '../actions/post';
+import * as creationAct from '../actions/creation';
 
 import {
   IconButton,
@@ -14,7 +14,7 @@ import {
   Button,
   CircularProgress
 } from 'material-ui';
-
+import {Field, reduxForm,submit  } from 'redux-form';
 import CloseIcon from 'material-ui-icons/Close';
 import HighlightOff from 'material-ui-icons/HighlightOff';
 import PhotoCamera from 'material-ui-icons/PhotoCamera';
@@ -118,30 +118,33 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-class FullScreenDialog extends React.Component {
+class Creation extends React.Component {
   upImgs(e){
     let files=e.target.files;
     this.props.upFileAct(files);
   }
 
   render() {
-    const { classes,open,onClose,selfUser,create,delImageAct} = this.props;
+    const { classes,open,selfUser,creation,delImageAct,saveCreationAct,closeCreationAct} = this.props;
     return (
         <Dialog
           fullScreen
-          open={open}
-          onClose={onClose}
+          open={creation.open}
+          onClose={closeCreationAct}
           transition={Transition}
         >
           <AppBar className={classes.appBar} color="default" elevation={0}>
             <Toolbar>
-              <IconButton color="inherit" onClick={onClose} aria-label="Close">
+              <IconButton color="inherit" onClick={closeCreationAct} aria-label="Close">
                 <CloseIcon />
               </IconButton>
               <Typography type="title" color="inherit" className={classes.flex}>
                  
               </Typography>
-              <Button color="primary" onClick={onClose} raised>
+              <Button color="primary" onClick={()=>{
+                saveCreationAct()
+                closeCreationAct()
+              }} raised>
                 发布
               </Button>
             </Toolbar>
@@ -156,12 +159,15 @@ class FullScreenDialog extends React.Component {
               {selfUser.name} 
             </div>
             <div className={classes.box}>
-              <textarea 
-                placeholder="你最近有什么新鲜事要分享吗?" 
-                className={classes.textarea}>
-              </textarea>
+              <Field 
+              component="textarea" 
+              name="text" 
+              placeholder="你最近有什么新鲜事要分享吗?" 
+              className={classes.textarea}
+              />
+
               <div className={classes.other}>
-                {create.images.map((item,key)=>{
+                {creation.images.map((item,key)=>{
                   if(item.isLoad){
                     return (
                       <div key={key} className={classNames(classes.img,classes.load)}>
@@ -171,36 +177,19 @@ class FullScreenDialog extends React.Component {
                     return (
                       <div key={key} className={classes.img}>
                         <CloseButton className={classes.closeButton} onClick={(e)=>{
-                          delImageAct(item.name);
+                          delImageAct({name:item.name,src:item.src});
                         }} />
                         <img src={item.src} />
                       </div>)
                   }
                 })}
-               {/* <div className={classes.img}>
-                  <CloseButton className={classes.closeButton} />
-                  <img src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1517371186&di=dfe7f1c388772da51c7522acba122bf0&src=http://upload.3367.com/2016/0720/1468980000498.jpg" />
-                </div>
-                <div className={classes.img}>
-                  <CloseButton className={classes.closeButton} />
-                  <img src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1517371186&di=dfe7f1c388772da51c7522acba122bf0&src=http://upload.3367.com/2016/0720/1468980000498.jpg" />
-                </div>
-                <div className={classes.img}>
-                  <CloseButton className={classes.closeButton} />
-                  <img src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1517371186&di=dfe7f1c388772da51c7522acba122bf0&src=http://upload.3367.com/2016/0720/1468980000498.jpg" />
-                </div>
-                <div className={classes.img}>
-                  <CloseButton className={classes.closeButton} />
-                  <img src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1517371186&di=dfe7f1c388772da51c7522acba122bf0&src=http://upload.3367.com/2016/0720/1468980000498.jpg" />
-                </div>*/}
-                
               </div>
             </div>
 
             <div className={classes.foot}>
               <div className={classes.buttonGroup}>
                     <input
-                     accept="image/*"
+                     accept="image/jpg,image/jpeg,image/png,image/gif"
                      onChange={::this.upImgs}
                      className={classes.photoInput} 
                      id="icon-button-file" 
@@ -219,18 +208,25 @@ class FullScreenDialog extends React.Component {
   }
 }
 
+Creation=reduxForm({
+  form:'creation'
+})(Creation)
+
 
 const mapStateToProps=(state)=>({
   selfUser:state.selfUser,
-  create:state.create,
+  creation:state.creation,
+
 })
 
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
   //getSelfInfoAct:selfAct.getSelfInfo
-  upFileAct:postAct.upFile,
-  delImageAct:postAct.delImage
+  upFileAct:creationAct.upFile,
+  delImageAct:creationAct.delImage,
+  saveCreationAct:creationAct.saveCreation,
+  closeCreationAct:creationAct.closeCreation,
 },dispatch)
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(FullScreenDialog))  ;
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Creation))  ;
 

@@ -12,7 +12,9 @@ import FavoriteIcon from 'material-ui-icons/Favorite';
 import ShareIcon from 'material-ui-icons/Share';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import MoreVertIcon from 'material-ui-icons/MoreVert';
-import {IMG_URL} from '../actions/public';
+import {IMG_URL,DB_URL} from '../actions/public';
+import {getSrcSize} from '../public/tool';
+import Menu, { MenuItem } from 'material-ui/Menu';
 
 const styles = theme => ({
   subsidiary:{
@@ -64,12 +66,33 @@ const styles = theme => ({
 });
 
 class PhotoItem extends React.Component {
-  getHeight(doc){
-    return (doc.cover.height/doc.cover.width)*370
+  state = {
+      auth: true,
+      anchorEl: null,
+    };
+  getHeight(cover){
+    return (cover.height/cover.width)*370
   }
 
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
   render() {
-    const { classes,data } = this.props;
+    const { classes,doc } = this.props;
+
+    const { auth, anchorEl } = this.state;
+    const menuOpen = Boolean(anchorEl);
+
+    let cover;
+    if(doc._attachments){
+      let imagelist=Object.keys(doc._attachments);
+      cover=getSrcSize(imagelist[imagelist.length-1])
+    }
     return (
       <div>
         <div className={classes.subsidiary}>
@@ -77,27 +100,55 @@ class PhotoItem extends React.Component {
         <Card className={classes.card}>
           <CardHeader
             avatar={
-              data.user_avatar?
-              <Avatar aria-label={data.user_name.substr(0,1)} src={`${IMG_URL}${data.user_avatar}`} className={classes.avatar} />:
-              <Avatar className={classes.avatar} >{data.user_name.substr(0,1)}</Avatar>
+              doc.avatar_url?
+              <Avatar aria-label={doc.uid.substr(0,1)} src={`${DB_URL}${doc.avatar_url}`} className={classes.avatar} />:
+              <Avatar className={classes.avatar} >{doc.uid.substr(0,1)}</Avatar>
             }
-            title={data.user_name}
-            subheader={data.date}
+            title={doc.uid}
+            subheader={doc.date}
+            action={
+                   <IconButton  onClick={this.handleMenu}>
+                     <MoreVertIcon />
+                   </IconButton>
+                 }
           />
-          <CardMedia
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={menuOpen}
+            onClose={this.handleClose}
+          >
+            <MenuItem onClick={(e)=>{
+              this.props.onEdit(e,doc);
+              this.handleClose();
+            }}>编辑</MenuItem>
+            <MenuItem onClick={(e)=>{
+              this.props.onDel(e,doc);
+              this.handleClose();
+            }}>删除</MenuItem>
+          </Menu>
+
+
+          {cover && <CardMedia
              className={classes.media}
-             image={`${IMG_URL}${data.cover.url}`}
-             title={data.title} 
-             style={{height:this.getHeight(data)}}
-             onClick={(e)=>this.props.onCoverClick(e,data)}
-           />
+             image={`${DB_URL}${doc._id}/${cover.src}`}
+             title={doc.text} 
+             style={{height:this.getHeight(cover)}}
+             onClick={(e)=>this.props.onCoverClick(e,doc)}
+           />}
           <CardContent>
-            <Typography type="headline" component="h2">{data.title}</Typography>
-            <Typography component="h3">{data.summary}</Typography>
-            {data.caption && <Typography component="div">
+            {doc.text && <Typography component="div">
               <div 
-              className={classes.caption} 
-              dangerouslySetInnerHTML={{__html:data.caption}}>
+              className={classes.text} 
+              dangerouslySetInnerHTML={{__html:doc.text}}>
               </div>
             </Typography>}
           </CardContent>

@@ -1,8 +1,8 @@
 import {push} from 'react-router-redux'
 export const WILL_FETCH="WILL_FETCH";
 export const DID_FETCH='DID_FETCH';
-//172.30.10.55
-const HOST='192.168.1.106';
+//172.30.10.55 192.168.1.106
+const HOST='172.30.10.55';
 export const IMG_URL=`http://${HOST}:3000`;
 //export const URL=`http://${HOST}:5000/api/`;
 export const API_URL=`http://${HOST}:3000/api/`;
@@ -62,8 +62,7 @@ export const fetchPost=({url,data,name=null})=>async (dispatch,getState)=>{
 	}
 	if(name) dispatch(load(name,false));
 	return json || conErr;
-}
-
+};
 
 export const fetchPut=({url,data,name=null,isJson=true,headers={}})=>async (dispatch,getState)=>{
 	let res,json,conErr;
@@ -86,7 +85,32 @@ export const fetchPut=({url,data,name=null,isJson=true,headers={}})=>async (disp
 	}
 	if(name) dispatch(load(name,false));
 	return json || conErr;
-}
+};
+
+//删除
+export const fetchDelete=({url,name=null})=>async (dispatch,getState)=>{
+	let res,json,conErr;
+	if(name) dispatch(load(name,true));
+	try{
+		res=await fetch(url,{
+		    method: 'DELETE',
+		    mode: 'cors',
+		    credentials: 'include',
+		});
+		json=await res.json();
+	}catch(e){
+		conErr={error:'error',reason:'网络连接错误'}
+	}
+	if(name) dispatch(load(name,false));
+	return json || conErr;
+};
+
+
+//获取文档
+export const getDoc=(id)=>async (dispatch,getState)=>{
+	let res=await dispatch(fetchGet({url:`${DB_URL}${id}`}));
+	return res
+};
 
 
 export const dbGet=({docID,name})=>async (dispatch,getState)=>{
