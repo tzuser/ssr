@@ -15,7 +15,8 @@ import MoreVertIcon from 'material-ui-icons/MoreVert';
 import {IMG_URL,DB_URL} from '../actions/public';
 import {getSrcSize} from '../public/tool';
 import Menu, { MenuItem } from 'material-ui/Menu';
-
+import moment from 'moment';
+moment.locale('zh-CN');
 const styles = theme => ({
   subsidiary:{
     paddingTop:15,
@@ -81,9 +82,27 @@ class PhotoItem extends React.Component {
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
-
+  getMenu(){
+    let {doc,selfUser}=this.props;
+    if(doc.uid==selfUser.name){
+        return [<MenuItem key="0" onClick={(e)=>{
+          this.props.onEdit(e,doc);
+          this.handleClose();
+        }}>编辑</MenuItem>,
+        <MenuItem key="1" onClick={(e)=>{
+          this.props.onDel(e,doc);
+          this.handleClose();
+        }}>删除</MenuItem>
+      ]
+    }else{
+        return <MenuItem key="0" onClick={(e)=>{
+          this.props.cancelSubscribe(e,doc);
+          this.handleClose();
+        }}>不再关注</MenuItem>
+    }
+  }
   render() {
-    const { classes,doc } = this.props;
+    const { classes,doc,selfUser } = this.props;
 
     const { auth, anchorEl } = this.state;
     const menuOpen = Boolean(anchorEl);
@@ -105,7 +124,7 @@ class PhotoItem extends React.Component {
               <Avatar className={classes.avatar} >{doc.uid.substr(0,1)}</Avatar>
             }
             title={doc.uid}
-            subheader={doc.date}
+            subheader={moment(doc.date).startOf('minute').fromNow()}
             action={
                    <IconButton  onClick={this.handleMenu}>
                      <MoreVertIcon />
@@ -126,17 +145,8 @@ class PhotoItem extends React.Component {
             open={menuOpen}
             onClose={this.handleClose}
           >
-            <MenuItem onClick={(e)=>{
-              this.props.onEdit(e,doc);
-              this.handleClose();
-            }}>编辑</MenuItem>
-            <MenuItem onClick={(e)=>{
-              this.props.onDel(e,doc);
-              this.handleClose();
-            }}>删除</MenuItem>
+            {this.getMenu()}
           </Menu>
-
-
           {cover && <CardMedia
              className={classes.media}
              image={`${DB_URL}${doc._id}/${cover.src}`}

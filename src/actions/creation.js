@@ -25,24 +25,25 @@ import {
 //打开控制台
 export const openCreation=(doc=null)=>async (dispatch,getState)=>{
 	let images=[];
+	let id,rev;
 	if(doc){
 		dispatch(initialize('creation',{text: doc.text}));//设置表格数据
 		if(doc._attachments){
 			Object.keys(doc._attachments).map(name=>{
-				images.push({
+				images.unshift({
 					name,
 					src:`${DB_URL}${doc._id}/${name}`,
 					isLoad:false
 				})
 			})
 		}
+		id=doc._id;
+		rev=doc._rev;
 	}
-
-
 	dispatch({
 		type:OPEN_CREATION,
-		id:doc._id||null,
-		rev:doc._rev||null,
+		id,
+		rev,
 		images
 	})
 };

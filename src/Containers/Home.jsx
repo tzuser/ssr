@@ -64,6 +64,7 @@ class Home extends Component{
     return (
     <PhotoItem 
     selfUser={selfUser}
+
     key={doc._id} 
     doc={doc} 
     onCoverClick={(e,doc)=>{
@@ -74,6 +75,9 @@ class Home extends Component{
     }}
     onEdit={(e,doc)=>{
       openCreationAct(doc)
+    }}
+    cancelSubscribe={(e,doc)=>{
+      console.log('不再关注')
     }}
     />
     )
