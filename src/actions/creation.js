@@ -5,6 +5,7 @@ import {
 	fetchDelete,
 	DB_URL,DB_HOST,getDoc} from './public';
 import {countImage,getImageName,getSrcSize} from '../public/tool';
+import {initialize,destroy} from 'redux-form';
 export const OPEN_CREATION='OPEN_CREATION';//保存创造
 export const CLOSE_CREATION='CLEAR_CREATION';//关闭创造
 
@@ -18,9 +19,6 @@ export const ADD_CREATION_IMAGES='SET_CREATION_IMAGES';//准备上传图片
 export const DID_CREATION_IMAGE='DID_CREATION_IMAGE';//图片上传完成
 export const DEL_CREATION_IMAGE='DEL_CREATION_IMAGE';//删除图片
 
-import {
-  initialize,
-} from 'redux-form'
 
 //打开控制台
 export const openCreation=(doc=null)=>async (dispatch,getState)=>{
@@ -49,6 +47,7 @@ export const openCreation=(doc=null)=>async (dispatch,getState)=>{
 };
 //关闭控制台
 export const closeCreation=()=>async (dispatch,getState)=>{
+	dispatch(destroy('creation'));
 	dispatch({
 		type:CLOSE_CREATION,
 	})
@@ -63,7 +62,7 @@ export const newCreation=()=>async (dispatch,getState)=>{
 	let data={
 	  "type": "photo",
 	  "root_id": user.name,
-	  "uid":user.name,
+	  "name":user.name,
 	  "avatar_url":user.avatar_url,
 	  "date": new Date().valueOf(),
 	  "status":0,//初稿

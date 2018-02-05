@@ -1,6 +1,6 @@
  import React,{Component} from 'react';
 import PropTypes from 'prop-types';
-import {AppBar,Toolbar,Typography,Button} from 'material-ui';
+import {AppBar,Toolbar,Typography,Button,Avatar,Paper} from 'material-ui';
 import ShowSwitch from '../Components/ShowSwitch';
 import {withStyles} from 'material-ui/styles';
 import Page from '../Components/Page';
@@ -13,13 +13,15 @@ import HyalineHeader from '../Components/HyalineHeader';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import {DB_URL} from '../actions/public';
-
-import Avatar from 'material-ui/Avatar';
-
-import Paper from 'material-ui/Paper';
 import * as selfAct from '../actions/selfUser';
-
 import classNames from 'classnames';
+import ReactList from 'react-list';
+import * as PostAct from '../actions/post';
+import * as PhotoAct from '../actions/photo';
+import * as CreationAct from '../actions/creation';
+import Creation from './Creation';
+import CreateButton from '../Components/CreateButton';
+import {createSelector} from "reselect" 
 const styles =theme=> ({
   root: {
     width: '100%',
@@ -87,8 +89,45 @@ class SelfUser extends Component{
   componentWillMount(){
     this.props.getSelfInfoAct(this.props.selfUser.name)
   }
+  componentDidMount(){
+    let {selfUser,docs,getUserPostsAct}=this.props;
+    if(docs.length==0){
+      getUserPostsAct(selfUser.name)
+    }
+  }
+  renderItem(index, key) {
+    let {docs,getUserPostsAct,postLoad,selfUser,openDocPhotoAct,delDocAct,openCreationAct}=this.props
+    let doc=docs[index]
+    if(index==docs.length-1 && docs.length>10 && !postLoad){
+      getUserPostsAct(selfUser.name)
+    }
+    return (
+    <PhotoItem 
+    selfUser={selfUser}
+
+    key={doc._id} 
+    doc={doc} 
+    onCoverClick={(e,doc)=>{
+      openDocPhotoAct(doc);
+    }}
+    onDel={(e,doc)=>{
+      delDocAct({id:doc._id,rev:doc._rev})
+    }}
+    onEdit={(e,doc)=>{
+      openCreationAct(doc)
+    }}
+    cancelSubscribe={(e,doc)=>{
+      console.log('不再关注')
+    }}
+    />
+    )
+  }
+
+  itemSizeEstimator(index, cache){
+    return cache[index] || 450
+  }
   render(){
-    let {classes,router,selfUser}=this.props;
+    let {classes,router,selfUser,openCreationAct,docs}=this.props;
     return (
     <Page>
       <HyalineHeader space={300} render={({rootCSS,secondaryCSS,hyaline})=>(
@@ -126,19 +165,46 @@ class SelfUser extends Component{
             </div>
            </div>
           </Paper>
-          <div style={{minHeight:1000}}>
-            
-          </div>
+
+          <div>我发布的</div>
+          {docs.length>0 && <ReactList
+            itemRenderer={::this.renderItem}
+            length={docs.length}
+            type='variable'
+            threshold={500}
+            itemSizeEstimator={::this.itemSizeEstimator}
+          />}
+
+          <Creation />
+          <CreateButton onClick={()=>{
+               openCreationAct()
+             }}/>
         </Content>
     </Page>
     )
   }
 }
 
+const getUser=createSelector([
+  state=>state.userPosts,
+  ],(list)=>{
+    if(list['tzuser']){
+      return list['tzuser'].docs
+    }
+    return []
+})
+
 const mapStateToProps=(state)=>({
+  docs:getUser(state),
+  postLoad:state.loads.homePosts,
+  show:state.config.show,
   selfUser:state.selfUser
 })
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
+  getUserPostsAct:PostAct.getUserPosts,
+  delDocAct:PostAct.delDoc,
+  openDocPhotoAct:PhotoAct.openDocPhoto,
+  openCreationAct:CreationAct.openCreation,
   getSelfInfoAct:selfAct.getSelfInfo
 },dispatch)
 

@@ -20,7 +20,7 @@ import * as CreationAct from '../actions/creation';
 
 import classNames from 'classnames';
 import Creation from './Creation';
-
+import CreateButton from '../Components/CreateButton';
 const styles =theme=> ({
   root: {
     width: '100%',
@@ -101,15 +101,9 @@ class Home extends Component{
         )} />
 
 
-         <ShowSwitch direction="visibility" isSpace={false} render={({rootClass,rootStyle})=>(
-          <div  className={classNames(classes.editButton,rootClass)} style={rootStyle}>
-            <Button fab color="secondary" aria-label="edit" onClick={()=>{
-              openCreationAct()
-            }}>
-              <CreateIcon/>
-            </Button>
-          </div>
-          )} />
+        <CreateButton onClick={()=>{
+          openCreationAct()
+        }}/>
 
         <Content>
         <Creation />

@@ -4,6 +4,7 @@ import loads from './loads';
 import config from './config';
 import selfUser from './selfUser';
 import {post} from './post';
+import {userPosts} from './userPosts';
 import {photo} from './photo';
 import {creation} from './creation';
 import { reducer as formReducer } from 'redux-form';
@@ -15,7 +16,9 @@ const createFilteredReducer=(reducerFunction,reducerPredicate)=>{
 		return shouldRunWrappedReducer ? reducerFunction(state,action):state;
 	}
 }
+
 export default combineReducers({
+	userPosts,//所有用户的帖子
 	loads,//所有加载
 	selfUser,//用户
 	creation,//创造

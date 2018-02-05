@@ -15,7 +15,7 @@ const LoadableTab=Loadable({
   loading:PageLoading
 });
 const LoadableUser = Loadable({
-  loader: () => import(/* webpackChunkName: 'User' */ './User'),
+  loader: () => import(/* webpackChunkName: 'User' */ './User/User'),
   loading:PageLoading
 });
 const LoadableLogin = Loadable({
@@ -45,7 +45,7 @@ class App extends React.Component{
 					<Route path="/login"  component={LoadableLogin}/>
 					<Route path="/join"  component={LoadableJoin}/>
 					<Route path="/self_site"  component={LoadableSelfSite}/>
-					<Route exact path="/user/:uid" component={LoadableUser}/>
+					<Route exact path="/user/:name" component={LoadableUser}/>
 					<Route path="/"  component={LoadableTab}/>
 				</Switch>
 				<AutoHidden />

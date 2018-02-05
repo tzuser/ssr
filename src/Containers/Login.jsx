@@ -11,7 +11,7 @@ import * as selfAct from '../actions/selfUser';
 import {Field, reduxForm,submit  } from 'redux-form';
 
 import {AccountField,PasswordField} from '../Components/Fields';
-import { SubmissionError } from 'redux-form'
+import { SubmissionError,destroy } from 'redux-form'
 
 
 const styles=theme=>({
@@ -50,6 +50,9 @@ const styles=theme=>({
 	}
 })
 class Login extends Component{
+	componentWillUnMount(){
+		destroyAct('login');
+	}
 	render(){
 		let {classes,handleSubmit,loginLoad,loginAct}=this.props;
 		return <Page className={classes.root}>
@@ -113,7 +116,7 @@ class Login extends Component{
 
 
 Login=reduxForm({
-	form:'join'
+	form:'login'
 })(Login)
 
 const mapStateToProps=(state)=>{
@@ -126,6 +129,7 @@ const mapDispatchToProps=(dispatch)=>{
   return bindActionCreators({
   	loginAct:selfAct.login,
   	submitAct:submit,
+  	destroyAct:destroy
   },dispatch)
 }
 

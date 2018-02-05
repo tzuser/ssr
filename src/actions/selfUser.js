@@ -60,6 +60,7 @@ export const getSelfSubscribe=()=>async (dispatch,getState)=>{
 	let json=await dispatch(fetchGet({url:`${DB_URL}_design/post/_view/subscribe?key="${username}"`,name:"getSubscribe"}));
 	if(json.error){
 		console.log(json)
+		return false
 	}else{
 		let list=[];
 		json.rows.map(item=>{
@@ -67,6 +68,7 @@ export const getSelfSubscribe=()=>async (dispatch,getState)=>{
 		})
 		dispatch({type:SET_SUBSCRIBE_UID,list})
 	}
+	return true
 };
 
 

@@ -1,23 +1,26 @@
  import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import {AppBar,Toolbar,Typography,Button,Avatar,Paper} from 'material-ui';
-import ShowSwitch from '../Components/ShowSwitch';
+import ShowSwitch from '../../Components/ShowSwitch';
 import {withStyles} from 'material-ui/styles';
-import Page from '../Components/Page';
-import Content from '../Components/Content';
+import Page from '../../Components/Page';
+import Content from '../../Components/Content';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import PhotoItem from '../Components/PhotoItem';
+import PhotoItem from '../../Components/PhotoItem';
 import Tabs, { Tab } from 'material-ui/Tabs';
-import HyalineHeader from '../Components/HyalineHeader';
+import HyalineHeader from '../../Components/HyalineHeader';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
-import {DB_URL} from '../actions/public';
-import * as selfAct from '../actions/selfUser';
+import {DB_URL} from '../../actions/public';
+import * as selfAct from '../../actions/selfUser';
 import classNames from 'classnames';
 import ReactList from 'react-list';
-import * as PostAct from '../actions/post';
-import * as PhotoAct from '../actions/photo';
+import * as PostAct from '../../actions/post';
+import * as PhotoAct from '../../actions/photo';
+import * as CreationAct from '../../actions/creation';
+import Creation from '../Creation';
+import CreateButton from '../../Components/CreateButton';
 import {createSelector} from "reselect" 
 const styles =theme=> ({
   root: {
@@ -163,7 +166,7 @@ class SelfUser extends Component{
            </div>
           </Paper>
 
-          <div>文章</div>
+          <div>我发布的</div>
           {docs.length>0 && <ReactList
             itemRenderer={::this.renderItem}
             length={docs.length}
@@ -172,6 +175,10 @@ class SelfUser extends Component{
             itemSizeEstimator={::this.itemSizeEstimator}
           />}
 
+          <Creation />
+          <CreateButton onClick={()=>{
+               openCreationAct()
+             }}/>
         </Content>
     </Page>
     )
@@ -180,26 +187,24 @@ class SelfUser extends Component{
 
 const getUser=createSelector([
   state=>state.userPosts,
-  (state,props)=>props.match.params.name
-  ],(list,name)=>{
-    if(list[name]){
-      return list[name].docs
+  ],(list)=>{
+    if(list['tzuser']){
+      return list['tzuser'].docs
     }
     return []
 })
 
-const mapStateToProps=(state,props)=>{
-  return {
-    docs:getUser(state,props),
-    postLoad:state.loads.homePosts,
-    show:state.config.show,
-    selfUser:state.selfUser
-  }
-}
+const mapStateToProps=(state)=>({
+  docs:getUser(state),
+  postLoad:state.loads.homePosts,
+  show:state.config.show,
+  selfUser:state.selfUser
+})
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
   getUserPostsAct:PostAct.getUserPosts,
   delDocAct:PostAct.delDoc,
   openDocPhotoAct:PhotoAct.openDocPhoto,
+  openCreationAct:CreationAct.openCreation,
   getSelfInfoAct:selfAct.getSelfInfo
 },dispatch)
 

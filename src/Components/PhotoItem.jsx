@@ -20,7 +20,7 @@ moment.locale('zh-CN');
 const styles = theme => ({
   subsidiary:{
     paddingTop:15,
-    height:15,
+    //height:15,
   },
   card: {
     
@@ -84,7 +84,7 @@ class PhotoItem extends React.Component {
   };
   getMenu(){
     let {doc,selfUser}=this.props;
-    if(doc.uid==selfUser.name){
+    if(doc.name==selfUser.name){
         return [<MenuItem key="0" onClick={(e)=>{
           this.props.onEdit(e,doc);
           this.handleClose();
@@ -120,10 +120,10 @@ class PhotoItem extends React.Component {
           <CardHeader
             avatar={
               doc.avatar_url?
-              <Avatar aria-label={doc.uid.substr(0,1)} src={`${DB_URL}${doc.avatar_url}`} className={classes.avatar} />:
-              <Avatar className={classes.avatar} >{doc.uid.substr(0,1)}</Avatar>
+              <Avatar aria-label={doc.name.substr(0,1)} src={`${DB_URL}${doc.avatar_url}`} className={classes.avatar} />:
+              <Avatar className={classes.avatar} >{doc.name.substr(0,1)}</Avatar>
             }
-            title={doc.uid}
+            title={doc.name}
             subheader={moment(doc.date).startOf('minute').fromNow()}
             action={
                    <IconButton  onClick={this.handleMenu}>

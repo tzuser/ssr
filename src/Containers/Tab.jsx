@@ -10,7 +10,7 @@ import {Route,Redirect,withRouter} from 'react-router-dom';
 import Nav from './Nav';
 
 const LoadableSelfUser = Loadable({
-  loader: () => import(/* webpackChunkName: 'SelfUser' */ './SelfUser'),
+  loader: () => import(/* webpackChunkName: 'SelfUser' */ './User/SelfUser'),
   loading:PageLoading
 });
 
