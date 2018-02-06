@@ -2,7 +2,7 @@ import {
 	LOGIN,
 	GET_SELF_INFO,
 	INIT_SELF,
-	SET_SUBSCRIBE_UID
+	SET_SELF_SUBSCRIBE_UID
 } from '../actions/selfUser';
 const selfUserInfo={subscribe_uid_list:[]};
 const selfUser = (state = selfUserInfo, action) => {
@@ -13,7 +13,7 @@ const selfUser = (state = selfUserInfo, action) => {
 			return Object.assign({},state,action.data);
 		case INIT_SELF:
 			return selfUserInfo
-		case SET_SUBSCRIBE_UID:
+		case SET_SELF_SUBSCRIBE_UID:
 			return Object.assign({},state,{subscribe_uid_list:action.list});
 		default:
 			return state

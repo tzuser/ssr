@@ -5,7 +5,7 @@ import { SubmissionError } from 'redux-form';  // ES6
 export const LOGIN="LOGIN";
 export const GET_SELF_INFO="GET_SELF_INFO";
 export const INIT_SELF="INIT_SELF";
-export const SET_SUBSCRIBE_UID="SET_SUBSCRIBE_UID";//设置关注uid
+export const SET_SELF_SUBSCRIBE_UID="SET_SELF_SUBSCRIBE_UID";//设置关注uid
 
 //登录
 export const login=({username,password})=>async (dispatch,getState)=>{
@@ -66,7 +66,7 @@ export const getSelfSubscribe=()=>async (dispatch,getState)=>{
 		json.rows.map(item=>{
 			list.push(item.value)
 		})
-		dispatch({type:SET_SUBSCRIBE_UID,list})
+		dispatch({type:SET_SELF_SUBSCRIBE_UID,list})
 	}
 	return true
 };

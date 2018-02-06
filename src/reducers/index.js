@@ -7,6 +7,7 @@ import {post} from './post';
 import {userPosts} from './userPosts';
 import {photo} from './photo';
 import {creation} from './creation';
+import {users} from './users';
 import { reducer as formReducer } from 'redux-form';
 //逻辑复用
 const createFilteredReducer=(reducerFunction,reducerPredicate)=>{
@@ -20,6 +21,7 @@ const createFilteredReducer=(reducerFunction,reducerPredicate)=>{
 export default combineReducers({
 	userPosts,//所有用户的帖子
 	loads,//所有加载
+	users,//所有用户
 	selfUser,//用户
 	creation,//创造
 	form:formReducer,

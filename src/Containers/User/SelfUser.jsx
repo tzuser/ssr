@@ -187,15 +187,16 @@ class SelfUser extends Component{
 
 const getUser=createSelector([
   state=>state.userPosts,
-  ],(list)=>{
-    if(list['tzuser']){
-      return list['tzuser'].docs
+  (state)=>state.selfUser.name
+  ],(list,name)=>{
+    if(list[name]){
+      return list[name].docs
     }
     return []
 })
 
-const mapStateToProps=(state)=>({
-  docs:getUser(state),
+const mapStateToProps=(state,props)=>({
+  docs:getUser(state,props),
   postLoad:state.loads.homePosts,
   show:state.config.show,
   selfUser:state.selfUser

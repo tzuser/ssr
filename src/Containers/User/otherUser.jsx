@@ -13,14 +13,11 @@ import HyalineHeader from '../../Components/HyalineHeader';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import {DB_URL} from '../../actions/public';
-import * as selfAct from '../../actions/selfUser';
 import classNames from 'classnames';
 import ReactList from 'react-list';
+import * as UsersAct from '../../actions/users';
 import * as PostAct from '../../actions/post';
 import * as PhotoAct from '../../actions/photo';
-import * as CreationAct from '../../actions/creation';
-import Creation from '../Creation';
-import CreateButton from '../../Components/CreateButton';
 import {createSelector} from "reselect" 
 const styles =theme=> ({
   root: {
@@ -87,7 +84,7 @@ const TabCom=(porps)=>(
 )
 class SelfUser extends Component{
   componentWillMount(){
-    this.props.getSelfInfoAct(this.props.selfUser.name)
+    this.props.getInfoAct(this.props.match.params.name)
   }
   componentDidMount(){
     let {selfUser,docs,getUserPostsAct}=this.props;
@@ -127,7 +124,8 @@ class SelfUser extends Component{
     return cache[index] || 450
   }
   render(){
-    let {classes,router,selfUser,openCreationAct,docs}=this.props;
+    let {classes,router,user,openCreationAct,docs}=this.props;
+    if(!user) return <div>加载中</div>;
     return (
     <Page>
       <HyalineHeader space={300} render={({rootCSS,secondaryCSS,hyaline})=>(
@@ -140,7 +138,7 @@ class SelfUser extends Component{
                  <MenuIcon />
                </IconButton>
               <Typography type="title" color="inherit" className={secondaryCSS}>
-                {selfUser.name}
+                {user.name}
               </Typography>
             </Toolbar>
           </AppBar>
@@ -151,22 +149,20 @@ class SelfUser extends Component{
           <Paper>
            <div className={classes.userCard}>
             <div className={classes.userHeader}>
-            <img src={`${DB_URL}${selfUser.header_image}`} width="100%"/>
+            <img src={`${DB_URL}${user.header_image}`} width="100%"/>
             </div>
             <div className={classes.userContent}>
-              <Avatar  className={classes.userAvatar} src={`${DB_URL}${selfUser.avatar_url}`} />
+              <Avatar  className={classes.userAvatar} src={`${DB_URL}${user.avatar_url}`} />
               <div className={classes.userInfo}>
-                <h2>{selfUser.name}</h2>
-                <div className={classes.description}>{selfUser.description}</div>
-                <Button raised color="primary" onClick={()=>{
-                  this.props.history.push('/self_site');
-                }} >编辑个人资料</Button>
+                <h2>{user.name}</h2>
+                <div className={classes.description}>{user.description}</div>
+            
               </div>
             </div>
            </div>
           </Paper>
 
-          <div>我发布的</div>
+          <div>文章</div>
           {docs.length>0 && <ReactList
             itemRenderer={::this.renderItem}
             length={docs.length}
@@ -175,37 +171,39 @@ class SelfUser extends Component{
             itemSizeEstimator={::this.itemSizeEstimator}
           />}
 
-          <Creation />
-          <CreateButton onClick={()=>{
-               openCreationAct()
-             }}/>
         </Content>
     </Page>
     )
   }
 }
 
-const getUser=createSelector([
+const getUserPosts=createSelector([
   state=>state.userPosts,
-  ],(list)=>{
-    if(list['tzuser']){
-      return list['tzuser'].docs
+  (state,props)=>props.match.params.name
+  ],(list,name)=>{
+    if(list[name]){
+      return list[name].docs
     }
     return []
 })
 
-const mapStateToProps=(state)=>({
-  docs:getUser(state),
+const getUser=createSelector([
+  state=>state.users,
+  (state,props)=>props.match.params.name
+  ],(list,name)=>{
+    return list[name]
+})
+
+const mapStateToProps=(state,props)=>({
+  docs:getUserPosts(state,props),
+  user:getUser(state,props),
   postLoad:state.loads.homePosts,
-  show:state.config.show,
-  selfUser:state.selfUser
 })
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
   getUserPostsAct:PostAct.getUserPosts,
   delDocAct:PostAct.delDoc,
   openDocPhotoAct:PhotoAct.openDocPhoto,
-  openCreationAct:CreationAct.openCreation,
-  getSelfInfoAct:selfAct.getSelfInfo
+  getInfoAct:UsersAct.getInfo
 },dispatch)
 
 

@@ -63,7 +63,7 @@ export const getUserPosts=(name)=>async (dispatch,getState)=>{
 		   bookmark,
 		   "limit":20
 		},
-		name
+		name:'getUserPosts'
 	}));
 	dispatch({type:USER_POST_NEXT,docs:data.docs,bookmark:data.bookmark,name})
 };

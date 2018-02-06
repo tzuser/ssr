@@ -1,6 +1,14 @@
 import React,{Component} from 'react';
-const User=({match:{params:{name}},selfUser:{}})=>{
-
+import {connect} from 'react-redux';
+import SelfUser from './SelfUser'
+import OtherUser from './OtherUser'
+const User=(props)=>{
+	let {match:{params:{name}},selfUser}=props;
+	if(selfUser.name==name){
+		return <SelfUser {...props}/>
+	}else{
+		return <OtherUser {...props}/>
+	}
 }
 
 const mapStateToProps=(state)=>{
