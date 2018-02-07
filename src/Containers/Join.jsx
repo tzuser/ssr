@@ -113,7 +113,7 @@ class Join extends Component{
 				</Paper>
 				<Button 
 				fullWidth 
-				raised 
+				variant="raised"  
 				type="submit"
 				color="primary"
 

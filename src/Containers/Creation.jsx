@@ -24,7 +24,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {DB_URL} from '../actions/public';
 import classNames from 'classnames';
-const styles = {
+const styles =theme=>({
   appBar: {
     position: 'relative',
   },
@@ -46,7 +46,7 @@ const styles = {
     overflow: 'hidden',
     flexDirection: 'column',
     boxOrient: 'vertical',
-
+    color:theme.palette.text.secondary,
   },
 
   textarea:{
@@ -57,6 +57,9 @@ const styles = {
     resize:'none',
     margin:"0 20px ",
     outline: 'none',
+    backgroundColor:theme.palette.background.paper,
+    color:theme.palette.text.secondary,
+    //color:,
   },
   photoInput:{
     display: 'none',
@@ -112,7 +115,7 @@ const styles = {
   userAvatar:{
     marginRight:8
   },
-};
+});
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -141,7 +144,7 @@ class Creation extends React.Component {
               <Typography type="title" color="inherit" className={classes.flex}>
                  
               </Typography>
-              <Button color="primary" onClick={()=>{
+              <Button variant="raised" color="primary" onClick={()=>{
                 saveCreationAct()
                 closeCreationAct()
               }} raised>

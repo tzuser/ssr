@@ -2,7 +2,7 @@ import {push} from 'react-router-redux'
 export const WILL_FETCH="WILL_FETCH";
 export const DID_FETCH='DID_FETCH';
 //172.30.10.55 192.168.1.106
-const HOST='172.30.10.55';
+const HOST='blog.tangzuo.cc';
 export const IMG_URL=`http://${HOST}:3000`;
 //export const URL=`http://${HOST}:5000/api/`;
 export const API_URL=`http://${HOST}:3000/api/`;

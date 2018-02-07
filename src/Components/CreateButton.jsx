@@ -16,7 +16,7 @@ const styles =theme=> ({
 const CreateButton=({classes,onClick})=>(
 	<ShowSwitch direction="visibility" isSpace={false} render={({rootClass,rootStyle})=>(
 	 <div  className={classNames(classes.root,rootClass)} style={rootStyle}>
-	   <Button fab color="secondary" aria-label="edit" onClick={onClick}>
+	   <Button variant="fab" color="secondary" aria-label="edit" onClick={onClick}>
 	     <CreateIcon/>
 	   </Button>
 	 </div>

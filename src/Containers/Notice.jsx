@@ -30,7 +30,7 @@ class Link extends Component{
         </AppBar>
         <Content className={classes.content}>  
           正在开发中...
-          <Button raised color="primary">测试</Button>
+          <Button variant="raised" color="primary">测试</Button>
         </Content>
     </Full>
     )

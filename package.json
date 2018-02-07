@@ -23,7 +23,7 @@
     "koa-bodyparser": "^4.2.0",
     "koa-static-cache": "^5.1.1",
     "koa2-cors": "^2.0.5",
-    "material-ui": "^1.0.0-beta.30",
+    "material-ui": "^1.0.0-beta.32",
     "material-ui-icons": "^1.0.0-beta.17",
     "moment": "^2.20.1",
     "postcss-flexbugs-fixes": "^3.2.0",

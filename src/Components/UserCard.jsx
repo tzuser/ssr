@@ -34,11 +34,13 @@ const styles=theme=>({
 	userInfo:{
 	
 	 '& h2':{
-	   margin: '20px 0 0px 0'
+	   margin: '30px 0 0px 0',
+	   fontSize:'16px'
 	 },
 	},
 	description:{
-	 marginBottom: '10px'
+	 marginBottom: '10px',
+	 fontSize:'12px'
 	}
 })
 const UserCard=({classes,children,className})=>(
@@ -56,7 +58,7 @@ const UserCard=({classes,children,className})=>(
 					<div className={classes.userInfo}>
 					  <h2>tzuser</h2>
 					  <div className={classes.description}>青风藤</div>
-					  <Button raised color="primary" onClick={()=>{
+					  <Button variant="raised"  color="secondary" size="small" onClick={()=>{
 					   // this.props.history.push('/self_site');
 					  }} >关注</Button>
 					</div>

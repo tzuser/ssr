@@ -136,11 +136,11 @@ class SelfSite extends Component{
               <img src={`${DB_URL}${selfUser.header_image}`} width="100%"/>
             </div>
             <div className={classes.userContent}>
-              <Button fab color="primary" className={classNames(classes.upBase,classes.upPhoto)} >
+              <Button variant="fab" color="primary" className={classNames(classes.upBase,classes.upPhoto)} >
                 <PhotoCamera />
               </Button>
 
-              <Button fab color="primary" className={classNames(classes.upBase,classes.upAvatar)} >
+              <Button variant="fab" color="primary" className={classNames(classes.upBase,classes.upAvatar)} >
                 <PhotoCamera />
               </Button>
               <Avatar  className={classes.userAvatar} src={`${DB_URL}${selfUser.avatar_url}`} />

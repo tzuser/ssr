@@ -4,7 +4,7 @@ const path = require('path');
 const rp = require('request-promise');
 const errors = require('request-promise/errors');
 const router = new Router();
-const HOST='http://root:wysj3910@localhost:5984/'
+const HOST='http://root:wysj3910@blog.tangzuo.cc:5984/'
 const DB_NAME='web';
 router.get('/api',async(ctx,next)=>{
 	ctx.body="Hello world"
@@ -72,6 +72,7 @@ router.get('/api/install',async(ctx,next)=>{
 	await rp.put(`${HOST}${DB_NAME}/_design/post`,{
 		body:JSON.stringify({
 		  "_id": "_design/post",
+		  "_rev": "7-ddf0013ecd1c5ff314d49d2befe36cf7",
 		  "views": {
 		    "user-list": {
 		      "map": "function (doc) {\n  if(doc.uid){\n    emit([doc.id,doc.uid], doc);\n  }\n}"
@@ -86,7 +87,7 @@ router.get('/api/install',async(ctx,next)=>{
 		      "map": "function (doc) {\n  var types=[\"photo\"];\n  if(~types.indexOf(doc.type)){\n    emit(doc._id, doc._rev);\n  }\n}"
 		    }
 		  },
-		  "validate_doc_update": "function (newDoc,savedDoc,userCtx){if(savedDoc.type=='photo' && userCtx.name!=savedDoc.uid){ throw({unauthorized:'无权更改文档'}) } }",
+		  "validate_doc_update": "function (newDoc,savedDoc,userCtx){if(newDoc.type=='photo' && userCtx.name!=newDoc.uid && userCtx.roles.indexOf('admin')==-1){ throw({unauthorized:'无权更改文档'}) } }",
 		  "language": "javascript"
 		}),
 		headers:{

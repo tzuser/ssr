@@ -158,7 +158,7 @@ class SelfUser extends Component{
               <div className={classes.userInfo}>
                 <h2>{selfUser.name}</h2>
                 <div className={classes.description}>{selfUser.description}</div>
-                <Button raised color="primary" onClick={()=>{
+                <Button variant="raised" color="primary" onClick={()=>{
                   this.props.history.push('/self_site');
                 }} >编辑个人资料</Button>
               </div>
