@@ -24,7 +24,7 @@ app.use(render);
 
 
 Loadable.preloadAll().then(() => {
-  app.listen(3000, () => {
-    console.log('Running on http://localhost:3000/');
+  app.listen(80, () => {
+    console.log('Running on http://localhost:80/');
   });
 });
