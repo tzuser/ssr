@@ -8,7 +8,8 @@
     "start": "cross-env RUN_ENV=dev NODE_ENV=development webpack-dev-server --config ./webpack.dev.js",
     "build": "cross-env RUN_ENV=build NODE_ENV=production webpack --config ./webpack.build.js -p",
     "analyzer": "cross-env RUN_ENV=build NODE_ENV=production webpack --profile --json > stats.json --config ./webpack.build.js -p",
-    "server": "cross-env RUN_ENV=server NODE_ENV=production nodemon --harmony server/index.js"
+    "server": "cross-env RUN_ENV=server NODE_ENV=production node --harmony server/index.js",
+    "server-dev": "cross-env RUN_ENV=server NODE_ENV=production nodemon --harmony server/index.js"
   },
   "author": "",
   "license": "ISC",
