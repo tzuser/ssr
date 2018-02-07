@@ -21,12 +21,12 @@ import * as PhotoAct from '../../actions/photo';
 import {createSelector} from "reselect" 
 const styles =theme=> ({
   root: {
-    width: '100%',
+    width:'100%',
   },
   appbar:{},
   tz:{
     height:'56px',
-    backgroundColor:'#666',
+    backgroundColor:'#666666',
   },
   test:{
     position:'sticky',
