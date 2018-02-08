@@ -68,9 +68,8 @@ const render=async (ctx,next)=>{
 			)
 		const css = sheetsRegistry.toString()
 		let bundles = getBundles(stats, modules);
-
-		let styles = bundles.filter(bundle => bundle.file.endsWith('.css'));
-		let scripts = bundles.filter(bundle => bundle.file.endsWith('.js'));
+		let styles = bundles.filter(bundle => bundle && bundle.file.endsWith('.css'));
+		let scripts = bundles.filter(bundle => bundle && bundle.file.endsWith('.js'));
 
 		let styleStr=styles.map(style => {
 			        	return `<link href="/dist/${style.file}" rel="stylesheet"/>`

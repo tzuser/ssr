@@ -83,9 +83,11 @@ const TabCom=(porps)=>(
   </Tabs>
 )
 class SelfUser extends Component{
+  componentWillMount(){
+    this.props.getInfoAct(this.props.match.params.name)
+  }
   componentDidMount(){
     let {selfUser,docs,getUserPostsAct}=this.props;
-    this.props.getInfoAct(this.props.match.params.name)
     if(docs.length==0){
       getUserPostsAct(selfUser.name)
     }
@@ -147,10 +149,10 @@ class SelfUser extends Component{
           <Paper>
            <div className={classes.userCard}>
             <div className={classes.userHeader}>
-            <img src={`${IMG_URL}${user.header_image}`} width="100%"/>
+            <img src={`${DB_URL}${user.header_image}`} width="100%"/>
             </div>
             <div className={classes.userContent}>
-              <Avatar  className={classes.userAvatar} src={`${IMG_URL}${user.avatar_url}`} />
+              <Avatar  className={classes.userAvatar} src={`${DB_URL}${user.avatar_url}`} />
               <div className={classes.userInfo}>
                 <h2>{user.name}</h2>
                 <div className={classes.description}>{user.description}</div>
@@ -168,7 +170,7 @@ class SelfUser extends Component{
             threshold={500}
             itemSizeEstimator={::this.itemSizeEstimator}
           />}
-          <div style={{height:200}}></div>
+          <div style={{height:30}}></div>
         </Content>
     </Page>
     )
