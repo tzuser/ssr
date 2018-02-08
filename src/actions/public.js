@@ -113,7 +113,7 @@ export const getDoc=(id)=>async (dispatch,getState)=>{
 };
 
 
-export const dbGet=({docID,name})=>async (dispatch,getState)=>{
+/*export const dbGet=({docID,name})=>async (dispatch,getState)=>{
 	let res,conErr;
 	if(name) dispatch(load(name,true));
 	let db=Global.getInstance().getDB();
@@ -123,4 +123,4 @@ export const dbGet=({docID,name})=>async (dispatch,getState)=>{
 
 	if(name) dispatch(load(name,false));
 	return json || conErr
-}
+}*/

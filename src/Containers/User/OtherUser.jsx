@@ -170,7 +170,7 @@ class SelfUser extends Component{
             threshold={500}
             itemSizeEstimator={::this.itemSizeEstimator}
           />}
-
+          <div style={{height:200}}></div>
         </Content>
     </Page>
     )

@@ -179,6 +179,7 @@ class SelfUser extends Component{
           <CreateButton onClick={()=>{
                openCreationAct()
              }}/>
+             <div style={{height:200}}></div>
         </Content>
     </Page>
     )
