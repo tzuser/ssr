@@ -12,7 +12,7 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import HyalineHeader from '../../Components/HyalineHeader';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
-import {DB_URL} from '../../actions/public';
+import {DB_URL,IMG_URL} from '../../actions/public';
 import classNames from 'classnames';
 import ReactList from 'react-list';
 import * as UsersAct from '../../actions/users';
@@ -149,10 +149,10 @@ class SelfUser extends Component{
           <Paper>
            <div className={classes.userCard}>
             <div className={classes.userHeader}>
-            <img src={`${DB_URL}${user.header_image}`} width="100%"/>
+            <img src={`${IMG_URL}${user.header_image}`} width="100%"/>
             </div>
             <div className={classes.userContent}>
-              <Avatar  className={classes.userAvatar} src={`${DB_URL}${user.avatar_url}`} />
+              <Avatar  className={classes.userAvatar} src={`${IMG_URL}${user.avatar_url}`} />
               <div className={classes.userInfo}>
                 <h2>{user.name}</h2>
                 <div className={classes.description}>{user.description}</div>

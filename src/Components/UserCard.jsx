@@ -46,13 +46,13 @@ const styles=theme=>({
 const UserCard=({classes,children,className})=>(
 			<Paper className={classes.root} elevation={2}>
 				<img 
-					src="http://172.30.10.55:5984/web//files/default_header.jpg"
+					src="http://blog.tangzuo.cc:5984/web/files/default_avatar.jpg"
 					className={classes.header}
 					/>
 				<div className={classes.content}>
 					<Avatar
 					       alt="Adelle Charles"
-					       src="http://172.30.10.55:5984/web//files/default_avatar.jpg"
+					       src="http://blog.tangzuo.cc:5984/web/files/default_avatar.jpg"
 					       className={classes.avatar}
 					     />
 					<div className={classes.userInfo}>
