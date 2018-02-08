@@ -102,7 +102,7 @@ const TabCom=(porps)=>(
 )
 class SelfSite extends Component{
   
-  componentWillMount(){
+  componentDidMount(){
     this.props.getSelfInfoAct(this.props.selfUser.name)
   }
   render(){

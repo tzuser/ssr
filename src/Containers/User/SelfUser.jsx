@@ -86,10 +86,8 @@ const TabCom=(porps)=>(
   </Tabs>
 )
 class SelfUser extends Component{
-  componentWillMount(){
-    this.props.getSelfInfoAct(this.props.selfUser.name)
-  }
   componentDidMount(){
+     this.props.getSelfInfoAct(this.props.selfUser.name)
     let {selfUser,docs,getUserPostsAct}=this.props;
     if(docs.length==0){
       getUserPostsAct(selfUser.name)
