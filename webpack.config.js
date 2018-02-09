@@ -27,7 +27,10 @@ module.exports={
 		'material-ui/TextField',
 		'material-ui/Popover',
 		'material-ui/Form',
-		'material-ui/transitions'
+		'material-ui/transitions',
+		'material-ui/Toolbar',
+		'material-ui/Typography',
+		'material-ui/IconButton',
 		],
 		//material:'material-ui'
 	},

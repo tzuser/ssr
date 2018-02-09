@@ -1,9 +1,7 @@
  import React,{Component} from 'react';
 import PropTypes from 'prop-types';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
+import {AppBar,Toolbar,Typography,Button,Paper} from 'material-ui';
+
 import ShowSwitch from '../Components/ShowSwitch';
 import {withStyles} from 'material-ui/styles';
 import Page from '../Components/Page';
@@ -20,7 +18,6 @@ import {DB_URL} from '../actions/public';
 import classNames from 'classnames';
 import Avatar from 'material-ui/Avatar';
 
-import Paper from 'material-ui/Paper';
 import * as selfAct from '../actions/selfUser';
 
 import TextField from 'material-ui/TextField';
