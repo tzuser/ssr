@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import * as creationAct from '../actions/creation';
 
-import {
-  IconButton,
-  Avatar,
-  Typography,
-  Toolbar,
-  AppBar,
-  Divider,
-  Dialog,
-  Button,
-  CircularProgress
-} from 'material-ui';
+import IconButton from 'material-ui/IconButton';
+import Avatar from 'material-ui/Avatar';
+import Typography from 'material-ui/Typography';
+import Toolbar from 'material-ui/Toolbar';
+import AppBar from 'material-ui/AppBar';
+import Divider from 'material-ui/Divider';
+import Dialog from 'material-ui/Dialog';
+import Button from 'material-ui/Button';
+import CircularProgress from 'material-ui/Progress/CircularProgress';
+
 import {Field, reduxForm,submit  } from 'redux-form';
 import CloseIcon from 'material-ui-icons/Close';
 import HighlightOff from 'material-ui-icons/HighlightOff';

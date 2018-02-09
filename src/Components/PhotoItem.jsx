@@ -15,8 +15,8 @@ import MoreVertIcon from 'material-ui-icons/MoreVert';
 import {IMG_URL,DB_URL} from '../actions/public';
 import {getSrcSize} from '../public/tool';
 import Menu, { MenuItem } from 'material-ui/Menu';
-import moment from 'moment';
-moment.locale('zh-CN');
+//import moment from 'moment';
+//moment.locale('zh-CN');
 const styles = theme => ({
   subsidiary:{
     paddingTop:15,
@@ -124,7 +124,7 @@ class PhotoItem extends React.Component {
               <Avatar className={classes.avatar} >{doc.name.substr(0,1)}</Avatar>
             }
             title={doc.name}
-            subheader={moment(doc.date).startOf('minute').fromNow()}
+            subheader={doc.date}
             action={
                    <IconButton  onClick={this.handleMenu}>
                      <MoreVertIcon />

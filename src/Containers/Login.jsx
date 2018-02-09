@@ -1,6 +1,10 @@
 import React,{Component} from 'react';
 import {withStyles} from 'material-ui/styles';
-import {Paper,TextField,Divider,Button,CircularProgress} from 'material-ui';
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
+import Divider from 'material-ui/Divider';
+import Button from 'material-ui/Button';
+import CircularProgress from 'material-ui/Progress/CircularProgress'; 
 import Page from '../Components/Page';
 
 import {connect} from 'react-redux';

@@ -14,8 +14,22 @@ module.exports={
 		'babel-polyfill',
 		'react-loadable',
 		'redux-form',
-		'jss',
-		]
+		//'jss',
+		//'material-ui',
+		],
+		materials:[
+		'material-ui/ButtonBase',
+		'material-ui/Button',
+		'material-ui/Input',
+		'material-ui/Tabs',
+		'material-ui/Modal',
+		'material-ui/List',
+		'material-ui/TextField',
+		'material-ui/Popover',
+		'material-ui/Form',
+		'material-ui/transitions'
+		],
+		//material:'material-ui'
 	},
 	output:{
 		path: path.resolve(__dirname,'build'),
@@ -86,6 +100,7 @@ module.exports={
 	},
 	resolve:{extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx']},
 	plugins:[
+		new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
 		extractCSS,
 		new webpack.DefinePlugin({
 		    'process.env.NODE_ENV':JSON.stringify(process.env.NODE_ENV || 'development'),
@@ -98,8 +113,7 @@ module.exports={
 			template: path.join(__dirname,'./index.ejs')
 		}),
 		new webpack.optimize.CommonsChunkPlugin({//公共组件分离
-			  names: ['vendors', 'manifest']
-		}),
-
+			names: ['vendors','materials','manifest'],
+		}),		
 	],
 }

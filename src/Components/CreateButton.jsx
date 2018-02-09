@@ -1,6 +1,6 @@
 import React from 'react';
 import {withStyles} from 'material-ui/styles';
-import {Button} from 'material-ui';
+import Button from 'material-ui/Button';
 import CreateIcon from 'material-ui-icons/Create';
 import ShowSwitch from './ShowSwitch';
 import classNames from 'classnames';

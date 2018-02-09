@@ -1,6 +1,8 @@
- import React,{Component} from 'react';
+import React,{Component} from 'react';
 import PropTypes from 'prop-types';
+
 import {AppBar,Toolbar,Typography,Button,IconButton} from 'material-ui';
+
 import ShowSwitch from '../Components/ShowSwitch';
 import {withStyles} from 'material-ui/styles';
 import Page from '../Components/Page';

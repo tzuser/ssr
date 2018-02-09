@@ -2,7 +2,8 @@ import React from 'react';
 import { CircularProgress } from 'material-ui/Progress';
 import {withStyles} from 'material-ui/styles';
 import classNames from 'classnames';
-import {Paper,Button} from 'material-ui';
+import Paper from 'material-ui/Paper';
+import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
 const styles=theme=>({
 	root:{
