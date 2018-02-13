@@ -21,7 +21,6 @@ import * as PhotoAct from '../actions/photo';
 import * as CreationAct from '../actions/creation';
 
 import classNames from 'classnames';
-import Creation from './Creation';
 import CreateButton from '../Components/CreateButton';
 const styles =theme=> ({
   root: {
@@ -95,7 +94,7 @@ class Home extends Component{
         <ShowSwitch direction="top" render={({rootClass,rootStyle})=>(
           <AppBar position="fixed" className={rootClass} style={rootStyle} elevation={4}  >
             <Toolbar>
-              <Typography type="title" color="inherit" >
+              <Typography variant="title" color="inherit" >
                 首页
               </Typography>
             </Toolbar>
@@ -108,7 +107,6 @@ class Home extends Component{
         }}/>
 
         <Content>
-        <Creation />
         {docs.length>0 && <ReactList
           itemRenderer={::this.renderItem}
           length={docs.length}

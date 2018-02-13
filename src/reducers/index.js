@@ -8,7 +8,9 @@ import {userPosts} from './userPosts';
 import {photo} from './photo';
 import {creation} from './creation';
 import {users} from './users';
+import {list} from './list';
 import { reducer as formReducer } from 'redux-form';
+
 //逻辑复用
 const createFilteredReducer=(reducerFunction,reducerPredicate)=>{
 	return (state,action)=>{
@@ -29,4 +31,5 @@ export default combineReducers({
 	photo,//照片详情展示
 	router:routerReducer,
 	homePosts:createFilteredReducer(post,action=>action.name=='homePosts'),
+	userList:createFilteredReducer(list,action=>action.name=='userList'),
 })

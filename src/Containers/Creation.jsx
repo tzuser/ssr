@@ -121,6 +121,10 @@ function Transition(props) {
 }
 
 class Creation extends React.Component {
+  componentWillUnmount(){
+    console.log('卸载')
+    return false
+  }
   upImgs(e){
     let files=e.target.files;
     this.props.upFileAct(files);
@@ -140,13 +144,13 @@ class Creation extends React.Component {
               <IconButton color="inherit" onClick={closeCreationAct} aria-label="Close">
                 <CloseIcon />
               </IconButton>
-              <Typography type="title" color="inherit" className={classes.flex}>
+              <Typography variant="title" color="inherit" className={classes.flex}>
                  
               </Typography>
               <Button variant="raised" color="primary" onClick={()=>{
                 saveCreationAct()
                 closeCreationAct()
-              }} raised>
+              }} >
                 发布
               </Button>
             </Toolbar>

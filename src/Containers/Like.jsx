@@ -26,7 +26,7 @@ class Link extends Component{
     <Full>
          <AppBar position="fixed" color="default" elevation={4} >
           <Toolbar>
-            <Typography type="title" color="inherit">
+            <Typography variant="title" color="inherit">
               关注
             </Typography>
           </Toolbar>

@@ -86,7 +86,7 @@ const styles =theme=> ({
       flex: 1,
     },
     userCard:{
-      minHeight:800
+      minHeight:1200
     }
 });
 
@@ -120,7 +120,7 @@ class SelfSite extends Component{
                }}>
                  <ClearIcon />
                </IconButton>
-              <Typography type="title" color="inherit" className={classes.flex} >
+              <Typography variant="title" color="inherit" className={classes.flex} >
                 修改个人资料
               </Typography>
               <Button color="inherit">保存</Button>

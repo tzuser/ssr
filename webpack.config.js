@@ -17,7 +17,7 @@ module.exports={
 		//'jss',
 		//'material-ui',
 		],
-		materials:[
+		materials:[//抽出material公用组件
 		'material-ui/ButtonBase',
 		'material-ui/Button',
 		'material-ui/Input',

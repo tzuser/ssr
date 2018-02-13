@@ -61,8 +61,6 @@ const styles = theme => ({
     '& figure':{
       margin: '10px 0px 10px 10px',
     }
-
-    
   }
 });
 
@@ -116,7 +114,7 @@ class PhotoItem extends React.Component {
       <div>
         <div className={classes.subsidiary}>
         </div>
-        <Card className={classes.card}>
+        <Card className={classes.card} elevation={1}>
           <CardHeader
             avatar={
               doc.avatar_url?

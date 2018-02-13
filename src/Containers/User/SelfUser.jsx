@@ -16,7 +16,7 @@ import PhotoItem from '../../Components/PhotoItem';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import HyalineHeader from '../../Components/HyalineHeader';
 import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui-icons/Menu';
+import SettingsIcon from 'material-ui-icons/Settings';
 import {DB_URL,IMG_URL} from '../../actions/public';
 import * as selfAct from '../../actions/selfUser';
 import classNames from 'classnames';
@@ -35,6 +35,9 @@ const styles =theme=> ({
   tz:{
     height:'56px',
     backgroundColor:'#666',
+  },
+  flex: {
+    flex: 1,
   },
   test:{
     position:'sticky',
@@ -73,6 +76,12 @@ const styles =theme=> ({
    },
    description:{
     marginBottom: '10px'
+   },
+   topText:{
+      paddingTop: 10,
+      paddingLeft: 10,
+      fontSize: 12,
+      marginBottom: -10,
    }
 });
 
@@ -139,15 +148,16 @@ class SelfUser extends Component{
         <ShowSwitch direction="top"  isSpace={false}   render={({rootClass,rootStyle})=>(
           <AppBar position="fixed"  elevation={hyaline?0:4} style={rootStyle} className={classNames(rootCSS,rootClass)} >
             <Toolbar>
-               <IconButton color="inherit" aria-label="Menu" onClick={()=>{
-                this.props.history.push('/home')
-               }}>
-                 <MenuIcon />
-               </IconButton>
-              <Typography type="title" color="inherit" className={secondaryCSS}>
+              <Typography variant="title" color="inherit" className={classNames(secondaryCSS,classes.flex)}>
                 {selfUser.name}
               </Typography>
+              <IconButton color="inherit" aria-label="Settings" onClick={()=>{
+               this.props.history.push('/home')
+              }}>
+                <SettingsIcon />
+              </IconButton>
             </Toolbar>
+
           </AppBar>
           )}/>
           
@@ -171,7 +181,7 @@ class SelfUser extends Component{
            </div>
           </Paper>
 
-          <div>我发布的</div>
+          <div className={classes.topText}>我发布的</div>
           {docs.length>0 && <ReactList
             itemRenderer={::this.renderItem}
             length={docs.length}
@@ -179,8 +189,6 @@ class SelfUser extends Component{
             threshold={500}
             itemSizeEstimator={::this.itemSizeEstimator}
           />}
-
-          <Creation />
           <CreateButton onClick={()=>{
                openCreationAct()
              }}/>

@@ -5,9 +5,7 @@ import {
 const loads = (state = {}, action) => {
 	switch (action.type) {
 		case LOAD:
-			let newState=Object.assign({},state);
-			newState[action.name]=action.isLoad;
-			return newState
+			return Object.assign({},state,{[action.name]:action.isLoad});
 		default:
 			return state
 	}

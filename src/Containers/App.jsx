@@ -31,6 +31,11 @@ const LoadableSelfSite = Loadable({
   loading:PageLoading
 });
 
+const LoadableCreation = Loadable({
+  loader: () => import(/* webpackChunkName: 'Creation' */ './Creation'),
+  loading:PageLoading
+});
+
 class App extends React.Component{
 	componentWillMount(){
 		//未登录
@@ -39,6 +44,7 @@ class App extends React.Component{
 		}
 	}
 	render(){
+		let {creationOpen}=this.props;
 		return(
 			<Page>
 				<Switch>
@@ -50,12 +56,14 @@ class App extends React.Component{
 				</Switch>
 				<AutoHidden />
 				<PhotoSwipe />
+				<LoadableCreation />
 			</Page>
 			)
 	}
 };
 const mapStateToProps=(state)=>({
-	selfUser:state.selfUser
+	selfUser:state.selfUser,
+	creationOpen:state.creation.open,
 })
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
 	pushAct:push

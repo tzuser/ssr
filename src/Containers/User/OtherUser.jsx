@@ -137,12 +137,7 @@ class SelfUser extends Component{
         <ShowSwitch direction="top"  isSpace={false}   render={({rootClass,rootStyle})=>(
           <AppBar position="fixed"  elevation={hyaline?0:4} style={rootStyle} className={classNames(rootCSS,rootClass)} >
             <Toolbar>
-               <IconButton color="inherit" aria-label="Menu" onClick={()=>{
-                this.props.history.push('/home')
-               }}>
-                 <MenuIcon />
-               </IconButton>
-              <Typography type="title" color="inherit" className={secondaryCSS}>
+              <Typography variant="title" color="inherit" className={secondaryCSS}>
                 {user.name}
               </Typography>
             </Toolbar>

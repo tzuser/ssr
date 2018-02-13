@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
+import {DB_URL} from '../actions/public';
 const styles=theme=>({
 	root:{
 		height:240,
@@ -14,6 +15,7 @@ const styles=theme=>({
 	},
 	header:{
 		width:'100%',
+		maxHeight:'100px'
 	},
 	content:{
 		position: 'relative',
@@ -44,24 +46,31 @@ const styles=theme=>({
 	 fontSize:'12px'
 	}
 })
-const UserCard=({classes,children,className})=>(
+const UserCard=({data,classes,children,className,onSubscribe})=>(
 			<Paper className={classes.root} elevation={2}>
 				<img 
-					src="http://blog.tangzuo.cc:5984/web/files/default_avatar.jpg"
+					src={DB_URL+data.header_image}
 					className={classes.header}
 					/>
 				<div className={classes.content}>
 					<Avatar
 					       alt="Adelle Charles"
-					       src="http://blog.tangzuo.cc:5984/web/files/default_avatar.jpg"
+					       src={DB_URL+data.avatar_url}
 					       className={classes.avatar}
 					     />
 					<div className={classes.userInfo}>
-					  <h2>tzuser</h2>
-					  <div className={classes.description}>青风藤</div>
-					  <Button variant="raised"  color="secondary" size="small" onClick={()=>{
-					   // this.props.history.push('/self_site');
-					  }} >关注</Button>
+					  <h2>{data.name}</h2>
+					  <div className={classes.description}></div>
+					  <Button 
+						  disabled={data.isSubscribe}
+						  variant="raised"  
+						  color="secondary" 
+						  size="small" 
+						  onClick={()=>{
+						   onSubscribe(data)
+						  }} >
+					  	{data.isSubscribe?'已关注':'关注'}
+					  </Button>
 					</div>
 				</div>
 			</Paper>
