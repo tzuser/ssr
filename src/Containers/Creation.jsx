@@ -122,7 +122,6 @@ function Transition(props) {
 
 class Creation extends React.Component {
   componentWillUnmount(){
-    console.log('卸载')
     return false
   }
   upImgs(e){

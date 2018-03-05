@@ -27,6 +27,7 @@ import * as CreationAct from '../../actions/creation';
 import Creation from '../Creation';
 import CreateButton from '../../Components/CreateButton';
 import {createSelector} from "reselect" 
+import ArrowBack from 'material-ui-icons/ArrowBack';
 const styles =theme=> ({
   root: {
     width: '100%',
@@ -141,13 +142,18 @@ class SelfUser extends Component{
     return cache[index] || 450
   }
   render(){
-    let {classes,router,selfUser,openCreationAct,docs}=this.props;
+    let {classes,router,selfUser,openCreationAct,docs,match}=this.props;
     return (
     <Page>
       <HyalineHeader space={300} render={({rootCSS,secondaryCSS,hyaline})=>(
         <ShowSwitch direction="top"  isSpace={false}   render={({rootClass,rootStyle})=>(
           <AppBar position="fixed"  elevation={hyaline?0:4} style={rootStyle} className={classNames(rootCSS,rootClass)} >
             <Toolbar>
+            {match.params.name && <IconButton color="inherit" aria-label="Menu" onClick={()=>{
+               this.props.history.goBack()
+            }}>
+              <ArrowBack />
+            </IconButton>}
               <Typography variant="title" color="inherit" className={classNames(secondaryCSS,classes.flex)}>
                 {selfUser.name}
               </Typography>
@@ -181,7 +187,6 @@ class SelfUser extends Component{
            </div>
           </Paper>
 
-          <div className={classes.topText}>我发布的</div>
           {docs.length>0 && <ReactList
             itemRenderer={::this.renderItem}
             length={docs.length}

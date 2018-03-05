@@ -66,6 +66,7 @@ export const getSelfSubscribe=()=>async (dispatch,getState)=>{
 		json.rows.map(item=>{
 			list.push(item.value)
 		})
+		list.unshift(username);
 		dispatch({type:SET_SELF_SUBSCRIBE_UID,list})
 	}
 	return true
@@ -77,3 +78,38 @@ export const logout=()=>async (dispatch,getState)=>{
 	dispatch(push('/login'));
 }
 
+
+//关注用户
+export const subscribe=(targetName)=>async (dispatch,getState)=>{
+	let name=getState().selfUser.name
+	let doc=await dispatch(fetchGet({url:`${DB_URL}/${name}_${targetName}`}))
+	if(doc.error){
+		doc={
+			  "_id": `${name}_${targetName}`,
+			  "type": "relation",
+			  "uid": name,
+			  "other_uid": targetName,
+			  "subscribe": true,
+			  "date": new Date().valueOf()
+			}
+	}else{
+		doc.subscribe=true;
+	}
+	let res=await dispatch(fetchPost({url:`${DB_URL}`,data:doc}))
+	await dispatch(getSelfSubscribe());
+}
+
+
+
+
+//取消关注用户
+export const cancelSubscribe=(targetName)=>async (dispatch,getState)=>{
+	let name=getState().selfUser.name
+	//获取关注文档
+	let doc=await dispatch(fetchGet({url:`${DB_URL}/${name}_${targetName}`}))
+	doc.subscribe=false;
+	//更新文档
+	let res=await dispatch(fetchPost({url:`${DB_URL}`,data:doc}))
+	//更新关注列表
+	await dispatch(getSelfSubscribe());
+}

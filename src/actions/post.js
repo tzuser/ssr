@@ -19,7 +19,7 @@ export const getHomePosts=()=>async (dispatch,getState)=>{
 		if(!await dispatch(getSelfSubscribe()))return;
 	}
 	let {subscribe_uid_list,name}=getState().selfUser;
-	subscribe_uid_list.push(name);
+	//subscribe_uid_list.push(name);
 	let data=await dispatch(fetchPost({
 		url:`${DB_URL}_find`,
 		data:{

@@ -7,7 +7,8 @@ import Content from '../Components/Content';
 import ShowSwitch from '../Components/ShowSwitch';
 import Page from '../Components/Page';
 import UserCard from '../Components/UserCard';
-import {getUserAll,subscribe} from '../actions/users';
+import {getUserAll} from '../actions/users';
+import {subscribe,cancelSubscribe} from '../actions/selfUser';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 const styles=theme=>({
@@ -25,7 +26,7 @@ class Search extends Component{
 	}
 
 	render(){
-		let {classes,userList,subscribeAct}=this.props;
+		let {classes,userList,subscribeAct,cancelSubscribeAct,subscribe_uid_list}=this.props;
 		return (
 		<Page>
 		<ShowSwitch direction="top" render={({rootClass,rootStyle})=>(
@@ -40,8 +41,12 @@ class Search extends Component{
 					{userList.rows.map((item,key)=><UserCard 
 													data={item.value} 
 													key={key}
+													isSubscribe={~subscribe_uid_list.indexOf(item.value.name)}
 													onSubscribe={(data)=>{
 														subscribeAct(data.name)
+													}}
+													cancelSubscribe={(data)=>{
+														cancelSubscribeAct(data.name)
 													}}
 													/>
 
@@ -52,10 +57,12 @@ class Search extends Component{
 	}
 }
 const mapStateToProps=(state)=>({
-	userList:state.userList
+	userList:state.userList,
+	subscribe_uid_list:state.selfUser.subscribe_uid_list
 })
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
 	getUserAllAct:getUserAll,
-	subscribeAct:subscribe
+	subscribeAct:subscribe,
+	cancelSubscribeAct:cancelSubscribe,
 },dispatch)
 export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Search))

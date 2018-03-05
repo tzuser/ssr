@@ -53,28 +53,13 @@ export const getUserAll=()=>async (dispatch,getState)=>{
 	if(json.error){
 		return false
 	}else{
-		json.rows.map(item=>{
+		/*json.rows.map(item=>{
 			if(~subscribe_uid_list.indexOf(item.value.name)){
 				item.value.isSubscribe=true;
 			}
 			return item
-		})
+		})*/
 		dispatch(setList('userList',json,page+1))
 	}
 	return true
 };
-
-//关注用户
-export const subscribe=(targetName)=>async (dispatch,getState)=>{
-	let name=getState().selfUser.name
-	let doc={
-	  "_id": `${name}:${targetName}`,
-	  "type": "relation",
-	  "uid": name,
-	  "other_uid": targetName,
-	  "subscribe": true,
-	  "date": new Date().valueOf()
-	}
-	let res=await dispatch(fetchPost({url:`${DB_URL}`,data:doc}))
-	console.log(res,doc)
-}

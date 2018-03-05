@@ -24,6 +24,9 @@ import * as UsersAct from '../../actions/users';
 import * as PostAct from '../../actions/post';
 import * as PhotoAct from '../../actions/photo';
 import {createSelector} from "reselect" 
+import ArrowBack from 'material-ui-icons/ArrowBack';
+import FollowButton from '../../Components/FollowButton';
+import {subscribe,cancelSubscribe} from '../../actions/selfUser';
 const styles =theme=> ({
   root: {
     width:'100%',
@@ -87,21 +90,24 @@ const TabCom=(porps)=>(
     <Tab label="关注" />
   </Tabs>
 )
+
 class SelfUser extends Component{
   componentWillMount(){
     this.props.getInfoAct(this.props.match.params.name)
   }
   componentDidMount(){
-    let {selfUser,docs,getUserPostsAct}=this.props;
+    let {selfUser,docs,getUserPostsAct,match}=this.props;
+     console.log(docs)
     if(docs.length==0){
-      getUserPostsAct(selfUser.name)
+      getUserPostsAct(match.params.name)
     }
   }
   renderItem(index, key) {
-    let {docs,getUserPostsAct,postLoad,selfUser,openDocPhotoAct,delDocAct,openCreationAct}=this.props
+    let {docs,getUserPostsAct,postLoad,selfUser,openDocPhotoAct,delDocAct,openCreationAct,match}=this.props
     let doc=docs[index]
+
     if(index==docs.length-1 && docs.length>10 && !postLoad){
-      getUserPostsAct(selfUser.name)
+      getUserPostsAct(match.params.name)
     }
     return (
     <PhotoItem 
@@ -129,7 +135,7 @@ class SelfUser extends Component{
     return cache[index] || 450
   }
   render(){
-    let {classes,router,user,openCreationAct,docs}=this.props;
+    let {classes,router,user,openCreationAct,docs,subscribeAct,cancelSubscribeAct,subscribe_uid_list}=this.props;
     if(!user) return <div>加载中</div>;
     return (
     <Page>
@@ -137,6 +143,11 @@ class SelfUser extends Component{
         <ShowSwitch direction="top"  isSpace={false}   render={({rootClass,rootStyle})=>(
           <AppBar position="fixed"  elevation={hyaline?0:4} style={rootStyle} className={classNames(rootCSS,rootClass)} >
             <Toolbar>
+              <IconButton color="inherit" aria-label="Menu" onClick={()=>{
+                 this.props.history.goBack()
+              }}>
+                <ArrowBack />
+              </IconButton>
               <Typography variant="title" color="inherit" className={secondaryCSS}>
                 {user.name}
               </Typography>
@@ -156,13 +167,16 @@ class SelfUser extends Component{
               <div className={classes.userInfo}>
                 <h2>{user.name}</h2>
                 <div className={classes.description}>{user.description}</div>
-            
+                <FollowButton 
+                onSubscribe={()=>subscribeAct(user.name)}
+                cancelSubscribe={()=>cancelSubscribeAct(user.name)}
+                isSubscribe={~subscribe_uid_list.indexOf(user.name)}
+                data={user}/>
               </div>
             </div>
            </div>
+         
           </Paper>
-
-          <div>文章</div>
           {docs.length>0 && <ReactList
             itemRenderer={::this.renderItem}
             length={docs.length}
@@ -198,12 +212,15 @@ const mapStateToProps=(state,props)=>({
   docs:getUserPosts(state,props),
   user:getUser(state,props),
   postLoad:state.loads.homePosts,
+  subscribe_uid_list:state.selfUser.subscribe_uid_list
 })
 const mapDispatchToProps=(dispatch)=>bindActionCreators({
   getUserPostsAct:PostAct.getUserPosts,
   delDocAct:PostAct.delDoc,
   openDocPhotoAct:PhotoAct.openDocPhoto,
-  getInfoAct:UsersAct.getInfo
+  getInfoAct:UsersAct.getInfo,
+  subscribeAct:subscribe,
+  cancelSubscribeAct:cancelSubscribe,
 },dispatch)
 
 

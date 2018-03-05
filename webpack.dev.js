@@ -7,6 +7,20 @@ config.plugins.push(
 	new webpack.HotModuleReplacementPlugin()//热加载
 )
 
+//获取本机ip
+function getIPAdress(){  
+    var interfaces = require('os').networkInterfaces();  
+    for(var devName in interfaces){  
+          var iface = interfaces[devName];  
+          for(var i=0;i<iface.length;i++){  
+               var alias = iface[i];  
+               if(alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal){  
+                     return alias.address;  
+               }  
+          }  
+    }  
+}
+
 let devConfig={
 	context:path.resolve(__dirname,'src'),
 	devtool: 'eval-source-map',
@@ -15,7 +29,7 @@ let devConfig={
 		inline:true,
 		hotOnly:true,
 		open : true,
-		host: 'localhost',
+		host: getIPAdress(),//localhost
 		port: 8900,
 		historyApiFallback:true,
 		watchOptions: {//监听配置变化

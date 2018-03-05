@@ -15,7 +15,6 @@ import HyalineHeader from '../Components/HyalineHeader';
 import MenuIcon from 'material-ui-icons/Menu';
 import CreateIcon from 'material-ui-icons/Create';
 import ReactList from 'react-list';
-
 import * as PostAct from '../actions/post';
 import * as PhotoAct from '../actions/photo';
 import * as CreationAct from '../actions/creation';
@@ -80,6 +79,7 @@ class Home extends Component{
     cancelSubscribe={(e,doc)=>{
       console.log('不再关注')
     }}
+
     />
     )
   }
@@ -100,12 +100,9 @@ class Home extends Component{
             </Toolbar>
           </AppBar>
         )} />
-
-
         <CreateButton onClick={()=>{
           openCreationAct()
         }}/>
-
         <Content>
         {docs.length>0 && <ReactList
           itemRenderer={::this.renderItem}
@@ -135,4 +132,4 @@ const mapDispatchToProps=(dispatch)=>bindActionCreators({
 },dispatch)
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Home))  ;
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Home));

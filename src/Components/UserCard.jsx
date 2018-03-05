@@ -6,6 +6,7 @@ import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
 import {DB_URL} from '../actions/public';
+import FollowButton from '../Components/FollowButton'
 const styles=theme=>({
 	root:{
 		height:240,
@@ -46,7 +47,11 @@ const styles=theme=>({
 	 fontSize:'12px'
 	}
 })
-const UserCard=({data,classes,children,className,onSubscribe})=>(
+
+const UserCard=({data,classes,children,className,onSubscribe,cancelSubscribe,isSubscribe})=>{
+
+	
+	return (
 			<Paper className={classes.root} elevation={2}>
 				<img 
 					src={DB_URL+data.header_image}
@@ -61,18 +66,14 @@ const UserCard=({data,classes,children,className,onSubscribe})=>(
 					<div className={classes.userInfo}>
 					  <h2>{data.name}</h2>
 					  <div className={classes.description}></div>
-					  <Button 
-						  disabled={data.isSubscribe}
-						  variant="raised"  
-						  color="secondary" 
-						  size="small" 
-						  onClick={()=>{
-						   onSubscribe(data)
-						  }} >
-					  	{data.isSubscribe?'已关注':'关注'}
-					  </Button>
+					  <FollowButton 
+					  onSubscribe={onSubscribe}
+					  cancelSubscribe={cancelSubscribe}
+					  isSubscribe={isSubscribe}
+					  size="small" 
+					  data={data}/>
 					</div>
 				</div>
 			</Paper>
-);
+)};
 export default withStyles(styles)(UserCard);

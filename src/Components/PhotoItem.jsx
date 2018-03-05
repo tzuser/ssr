@@ -15,8 +15,11 @@ import MoreVertIcon from 'material-ui-icons/MoreVert';
 import {IMG_URL,DB_URL} from '../actions/public';
 import {getSrcSize} from '../public/tool';
 import Menu, { MenuItem } from 'material-ui/Menu';
-//import moment from 'moment';
-//moment.locale('zh-CN');
+import {postDate} from '../public/tool';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {push} from 'react-router-redux';
+
 const styles = theme => ({
   subsidiary:{
     paddingTop:15,
@@ -99,6 +102,9 @@ class PhotoItem extends React.Component {
         }}>不再关注</MenuItem>
     }
   }
+  onAvatar(e,doc){
+    this.props.pushAct(`/user/${doc.name}`)
+  }
   render() {
     const { classes,doc,selfUser } = this.props;
 
@@ -118,11 +124,16 @@ class PhotoItem extends React.Component {
           <CardHeader
             avatar={
               doc.avatar_url?
-              <Avatar aria-label={doc.name.substr(0,1)} src={`${DB_URL}${doc.avatar_url}`} className={classes.avatar} />:
-              <Avatar className={classes.avatar} >{doc.name.substr(0,1)}</Avatar>
+              <Avatar 
+              onClick={(e)=>this.onAvatar(e,doc)} 
+              aria-label={doc.name.substr(0,1)} src={`${DB_URL}${doc.avatar_url}`} className={classes.avatar} />:
+              <Avatar  
+              onClick={(e)=>this.onAvatar(e,doc)} 
+              className={classes.avatar} >{doc.name.substr(0,1)}</Avatar>
             }
+
             title={doc.name}
-            subheader={doc.date}
+            subheader={postDate(doc.date)}
             action={
                    <IconButton  onClick={this.handleMenu}>
                      <MoreVertIcon />
@@ -180,5 +191,8 @@ PhotoItem.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-
-export default withStyles(styles)(PhotoItem);
+const mapStateToProps=(state)=>({})
+const mapDispatchToProps=(dispatch)=>bindActionCreators({
+  pushAct:push
+},dispatch)
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(PhotoItem));

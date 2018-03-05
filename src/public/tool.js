@@ -1,4 +1,5 @@
 import {EXIF} from 'exif-js';
+import format from 'date-fns/format';
 //数据和索引返回新的数组
 export const toList=({data,keys})=>{
 	let newList=[];
@@ -152,4 +153,24 @@ function rotateImg(img, direction,canvas) {
             break;    
     } 
     return canvas
-}   
+}
+//贴子时间格式化 date时间戳
+export const postDate=(date)=>{
+    let now=new Date().valueOf();
+    let span=now-date;
+    if(span<60*1000){
+        return '刚刚'
+    }else if(span<60*60*1000){
+        let M=parseInt(span/60/1000)
+        return `${M}分钟前`
+    }else if(span<24*60*60*1000){
+        let H=parseInt(span/60/60/1000)
+        return `${H}小时前`
+    }else if(span<30*24*60*60*1000){
+        let D=parseInt(span/24/60/60/1000)
+        return `${D}天前`
+    }else{
+        return format(new Date(date),'YYYY/MM/DD')
+    }
+
+}
