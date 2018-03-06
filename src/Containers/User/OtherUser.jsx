@@ -27,6 +27,7 @@ import {createSelector} from "reselect"
 import ArrowBack from 'material-ui-icons/ArrowBack';
 import FollowButton from '../../Components/FollowButton';
 import {subscribe,cancelSubscribe} from '../../actions/selfUser';
+import NotHave from '../../Components/NotHave';
 const styles =theme=> ({
   root: {
     width:'100%',
@@ -51,7 +52,7 @@ const styles =theme=> ({
     textAlign:'center'
   },
   userHeader:{
-    maxHeight:230,
+    height:200,
     overflow:'hidden'
   },
   userAvatar: {
@@ -112,7 +113,6 @@ class SelfUser extends Component{
     return (
     <PhotoItem 
     selfUser={selfUser}
-
     key={doc._id} 
     doc={doc} 
     onCoverClick={(e,doc)=>{
@@ -177,13 +177,14 @@ class SelfUser extends Component{
            </div>
          
           </Paper>
-          {docs.length>0 && <ReactList
+          {docs.length>0 ? <ReactList
             itemRenderer={::this.renderItem}
             length={docs.length}
             type='variable'
             threshold={500}
             itemSizeEstimator={::this.itemSizeEstimator}
-          />}
+          />:<NotHave title="没有文章" />}
+
           <div style={{height:30}}></div>
         </Content>
     </Page>
@@ -192,7 +193,7 @@ class SelfUser extends Component{
 }
 
 const getUserPosts=createSelector([
-  state=>state.userPosts,
+  state=>state.posts,
   (state,props)=>props.match.params.name
   ],(list,name)=>{
     if(list[name]){

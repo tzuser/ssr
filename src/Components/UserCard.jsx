@@ -16,7 +16,7 @@ const styles=theme=>({
 	},
 	header:{
 		width:'100%',
-		maxHeight:'100px'
+		height:'100px'
 	},
 	content:{
 		position: 'relative',
@@ -48,7 +48,7 @@ const styles=theme=>({
 	}
 })
 
-const UserCard=({data,classes,children,className,onSubscribe,cancelSubscribe,isSubscribe})=>{
+const UserCard=({data,classes,children,className,onSubscribe,cancelSubscribe,isSubscribe,onAvatar})=>{
 
 	
 	return (
@@ -62,6 +62,7 @@ const UserCard=({data,classes,children,className,onSubscribe,cancelSubscribe,isS
 					       alt="Adelle Charles"
 					       src={DB_URL+data.avatar_url}
 					       className={classes.avatar}
+					       onClick={(e)=>onAvatar(e,data)}
 					     />
 					<div className={classes.userInfo}>
 					  <h2>{data.name}</h2>

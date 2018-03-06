@@ -26,6 +26,7 @@ import * as PhotoAct from '../../actions/photo';
 import * as CreationAct from '../../actions/creation';
 import Creation from '../Creation';
 import CreateButton from '../../Components/CreateButton';
+import NotHave from '../../Components/NotHave';
 import {createSelector} from "reselect" 
 import ArrowBack from 'material-ui-icons/ArrowBack';
 const styles =theme=> ({
@@ -55,7 +56,7 @@ const styles =theme=> ({
     textAlign:'center'
   },
   userHeader:{
-    maxHeight:230,
+    height:200,
     overflow:'hidden'
   },
   userAvatar: {
@@ -157,11 +158,11 @@ class SelfUser extends Component{
               <Typography variant="title" color="inherit" className={classNames(secondaryCSS,classes.flex)}>
                 {selfUser.name}
               </Typography>
-              <IconButton color="inherit" aria-label="Settings" onClick={()=>{
-               this.props.history.push('/home')
-              }}>
-                <SettingsIcon />
-              </IconButton>
+             {/* <IconButton color="inherit" aria-label="Settings" onClick={()=>{
+                            this.props.history.push('/home')
+                           }}>
+                             <SettingsIcon />
+                           </IconButton>*/}
             </Toolbar>
 
           </AppBar>
@@ -187,13 +188,13 @@ class SelfUser extends Component{
            </div>
           </Paper>
 
-          {docs.length>0 && <ReactList
+          {docs.length>0?<ReactList
             itemRenderer={::this.renderItem}
             length={docs.length}
             type='variable'
             threshold={500}
             itemSizeEstimator={::this.itemSizeEstimator}
-          />}
+          />:<NotHave title="你还未发布文章" />}
           <CreateButton onClick={()=>{
                openCreationAct()
              }}/>
@@ -205,7 +206,7 @@ class SelfUser extends Component{
 }
 
 const getUser=createSelector([
-  state=>state.userPosts,
+  state=>state.posts,
   (state)=>state.selfUser.name
   ],(list,name)=>{
     if(list[name]){

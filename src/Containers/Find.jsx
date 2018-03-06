@@ -11,6 +11,7 @@ import {getUserAll} from '../actions/users';
 import {subscribe,cancelSubscribe} from '../actions/selfUser';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {push} from 'react-router-redux'
 const styles=theme=>({
 	cardList:{
 		display:'flex',
@@ -26,7 +27,7 @@ class Search extends Component{
 	}
 
 	render(){
-		let {classes,userList,subscribeAct,cancelSubscribeAct,subscribe_uid_list}=this.props;
+		let {classes,userList,subscribeAct,cancelSubscribeAct,subscribe_uid_list,pushAct}=this.props;
 		return (
 		<Page>
 		<ShowSwitch direction="top" render={({rootClass,rootStyle})=>(
@@ -48,6 +49,9 @@ class Search extends Component{
 													cancelSubscribe={(data)=>{
 														cancelSubscribeAct(data.name)
 													}}
+													onAvatar={(e,data)=>{
+														pushAct(`/user/${data.name}`)
+													}}
 													/>
 
 						)}
@@ -64,5 +68,6 @@ const mapDispatchToProps=(dispatch)=>bindActionCreators({
 	getUserAllAct:getUserAll,
 	subscribeAct:subscribe,
 	cancelSubscribeAct:cancelSubscribe,
+	pushAct:push
 },dispatch)
 export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Search))

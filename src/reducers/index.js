@@ -3,8 +3,8 @@ import {routerReducer} from 'react-router-redux';
 import loads from './loads';
 import config from './config';
 import selfUser from './selfUser';
-import {post} from './post';
-import {userPosts} from './userPosts';
+//import {post} from './post';
+import {posts} from './posts';
 import {photo} from './photo';
 import {creation} from './creation';
 import {users} from './users';
@@ -21,7 +21,7 @@ const createFilteredReducer=(reducerFunction,reducerPredicate)=>{
 }
 
 export default combineReducers({
-	userPosts,//所有用户的帖子
+	posts,//所有用户的帖子
 	loads,//所有加载
 	users,//所有用户
 	selfUser,//用户
@@ -30,6 +30,6 @@ export default combineReducers({
 	config,
 	photo,//照片详情展示
 	router:routerReducer,
-	homePosts:createFilteredReducer(post,action=>action.name=='homePosts'),
+	//homePosts:createFilteredReducer(post,action=>action.name=='homePosts'),
 	userList:createFilteredReducer(list,action=>action.name=='userList'),
 })

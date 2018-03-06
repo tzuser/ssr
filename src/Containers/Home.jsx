@@ -21,6 +21,9 @@ import * as CreationAct from '../actions/creation';
 
 import classNames from 'classnames';
 import CreateButton from '../Components/CreateButton';
+
+import NotHave from '../Components/NotHave';
+import UpdateReminding from '../Components/UpdateReminding';
 const styles =theme=> ({
   root: {
     width: '100%',
@@ -104,22 +107,21 @@ class Home extends Component{
           openCreationAct()
         }}/>
         <Content>
-        {docs.length>0 && <ReactList
+        {docs.length>0 ? <ReactList
           itemRenderer={::this.renderItem}
           length={docs.length}
           type='variable'
           threshold={500}
           itemSizeEstimator={::this.itemSizeEstimator}
-        />}
+        />:<NotHave title="没有更多了~"/>}
         </Content>
-
     </Page>
     )
   }
 }
 
 const mapStateToProps=(state)=>({
-  docs:state.homePosts.docs,
+  docs:state.posts.homePosts?state.posts.homePosts.docs:[],
   postLoad:state.loads.homePosts,
   show:state.config.show,
   selfUser:state.selfUser

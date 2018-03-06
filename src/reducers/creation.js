@@ -5,7 +5,7 @@ OPEN_CREATION,CLOSE_CREATION
 
 
 //images {isLoad:true,name} || {isLoad:false,src,name}
-let initState={rev:null,id:null,images:[],open:false}
+let initState={rev:null,id:null,images:[],open:false,action:null}
 export const creation = (state=initState,action)=>{
 	switch(action.type){
 		case OPEN_CREATION:
@@ -13,7 +13,8 @@ export const creation = (state=initState,action)=>{
 				open:true,
 				images:action.images,
 				rev:action.rev,
-				id:action.id
+				id:action.id,
+				action:action.action,
 			})
 		case CLOSE_CREATION:
 			return initState

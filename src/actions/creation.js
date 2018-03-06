@@ -6,6 +6,7 @@ import {
 	DB_URL,DB_HOST,getDoc} from './public';
 import {countImage,getImageName,getSrcSize} from '../public/tool';
 import {initialize,destroy} from 'redux-form';
+import {updateHomePosts,postUnshift,postUpdate} from './post';
 export const OPEN_CREATION='OPEN_CREATION';//保存创造
 export const CLOSE_CREATION='CLEAR_CREATION';//关闭创造
 
@@ -24,6 +25,7 @@ export const DEL_CREATION_IMAGE='DEL_CREATION_IMAGE';//删除图片
 export const openCreation=(doc=null)=>async (dispatch,getState)=>{
 	let images=[];
 	let id,rev;
+	let action='new';
 	if(doc){
 		dispatch(initialize('creation',{text: doc.text}));//设置表格数据
 		if(doc._attachments){
@@ -37,11 +39,13 @@ export const openCreation=(doc=null)=>async (dispatch,getState)=>{
 		}
 		id=doc._id;
 		rev=doc._rev;
+		action='edit';
 	}
 	dispatch({
 		type:OPEN_CREATION,
 		id,
 		rev,
+		action,
 		images
 	})
 };
@@ -78,20 +82,27 @@ export const newCreation=()=>async (dispatch,getState)=>{
 //保存的帖子
 export const saveCreation=()=>async (dispatch,getState)=>{
 	let value=getState().form.creation.values;
-	if(!value || !value.text)return;
-	let text=value.text;
+	let text=(value && value.text)?value.text:'';
 	let user=getState().selfUser;
-	let id=getState().creation.id;
+	let {id,action}=getState().creation;
 	if(!id){
 		let res=await dispatch(newCreation());//创建帖子
 		if(!res.ok)alert('创作失败');
 		id=res.id
 	}
 	let doc=await dispatch(getDoc(id));
-	doc.text=text;
+	doc.text=text;//填入发布内容
 	doc.status=1;//发布
-	let res=dispatch(fetchPut({url:`${DB_URL}${id}?conflicts=true`,data:doc,name:"saveCreation"}));
-	console.log(res)
+	let res=await dispatch(fetchPut({url:`${DB_URL}${id}?conflicts=true`,data:doc,name:"saveCreation"}));
+	doc._rev=res.rev;//赋值rev
+	if(action=='new'){//新帖子
+		await dispatch(postUnshift(doc,'homePosts'))//首页用户列表插入
+		await dispatch(postUnshift(doc,user.name))//用户列表插入
+	}else if(action=='edit'){//更新帖子
+		await dispatch(postUpdate(doc,'homePosts'))//更新首页帖子
+		await dispatch(postUpdate(doc,user.name))//更新帖子
+	}
+	//await dispatch(updateHomePosts())//更新首页帖子
 };
  
 //上传图片

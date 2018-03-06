@@ -40,7 +40,7 @@ class ShowSwitch extends Component{
 		isHold 是否停留,
 		isAnimation 是否播放动画
 		*/
-		let {children,classes,show=true,direction,retain=-10,isHold=false,isSpace=true,isAnimation=true}=this.props;
+		let {children,classes,show=true,direction,retain=-10,targetLoca=0,isHold=false,isSpace=true,isAnimation=true}=this.props;
 		let {height}=this.state;
 		let rootClass=classes.showSwitch;
 		let style=isSpace?{height:height,width:'100%'}:{};
@@ -49,7 +49,7 @@ class ShowSwitch extends Component{
 		if(direction=="visibility"){
 			space=show?'visible':'hidden';
 		}else{
-			space=isHold?0:(show?0:-(height-retain));
+			space=isHold?targetLoca:(show?targetLoca:-(height-retain));
 		}
 		return <div ref="showSwitch" style={style}  >
 			{this.props.render({rootClass,rootStyle:{[direction]:space,show}})}
